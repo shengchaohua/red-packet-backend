@@ -1,9 +1,19 @@
 package userdm
 
+import (
+	"context"
+
+	usermodel "github.com/shengchaohua/red-packet-backend/data/model/user"
+)
+
 type DataManager interface {
-	LoadById(userID uint64) error
+	Create(ctx context.Context, user *usermodel.User) error
 }
 
-func InitUserDM() {
+func InitDataManger() {
+	defaultDM = &DefaultDM{}
+}
 
+func GetDataManager() DataManager {
+	return defaultDM
 }

@@ -1,11 +1,11 @@
 package dm
 
 import (
-	"context"
-
+	redpacketdm "github.com/shengchaohua/red-packet-backend/data/dm/red_packet"
 	userdm "github.com/shengchaohua/red-packet-backend/data/dm/user"
 )
 
-func InitDM(ctx context.Context) {
-	userdm.InitUserDM(ctx)
+func InitDataManager() {
+	redpacketdm.InitDataManger()
+	userdm.InitDataManger()
 }

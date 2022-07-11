@@ -2,14 +2,18 @@ package userdm
 
 import (
 	"context"
+
+	usermodel "github.com/shengchaohua/red-packet-backend/data/model/user"
 )
 
-type DefaultUserDM struct {
+type DefaultDM struct {
 }
 
-var defaultUserDM *DefaultUserDM
+var defaultDM *DefaultDM
 
-func initDefaultUserDM(ctx context.Context) {
-	defaultUserDM = &DefaultUserDM{}
-
+func (dm *DefaultDM) Create(
+	ctx context.Context,
+	user *usermodel.User,
+) error {
+	return nil
 }
