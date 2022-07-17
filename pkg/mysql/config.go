@@ -1,4 +1,4 @@
-package mysqlinfra
+package mysqlpkg
 
 import "time"
 

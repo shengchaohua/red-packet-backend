@@ -1,5 +1,11 @@
-package pkg
+package infra
 
-func InitPkg() {
+import (
+	"context"
 
+	"github.com/shengchaohua/red-packet-backend/infra/database"
+)
+
+func InitInfra(ctx context.Context) {
+	database.InitDBEngineManager(ctx)
 }

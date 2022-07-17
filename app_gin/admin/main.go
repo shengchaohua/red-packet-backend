@@ -1,18 +1,19 @@
 package main
 
 import (
+	"context"
 	"flag"
 
-	"github.com/shengchaohua/red-packet-backend/common/config"
+	"github.com/shengchaohua/red-packet-backend/common/conf"
 	"github.com/shengchaohua/red-packet-backend/data/agent"
 	"github.com/shengchaohua/red-packet-backend/data/dm"
-	"github.com/shengchaohua/red-packet-backend/pkg"
+	"github.com/shengchaohua/red-packet-backend/infra"
 	adminroute "github.com/shengchaohua/red-packet-backend/server_gin/route/admin"
 	"github.com/shengchaohua/red-packet-backend/service"
 )
 
 var (
-	configFilePath = flag.String("conf", "", "admin app config file")
+	configFilePath = flag.String("conf", "./conf/conf.toml", "admin app config file")
 )
 
 func init() {
@@ -20,21 +21,20 @@ func init() {
 }
 
 func main() {
-	router := adminroute.InitRouter()
+	conf.InitAppConfig(*configFilePath)
 
-	config.InitAppConfig(*configFilePath)
+	ctx := context.Background()
 
-	// pkg
-	pkg.InitPkg()
+	// infra
+	infra.InitInfra(ctx)
 
 	// data
-	dm.InitDataManager()
+	dm.InitDM()
 	agent.InitAgent()
 
 	// service
 	service.InitService()
 
-	if err := router.Run(); err != nil {
-		panic("fail to run admin app")
-	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// server
+	adminroute.NewRouter().Run()
 }

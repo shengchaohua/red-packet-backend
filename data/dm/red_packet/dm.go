@@ -3,21 +3,25 @@ package redpacketdm
 import (
 	"context"
 
+	"xorm.io/xorm"
+
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/data/model/red_packet"
+	"github.com/shengchaohua/red-packet-backend/infra/database"
 )
 
 type DataManager interface {
-	Create(ctx context.Context, redPacket *redpacketmodel.RedPacket) error
+	Create(ctx context.Context, session *xorm.Session, redPacket *redpacketmodel.RedPacket) error
 }
 
 var (
-	defaultDM DataManager
+	defaultDMInstance DataManager
 )
 
-func InitDataManger() {
-	defaultDM = &DefaultDM{}
+func InitDM() {
+	defaultDBEngine := database.GetDefaultDBEngineManager()
+	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }
 
-func GetDataManager() DataManager {
-	return defaultDM
+func GetDefaultDM() DataManager {
+	return defaultDMInstance
 }

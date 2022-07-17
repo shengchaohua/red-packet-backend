@@ -5,7 +5,7 @@ import (
 	userdm "github.com/shengchaohua/red-packet-backend/data/dm/user"
 )
 
-func InitDataManager() {
-	redpacketdm.InitDataManger()
-	userdm.InitDataManger()
+func InitDM() {
+	redpacketdm.InitDM()
+	userdm.InitDM()
 }

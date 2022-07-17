@@ -6,9 +6,9 @@ type Agent interface {
 }
 
 func InitAgent() {
-	redPakcetDM := redpacketdm.GetDataManager()
+	defaultDM := redpacketdm.GetDefaultDM()
 	defaultAgent = &DefaultAgent{
-		RedPacketDM: redPakcetDM,
+		RedPacketDM: defaultDM,
 	}
 }
 

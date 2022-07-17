@@ -3,20 +3,29 @@ package redpacketdm
 import (
 	"context"
 
-	"github.com/go-xorm/xorm"
+	"xorm.io/xorm"
+
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/data/model/red_packet"
+	"github.com/shengchaohua/red-packet-backend/infra/database"
 )
 
-type DefaultDM struct {
+type defaultDM struct {
+	database.EngineManager
 }
 
-func (dm *DefaultDM) Create(
+func NewDefaultDM(engineManager database.EngineManager) *defaultDM {
+	return &defaultDM{
+		EngineManager: engineManager,
+	}
+}
+
+func (dm *defaultDM) Create(
 	ctx context.Context,
 	session *xorm.Session,
 	redPacket *redpacketmodel.RedPacket,
 ) error {
 	if session == nil {
-		session = dm.
+		session = dm.GetMasterEngine().Table(redpacketmodel.TableRedPacket)
 	}
 
 	affected, err := session.Table(redpacketmodel.TableRedPacket).InsertOne(redPacket)
@@ -26,5 +35,6 @@ func (dm *DefaultDM) Create(
 	if affected == 0 {
 		return err
 	}
+
 	return nil
 }

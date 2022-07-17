@@ -1,10 +1,7 @@
-package mysqlinfra
+package mysqlpkg
 
 import (
-	"context"
-
 	"github.com/go-sql-driver/mysql"
-	"github.com/shengchaohua/red-packet-backend/common/conf"
 	"xorm.io/xorm"
 )
 
@@ -32,10 +29,4 @@ func NewMySQLEngine(config *Config) (*xorm.Engine, error) {
 	engine.ShowSQL(config.DBShowSQL)
 
 	return engine, nil
-}
-
-func InitMySQLEngine(ctx context.Context, cfg *conf.DbConfig) {
-	// mysqlConfig := &Config{
-	// Host: cfg.Host,
-	// }
 }

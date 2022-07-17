@@ -1,7 +1,7 @@
 package main
 
 import (
-	apiroute "github.com/shengchaohua/red-packet-backend/route/api"
+	apiroute "github.com/shengchaohua/red-packet-backend/server_gin/route/api"
 )
 
 func main() {

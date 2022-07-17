@@ -3,16 +3,17 @@ package userservice
 import "context"
 
 type Service interface {
-	ClaimRedPacket(
-		ctx context.Context,
-		request *ClaimRedPacketRequest,
-	) (*ClaimRedPacketResponse, error)
+	OpenRedPacket(ctx context.Context, request *OpenRedPacketRequest) (*OpenRedPacketResponse, error)
 }
+
+var (
+	defaultServiceInstance Service
+)
 
 func InitService() {
-	defaultService = &DefaultService{}
+	defaultServiceInstance = NewDefaultService()
 }
 
-func GetService() Service {
-	return defaultService
+func GetDefaultService() Service {
+	return defaultServiceInstance
 }

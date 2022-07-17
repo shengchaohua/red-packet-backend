@@ -10,7 +10,7 @@ type DataManager interface {
 	Create(ctx context.Context, user *usermodel.User) error
 }
 
-func InitDataManger() {
+func InitDM() {
 	defaultDM = &DefaultDM{}
 }
 

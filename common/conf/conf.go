@@ -12,8 +12,6 @@ type ApplicationConfig struct {
 	DatabaseConfig *DatabaseConfig `toml:"database"`
 }
 
-var appConfig *ApplicationConfig
-
 type AdminConfig struct {
 }
 
@@ -21,10 +19,10 @@ type APIConfig struct {
 }
 
 type DatabaseConfig struct {
-	DbConfig []*DbConfig `toml:"db"`
+	DBConfigs []*DBConfig `toml:"db"`
 }
 
-type DbConfig struct {
+type DBConfig struct {
 	Host              string `toml:"host"`
 	Port              string `toml:"port"`
 	User              string `toml:"user"`
@@ -34,4 +32,5 @@ type DbConfig struct {
 	DBMaxIdleConns    int    `toml:"db_max_idle_conns"`
 	DBConnMaxLifeTime int    `toml:"db_max_life_time"` // seconds
 	DBShowSQL         bool   `toml:"db_show_sql"`
+	DBIsMaster        bool   `toml:"db_is_master"`
 }

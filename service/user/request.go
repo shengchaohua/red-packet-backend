@@ -1,7 +1,7 @@
 package userservice
 
-type ClaimRedPacketRequest struct {
+type OpenRedPacketRequest struct {
 }
 
-type ClaimRedPacketResponse struct {
+type OpenRedPacketResponse struct {
 }

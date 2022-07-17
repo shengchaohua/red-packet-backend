@@ -7,13 +7,13 @@ type Service interface {
 }
 
 var (
-	defaultService Service
+	defaultServiceInstance Service
 )
 
 func InitService() {
-	defaultService = &DefaultService{}
+	defaultServiceInstance = NewDefaultService()
 }
 
-func GetService() Service {
-	return defaultService
+func GetDefaultService() Service {
+	return defaultServiceInstance
 }

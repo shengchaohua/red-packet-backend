@@ -1,4 +1,4 @@
-package redpackethanlder
+package userhandler
 
 import (
 	"context"
@@ -7,11 +7,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	redpacketservice "github.com/shengchaohua/red-packet-backend/service/red_packet"
+	userservice "github.com/shengchaohua/red-packet-backend/service/user"
 )
 
-func CreateRedPacketHandler(ctx *gin.Context) {
-	request := &redpacketservice.CreateRedPacketRequest{}
+func OpenRedPacketHandler(ctx *gin.Context) {
+	request := &userservice.OpenRedPacketRequest{}
 	if err := json.NewDecoder(ctx.Request.Body).Decode(request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"err_code": "0",
@@ -19,7 +19,7 @@ func CreateRedPacketHandler(ctx *gin.Context) {
 	}
 
 	newCtx := context.Background()
-	response, err := redpacketservice.GetService().CreateRedPacket(newCtx, request)
+	response, err := userservice.GetDefaultService().OpenRedPacket(newCtx, request)
 	if err != nil {
 		ctx.JSON(
 			http.StatusOK, gin.H{})

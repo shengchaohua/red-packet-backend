@@ -4,10 +4,14 @@ import (
 	"context"
 )
 
-type DefaultService struct {
+type defaultService struct {
 }
 
-func (service *DefaultService) CreateRedPacket(
+func NewDefaultService() *defaultService {
+	return &defaultService{}
+}
+
+func (service *defaultService) CreateRedPacket(
 	ctx context.Context,
 	request *CreateRedPacketRequest,
 ) (*CreateRedPacketResponse, error) {
