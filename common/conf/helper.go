@@ -16,6 +16,6 @@ func InitAppConfig(configPath string) error {
 	return nil
 }
 
-func GetGlobalConfig() *ApplicationConfig {
+func GetGlobalAppConfig() *ApplicationConfig {
 	return appConfig
 }

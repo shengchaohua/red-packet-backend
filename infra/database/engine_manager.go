@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"log"
 
 	"xorm.io/xorm"
 
@@ -18,7 +19,7 @@ var (
 )
 
 func InitDBEngineManager(ctx context.Context) {
-	defaultDBConfig := conf.GetGlobalConfig().DatabaseConfig
+	defaultDBConfig := conf.GetGlobalAppConfig().DatabaseConfig
 	// log
 
 	defaultDBEngineManager = NewDefaultEngineManager(defaultDBConfig)
