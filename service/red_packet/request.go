@@ -7,10 +7,11 @@ type CreateRedPacketRequest struct {
 	RedPacketCategory enum.RedPacketCategory
 	RedPacketType     enum.RedPacketType
 	RedPacketName     string // optional
-	Quantity          uint32 // the max quantity of people that can redeem the red packet
+	Quantity          uint32 // the max quantity of people that can open the red packet
 	Amount            uint32 // the money mount in the red packet
 }
 
+// CreateRedPacketResponse defines the reponse
 type CreateRedPacketResponse struct {
 	RedPacketId uint64
 }

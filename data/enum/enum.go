@@ -7,9 +7,29 @@ const (
 	RedPacketCategoryGroup RedPacketCategory = 2 // send red packet in group
 )
 
+func (redPacketCategory RedPacketCategory) String() string {
+	switch redPacketCategory {
+	case RedPacketCategoryP2P:
+		return "RedPacketCategory(peer_to_peer)"
+	case RedPacketCategoryGroup:
+		return "RedPacketCategory(group)"
+	}
+	return ""
+}
+
 type RedPacketType uint32
 
 const (
 	RedPacketTypeRandomAmount    RedPacketType = 1 // red packet with random amount
 	RedPacketTypeIdenticalAmount RedPacketType = 2 // red packet with identical amount
 )
+
+func (redPacketType RedPacketType) String() string {
+	switch redPacketType {
+	case RedPacketTypeRandomAmount:
+		return "RedPacketType(random_amount)"
+	case RedPacketTypeIdenticalAmount:
+		return "RedPacketType(identical_amount)"
+	}
+	return ""
+}

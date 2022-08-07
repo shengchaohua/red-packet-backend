@@ -1,6 +1,8 @@
 package mysqlpkg
 
 import (
+	"fmt"
+
 	"github.com/go-sql-driver/mysql"
 	"xorm.io/xorm"
 )
@@ -8,7 +10,7 @@ import (
 func NewMySQLEngine(config *Config) (*xorm.Engine, error) {
 	host := config.Host
 	if len(config.Port) != 0 {
-		host = config.Host + ":" + config.Port
+		host = fmt.Sprintf("%s:%s", config.Host, config.Port)
 	}
 
 	mysqlConfig := &mysql.Config{

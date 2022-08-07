@@ -1,0 +1,5 @@
+package stringutils
+
+const (
+	EmailSplitChar = "@"
+)

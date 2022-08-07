@@ -5,7 +5,7 @@ import (
 
 	"xorm.io/xorm"
 
-	"github.com/shengchaohua/red-packet-backend/common/conf"
+	"github.com/shengchaohua/red-packet-backend/base/conf"
 	mysqlpkg "github.com/shengchaohua/red-packet-backend/pkg/mysql"
 )
 

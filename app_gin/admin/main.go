@@ -4,7 +4,7 @@ import (
 	"context"
 	"flag"
 
-	"github.com/shengchaohua/red-packet-backend/common/conf"
+	"github.com/shengchaohua/red-packet-backend/base/conf"
 	"github.com/shengchaohua/red-packet-backend/data/agent"
 	"github.com/shengchaohua/red-packet-backend/data/dm"
 	"github.com/shengchaohua/red-packet-backend/infra"

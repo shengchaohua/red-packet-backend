@@ -3,7 +3,7 @@ package apiroute
 import (
 	"github.com/gin-gonic/gin"
 
-	userhandler "github.com/shengchaohua/red-packet-backend/server_gin/handler/admin/user"
+	userhandler "github.com/shengchaohua/red-packet-backend/server_gin/handler/user"
 	"github.com/shengchaohua/red-packet-backend/server_gin/route/routes"
 )
 

@@ -10,12 +10,20 @@ import (
 )
 
 type DataManager interface {
-	Create(ctx context.Context, session *xorm.Session, redPacket *redpacketmodel.RedPacket) error
+	Insert(
+		ctx context.Context,
+		session *xorm.Session,
+		redPacket *redpacketmodel.RedPacket,
+	) error
+
+	LoadById(
+		ctx context.Context,
+		session *xorm.Session,
+		redPacketId uint64,
+	) (*redpacketmodel.RedPacket, error)
 }
 
-var (
-	defaultDMInstance DataManager
-)
+var defaultDMInstance DataManager
 
 func InitDM() {
 	defaultDBEngine := database.GetDefaultDBEngineManager()
