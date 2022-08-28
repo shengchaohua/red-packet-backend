@@ -1,10 +1,11 @@
 package redpacketdm
 
-import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
+import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 
 const pkgName = "redpacketdm"
 
 // errros
 var (
-	ErrInsert = errorpkg.New(pkgName, 1)
+	ErrInsert = errorgrouppkg.New(pkgName, 1)
+	ErrQuery  = errorgrouppkg.New(pkgName, 2)
 )

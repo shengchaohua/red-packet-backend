@@ -2,31 +2,40 @@ package redpackethandler
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
+	serverutils "github.com/shengchaohua/red-packet-backend/server_gin/utils"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/service/red_packet"
 )
 
-func CreateRedPacketHandler(ctx *gin.Context) {
-	request := &redpacketservice.CreateRedPacketRequest{}
-	if err := json.NewDecoder(ctx.Request.Body).Decode(request); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"err_code": "0",
-		})
+func CreateRedPacketHandler(ginCtx *gin.Context) {
+	var request = &redpacketservice.CreateRedPacketRequest{}
+	if ginCtx.ShouldBindJSON(request) != nil {
+		ginCtx.JSON(http.StatusOK, serverutils.BadRequest())
+		return
 	}
 
-	newCtx := context.Background()
-	response, err := redpacketservice.GetDefaultService().CreateRedPacket(newCtx, request)
+	// check param
+	if request.RedPacketCategory == 0 {
+		ginCtx.JSON(http.StatusOK, serverutils.WrongParam("red packet category is empty"))
+		return
+	}
+	if request.RedPacketType == 0 {
+		ginCtx.JSON(http.StatusOK, serverutils.WrongParam("red packet type is empty"))
+		return
+	}
+
+	// service
+	ctx := context.Background()
+	response, err := redpacketservice.GetDefaultService().CreateRedPacket(ctx, request)
 	if err != nil {
-		ctx.JSON(
-			http.StatusOK, gin.H{},
-		)
+		// log error
+		ginCtx.JSON(http.StatusOK, serverutils.ServerError())
+		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"data": response,
-	})
+	ginCtx.JSON(http.StatusOK, serverutils.WrapResponse(response))
+	return
 }

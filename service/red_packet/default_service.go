@@ -22,15 +22,10 @@ func (service *defaultService) CreateRedPacket(
 	ctx context.Context,
 	request *CreateRedPacketRequest,
 ) (*CreateRedPacketResponse, error) {
-	// check
-	if request.RedPacketCategory == 0 {
-		return nil, ErrInvalidParams.WithMsg("[CreateRedPacket]red packet category is empty")
-	}
-	if request.RedPacketType == 0 {
-		return nil, ErrInvalidParams.WithMsg("[CreateRedPacket]red packet type is empty")
-	}
 
-	//
+	// insert red packet
+	// deduct user money
+	// generate use wallet transaction
 
 	return &CreateRedPacketResponse{}, nil
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/shengchaohua/red-packet-backend/data/agent"
 	"github.com/shengchaohua/red-packet-backend/data/dm"
 	"github.com/shengchaohua/red-packet-backend/infra"
-	adminroute "github.com/shengchaohua/red-packet-backend/server_gin/route/admin"
+	adminserver "github.com/shengchaohua/red-packet-backend/server_gin/server/admin"
 	"github.com/shengchaohua/red-packet-backend/service"
 )
 
@@ -36,5 +36,5 @@ func main() {
 	service.InitService()
 
 	// server
-	adminroute.NewRouter().Run()
+	adminserver.NewServer().Run()
 }

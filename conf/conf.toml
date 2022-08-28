@@ -4,26 +4,26 @@
 [api]
     port = 11000
 
-[database]
-    [[database.db]]
+[main_db]
+    [[main_db.db]]
         host = "127.0.0.1"
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_db"
+        db_name = "red_packet_main_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
-        db_max_life_time = 25200 # default timeout in mysql setting is 28800 seconds
+        db_max_life_time = 3600
         db_show_sql = true
         db_is_master = true
-    [[database.db]]
+    [[main_db.db]]
         host = "127.0.0.1"
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_db"
+        db_name = "red_packet_main_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
-        db_max_life_time = 1800
+        db_max_life_time = 3600
         db_show_sql = true
         db_is_master = false

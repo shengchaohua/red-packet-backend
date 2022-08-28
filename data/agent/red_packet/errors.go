@@ -1,9 +1,9 @@
 package redpacketagent
 
-import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
+import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 
 const pkgName = "redpacketagent"
 
 var (
-	ErrCreateRedPacket = errorpkg.New(pkgName, 1)
+	ErrCreateRedPacket = errorgrouppkg.New(pkgName, 1)
 )

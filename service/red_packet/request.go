@@ -2,16 +2,21 @@ package redpacketservice
 
 import "github.com/shengchaohua/red-packet-backend/data/enum"
 
-// CreateRedPacketRequest defines the request to create red packet
+// CreateRedPacketRequest defines the request
+// RedPacketName - optional
+// Quantity - the max quantity of people that can open the red packet
+// Amount - the money mount in the red packet
 type CreateRedPacketRequest struct {
-	RedPacketCategory enum.RedPacketCategory
-	RedPacketType     enum.RedPacketType
-	RedPacketName     string // optional
-	Quantity          uint32 // the max quantity of people that can open the red packet
-	Amount            uint32 // the money mount in the red packet
+	RequestId         string                 `json:"request_id,omitempty"`
+	RedPacketCategory enum.RedPacketCategory `json:"red_packet_category,omitempty"`
+	RedPacketType     enum.RedPacketType     `json:"red_packet_type,omitempty"`
+	RedPacketName     string                 `json:"red_packet_name,omitempty"`
+	Quantity          uint32                 `json:"quantity,omitempty"`
+	Amount            uint32                 `json:"amount,omitempty"`
 }
 
 // CreateRedPacketResponse defines the reponse
 type CreateRedPacketResponse struct {
-	RedPacketId uint64
+	RequestId   string `json:"request_id,omitempty"`
+	RedPacketId uint64 `json:"red_packet_id,omitempty"`
 }

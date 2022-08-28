@@ -14,16 +14,15 @@ type EngineManager interface {
 }
 
 var (
-	defaultDBEngineManager EngineManager
+	mainDBEngineManager EngineManager
 )
 
 func InitDBEngineManager(ctx context.Context) {
-	defaultDBConfig := conf.GetGlobalAppConfig().DatabaseConfig
-	// log
-
-	defaultDBEngineManager = NewDefaultEngineManager(defaultDBConfig)
+	mainDBConfig := conf.GetGlobalAppConfig().MainDBConfig
+	// TODO log
+	mainDBEngineManager = NewDefaultEngineManager(mainDBConfig)
 }
 
-func GetDefaultDBEngineManager() EngineManager {
-	return defaultDBEngineManager
+func GetMainBEngineManager() EngineManager {
+	return mainDBEngineManager
 }

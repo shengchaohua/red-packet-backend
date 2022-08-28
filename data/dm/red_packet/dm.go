@@ -18,15 +18,16 @@ type DataManager interface {
 
 	LoadById(
 		ctx context.Context,
-		session *xorm.Session,
 		redPacketId uint64,
+		querySlave bool,
+		queryMaster bool,
 	) (*redpacketmodel.RedPacket, error)
 }
 
 var defaultDMInstance DataManager
 
 func InitDM() {
-	defaultDBEngine := database.GetDefaultDBEngineManager()
+	defaultDBEngine := database.GetMainBEngineManager()
 	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }
 

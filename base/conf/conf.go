@@ -9,7 +9,7 @@ type ApplicationConfig struct {
 	APIConfig *APIConfig `toml:"api"`
 
 	// common
-	DatabaseConfig *DatabaseConfig `toml:"database"`
+	MainDBConfig *DatabaseConfig `toml:"main_db"`
 }
 
 type AdminConfig struct {
