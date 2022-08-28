@@ -3,8 +3,9 @@ package enum
 type RedPacketCategory uint32
 
 const (
-	RedPacketCategoryP2P   RedPacketCategory = 1 // send red packet from peer to peer
-	RedPacketCategoryGroup RedPacketCategory = 2 // send red packet in group
+	RedPacketCategoryP2P            RedPacketCategory = 1 // send red packet from peer to peer
+	RedPacketCategoryGroup          RedPacketCategory = 2 // send red packet in group
+	RedPacketCategoryGroupExclusive RedPacketCategory = 3 // send red packet in group to a specific person
 )
 
 func (redPacketCategory RedPacketCategory) String() string {
@@ -13,6 +14,8 @@ func (redPacketCategory RedPacketCategory) String() string {
 		return "RedPacketCategory(peer_to_peer)"
 	case RedPacketCategoryGroup:
 		return "RedPacketCategory(group)"
+	case RedPacketCategoryGroupExclusive:
+		return "RedPacketCategory(group_exclusive)"
 	}
 	return ""
 }

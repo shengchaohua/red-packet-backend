@@ -5,8 +5,8 @@ import (
 	"flag"
 
 	"github.com/shengchaohua/red-packet-backend/base/conf"
-	"github.com/shengchaohua/red-packet-backend/data/agent"
-	"github.com/shengchaohua/red-packet-backend/data/dm"
+	datadm "github.com/shengchaohua/red-packet-backend/data/dm"
+	datapkg "github.com/shengchaohua/red-packet-backend/data/pkg"
 	"github.com/shengchaohua/red-packet-backend/infra"
 	adminserver "github.com/shengchaohua/red-packet-backend/server_gin/server/admin"
 	"github.com/shengchaohua/red-packet-backend/service"
@@ -29,8 +29,8 @@ func main() {
 	infra.InitInfra(ctx)
 
 	// data
-	dm.InitDM()
-	agent.InitAgent()
+	datadm.InitDM()
+	datapkg.InitPkg()
 
 	// service
 	service.InitService()

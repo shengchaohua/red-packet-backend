@@ -1,25 +1,26 @@
-package redpacketagent
+package redpacketpkg
 
 import (
 	"context"
 
+	"xorm.io/xorm"
+
 	redpacketdm "github.com/shengchaohua/red-packet-backend/data/dm/red_packet"
 	"github.com/shengchaohua/red-packet-backend/data/enum"
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/data/model/red_packet"
-	"xorm.io/xorm"
 )
 
-type defaultAgent struct {
+type defaultManager struct {
 	RedPacketDM redpacketdm.DataManager
 }
 
-func NewDefaultAgent(redPacketDM redpacketdm.DataManager) Agent {
-	return &defaultAgent{
+func NewDefaultAgent(redPacketDM redpacketdm.DataManager) Manager {
+	return &defaultManager{
 		RedPacketDM: redPacketDM,
 	}
 }
 
-func (agent *defaultAgent) CreateRedPacket(
+func (agent *defaultManager) CreateRedPacket(
 	ctx context.Context,
 	session *xorm.Session,
 	redPacketName string,
@@ -30,15 +31,17 @@ func (agent *defaultAgent) CreateRedPacket(
 ) (*redpacketmodel.RedPacket, error) {
 	redPacket := &redpacketmodel.RedPacket{
 		RedPacketTab: &redpacketmodel.RedPacketTab{
-			RedPacketName: redPacketName,
+			RedPacketName:     redPacketName,
+			RedPacketCategory: redPacketCategory,
+			RedPacketType:     redPacketType,
+			Quantity:          quantity,
+			RemainingQuantity: quantity,
+			Amount:            amount,
 		},
-
-		RedPacketCategory: redPacketCategory,
-		RedPacketType:     redPacketType,
 	}
 
 	if err := agent.RedPacketDM.Insert(ctx, session, redPacket); err != nil {
-		return nil, ErrCreateRedPacket.WrapWithMsg(err, "[CreateRedPacket]failed to create red packet")
+		return nil, ErrCreateRedPacket.WrapWithMsg(err, "[CreateRedPacket]failed to create new red packet")
 	}
 
 	return redPacket, nil

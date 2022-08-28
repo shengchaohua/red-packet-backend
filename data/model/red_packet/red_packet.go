@@ -17,24 +17,21 @@ const (
 // RedPacket defines the red packet class
 type RedPacket struct {
 	*RedPacketTab
-
-	RedPacketCategory enum.RedPacketCategory
-	RedPacketType     enum.RedPacketType
-
 	ExtraData *RedPacketExtraData
 }
 
 // RedPacketTab defines the red packet table in DB
 type RedPacketTab struct {
-	RedPacketId       uint64 `xorm:"'red_packet_id' bigint pk autoincr"`
-	RedPacketCategory uint32 `xorm:"'red_packet_category' int notnull"`
-	RedPacketType     uint32 `xorm:"'red_packet_type' int notnull"`
-	Quantity          uint32 `xorm:"'quantity' int notnull"`
-	Amount            uint32 `xorm:"'count' int notnull"`
-	RedPacketName     string `xorm:"'red_packet_name' varchar(255) notnull"`
-	Ctime             uint32 `xorm:"'ctime' int notnull"`
-	Mtime             uint32 `xorm:"'mtime' int notnull"`
-	ExtraData         []byte `xorm:"'extra_data' text"`
+	RedPacketId       uint64                 `xorm:"'red_packet_id' bigint pk autoincr"`
+	RedPacketName     string                 `xorm:"'red_packet_name' varchar(255) notnull"`
+	RedPacketCategory enum.RedPacketCategory `xorm:"'red_packet_category' int notnull"`
+	RedPacketType     enum.RedPacketType     `xorm:"'red_packet_type' int notnull"`
+	Quantity          uint32                 `xorm:"'quantity' int notnull"`
+	RemainingQuantity uint32                 `xorm:"'remaining_quantity' int notnull"`
+	Amount            uint32                 `xorm:"'count' int notnull"`
+	Ctime             uint32                 `xorm:"'ctime' int notnull"`
+	Mtime             uint32                 `xorm:"'mtime' int notnull"`
+	ExtraData         []byte                 `xorm:"'extra_data' text"`
 }
 
 // RedPacketExtraData defines the extra data in red packet

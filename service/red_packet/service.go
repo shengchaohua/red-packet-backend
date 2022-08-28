@@ -3,7 +3,7 @@ package redpacketservice
 import (
 	"context"
 
-	redpacketagent "github.com/shengchaohua/red-packet-backend/data/agent/red_packet"
+	redpacketpkg "github.com/shengchaohua/red-packet-backend/data/pkg/red_packet"
 )
 
 type Service interface {
@@ -13,9 +13,9 @@ type Service interface {
 var defaultServiceInstance Service
 
 func InitService() {
-	redPacketAgent := redpacketagent.GetDefaultAgent()
+	redPacketManager := redpacketpkg.GetDefaultManager()
 	defaultServiceInstance = NewDefaultService(
-		redPacketAgent,
+		redPacketManager,
 	)
 }
 

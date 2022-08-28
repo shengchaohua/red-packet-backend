@@ -3,18 +3,18 @@ package redpacketservice
 import (
 	"context"
 
-	redpacketagent "github.com/shengchaohua/red-packet-backend/data/agent/red_packet"
+	redpacketpkg "github.com/shengchaohua/red-packet-backend/data/pkg/red_packet"
 )
 
 type defaultService struct {
-	redPacketAgent redpacketagent.Agent
+	redPacketManager redpacketpkg.Manager
 }
 
 func NewDefaultService(
-	redPacketAgent redpacketagent.Agent,
+	redPacketManager redpacketpkg.Manager,
 ) Service {
 	return &defaultService{
-		redPacketAgent: redPacketAgent,
+		redPacketManager: redPacketManager,
 	}
 }
 

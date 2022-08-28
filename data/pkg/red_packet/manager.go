@@ -1,4 +1,4 @@
-package redpacketagent
+package redpacketpkg
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/data/model/red_packet"
 )
 
-type Agent interface {
+type Manager interface {
 	CreateRedPacket(
 		ctx context.Context,
 		session *xorm.Session,
@@ -22,13 +22,13 @@ type Agent interface {
 	) (*redpacketmodel.RedPacket, error)
 }
 
-var defaultAgentInstance Agent
+var defaultManagerInstance Manager
 
-func InitAgent() {
+func InitManager() {
 	defaultDM := redpacketdm.GetDefaultDM()
-	defaultAgentInstance = NewDefaultAgent(defaultDM)
+	defaultManagerInstance = NewDefaultAgent(defaultDM)
 }
 
-func GetDefaultAgent() Agent {
-	return defaultAgentInstance
+func GetDefaultManager() Manager {
+	return defaultManagerInstance
 }

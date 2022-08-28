@@ -1,4 +1,4 @@
-package dm
+package datadm
 
 import (
 	redpacketdm "github.com/shengchaohua/red-packet-backend/data/dm/red_packet"
