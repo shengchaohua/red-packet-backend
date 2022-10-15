@@ -1,6 +1,6 @@
 package redpackethandler
 
 const (
-	RouteCreateRedPacket = "/api/user-create-red-packet"
-	RouteOpenRedPacket   = "/api/user-open-red-packet"
+	RouteCreateRedPacket = "/red_packet_api/user-create-red-packet"
+	RouteOpenRedPacket   = "/red_packet_api/user-open-red-packet"
 )

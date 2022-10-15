@@ -4,12 +4,12 @@ import (
 	"context"
 	"flag"
 
-	"github.com/shengchaohua/red-packet-backend/base/conf"
-	datadm "github.com/shengchaohua/red-packet-backend/data/dm"
-	datapkg "github.com/shengchaohua/red-packet-backend/data/pkg"
-	"github.com/shengchaohua/red-packet-backend/infra"
+	"github.com/shengchaohua/red-packet-backend/internal/config"
+	datadm "github.com/shengchaohua/red-packet-backend/internal/data/dm"
+	datapkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg"
+	internalpkg "github.com/shengchaohua/red-packet-backend/internal/pkg"
+	"github.com/shengchaohua/red-packet-backend/internal/service"
 	apiserver "github.com/shengchaohua/red-packet-backend/server_gin/server/api"
-	"github.com/shengchaohua/red-packet-backend/service"
 )
 
 var (
@@ -21,12 +21,12 @@ func init() {
 }
 
 func main() {
-	conf.InitAppConfig(*configFilePath)
+	config.InitAppConfig(*configFilePath)
 
 	ctx := context.Background()
 
 	// infra
-	infra.InitInfra(ctx)
+	internalpkg.InitPkg(ctx)
 
 	// data
 	datadm.InitDM()

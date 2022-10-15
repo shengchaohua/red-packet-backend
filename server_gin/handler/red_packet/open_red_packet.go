@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	userservice "github.com/shengchaohua/red-packet-backend/service/user"
+	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
 )
 
 func OpenRedPacketHandler(ctx *gin.Context) {

@@ -6,11 +6,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-// errorGroup defines an error type with package and code
+// errorGroup defines an error type with package, code and message
 type errorGroup struct {
 	cause error
 	pkg   string
 	code  int
+	msg   string // pure error msg
 }
 
 // New returns a new errorGroup whose error is nil.
@@ -21,15 +22,18 @@ func New(pkg string, code int) *errorGroup {
 	}
 }
 
-const (
-	errorGroupPkgCodeFormat = "ErrorGroup[Pkg=%s,Code=%d]"
-	errorGroupWithMsgFormat = "%s[Msg=%s]"
-)
-
 // Error returns error string
 func (errGroup *errorGroup) Error() string {
 	if errGroup.cause == nil {
-		return fmt.Sprintf(errorGroupPkgCodeFormat, errGroup.pkg, errGroup.code)
+		if errGroup.msg == "" {
+			return fmt.Sprintf("ErrorGroup[Pkg=%s,Code=%d]", errGroup.pkg, errGroup.code)
+		}
+
+		return fmt.Sprintf("ErrorGroup[Pkg=%s,Code=%d,Msg=%s]",
+			errGroup.pkg,
+			errGroup.code,
+			errGroup.msg,
+		)
 	}
 	return errGroup.cause.Error()
 }
@@ -41,9 +45,10 @@ func (errGroup *errorGroup) WithMsg(msg string) *errorGroup {
 	}
 
 	return &errorGroup{
-		cause: fmt.Errorf(errorGroupWithMsgFormat, errGroup.Error(), msg),
+		cause: errGroup.cause,
 		pkg:   errGroup.pkg,
 		code:  errGroup.code,
+		msg:   msg,
 	}
 }
 
@@ -63,21 +68,30 @@ func (errGroup *errorGroup) WrapWithMsg(err error, msg string) *errorGroup {
 }
 
 // getErrorPkgCode gets pkg and code from an error.
-func getErrorPkgCode(err error) (string, int, bool) {
+func as(err error) (*errorGroup, bool) {
 	errGroup, ok := err.(*errorGroup)
-	return errGroup.pkg, errGroup.code, ok
+	return errGroup, ok
 }
 
 // Is checks if a given err is an specific errorGroup
 func (errGroup *errorGroup) Is(err error) bool {
-	if pkg, code, ok := getErrorPkgCode(err); ok {
-		return pkg == errGroup.pkg && code == errGroup.code
+	if asErrGroup, ok := as(err); ok {
+		return asErrGroup.pkg == errGroup.pkg && asErrGroup.code == errGroup.code
 	}
 	return false
 }
 
-// GetErrcode gets code from an error.
+// GetErrcode gets error code from an error.
 func GetErrcode(err error) (int, bool) {
-	_, code, ok := getErrorPkgCode(err)
-	return code, ok
+	errGroup, ok := as(err)
+	return errGroup.code, ok
+}
+
+// GetErrmsg gets pure error message from an error.
+func GetErrmsg(err error) string {
+	errGroup, ok := as(err)
+	if ok {
+		return errGroup.msg
+	}
+	return err.Error()
 }

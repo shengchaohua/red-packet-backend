@@ -15,8 +15,8 @@ func Test_New_Error(t *testing.T) {
 
 func Test_WithMsg(t *testing.T) {
 	err := New("pkg", 1)
-	errWithMsg := err.WithMsg("query_db_failed")
-	assert.Equal(t, "ErrorGroup[Pkg=pkg,Code=1][Msg=query_db_failed]", errWithMsg.Error())
+	errWithMsg := err.WithMsg("query_db_error")
+	assert.Equal(t, "ErrorGroup[Pkg=pkg,Code=1,Msg=query_db_error]", errWithMsg.Error())
 }
 
 func Test_Wrap(t *testing.T) {
@@ -27,8 +27,8 @@ func Test_Wrap(t *testing.T) {
 
 func Test_WrapWithMsg(t *testing.T) {
 	err := fmt.Errorf("table not found")
-	errWrapWithMsg := New("pkg1", 1).WrapWithMsg(err, "query_db_failed")
-	assert.Equal(t, "ErrorGroup[Pkg=pkg1,Code=1][Msg=query_db_failed]: table not found", errWrapWithMsg.Error())
+	errWrapWithMsg := New("pkg1", 1).WrapWithMsg(err, "query_db_error")
+	assert.Equal(t, "ErrorGroup[Pkg=pkg1,Code=1,Msg=query_db_error]: table not found", errWrapWithMsg.Error())
 }
 
 func Test_Is(t *testing.T) {
@@ -43,4 +43,11 @@ func Test_GetErrcode(t *testing.T) {
 	errcode, ok := GetErrcode(err)
 	assert.Equal(t, true, ok)
 	assert.Equal(t, 1, errcode)
+}
+
+func Test_GetErrmsg(t *testing.T) {
+	var err error
+	err = New("pkg", 1).WithMsg("query_db_error")
+	errmsg := GetErrmsg(err)
+	assert.Equal(t, "query_db_error", errmsg)
 }

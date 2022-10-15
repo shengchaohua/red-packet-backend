@@ -10,7 +10,7 @@ type Server struct {
 
 func NewServer() *Server {
 	server := &Server{
-		Engine: gin.Default(),
+		Engine: gin.New(),
 	}
 
 	server.RegisterHandler()
