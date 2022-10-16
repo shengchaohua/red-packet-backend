@@ -3,38 +3,42 @@ package adminserver
 import (
 	"fmt"
 	"io"
+	"log"
+	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/shengchaohua/red-packet-backend/internal/config"
 	redpackethandler "github.com/shengchaohua/red-packet-backend/server_gin/handler/red_packet"
-	"github.com/shengchaohua/red-packet-backend/server_gin/routes"
+	"github.com/shengchaohua/red-packet-backend/server_gin/middleware"
+	"github.com/shengchaohua/red-packet-backend/server_gin/route"
 )
 
 type adminServer struct {
-	*gin.Engine
+	engine *gin.Engine
 }
 
 func NewServer() *adminServer {
-	setGinMode()
-	server := &adminServer{
-		Engine: gin.New(),
-	}
-
+	server := newServer()
 	server.setLogger()
-	server.RegisterHandler()
-	server.Use(gin.Recovery())
-
+	server.registerHandler()
 	return server
 }
 
-func setGinMode() {
-	adminServerConfig := config.GetGlobalAppConfig().AdminConfig
-	if adminServerConfig.IsTestEnv() {
+func newServer() *adminServer {
+	adminConfig := config.GetGlobalAppConfig().AdminConfig
+	if adminConfig == nil {
+		panic("AdminConfig is nil")
+	}
+
+	if adminConfig.IsTestEnv() {
 		gin.SetMode(gin.TestMode)
-	} else if adminServerConfig.IsLiveEnv() {
+	} else if adminConfig.IsLiveEnv() {
 		gin.SetMode(gin.ReleaseMode)
+	}
+
+	return &adminServer{
+		engine: gin.New(),
 	}
 }
 
@@ -42,37 +46,39 @@ func (server *adminServer) setLogger() {
 	gin.DisableConsoleColor()
 
 	logFile := config.GetGlobalAppConfig().AdminConfig.Log
+	if logFile == "" {
+		logFile = "./log/admin_server.log"
+		log.Println("log file is not specified, use default:", logFile)
+	}
+
 	f, err := os.OpenFile(logFile, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("cannot open log file (%s): %w", logFile, err))
 	}
 	gin.DefaultWriter = io.MultiWriter(f)
 
-	server.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("%s [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.TimeStamp.Format(time.RFC3339),
-			param.ClientIP,
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	}))
+	server.engine.Use(middleware.GetGinLogger())
 }
 
-func (server *adminServer) RegisterHandler() {
-	server.Engine.POST(
-		routes.RouteCreateRedPacket,
+func (server *adminServer) registerHandler() {
+	server.engine.POST(
+		route.RouteCreateRedPacket,
 		redpackethandler.CreateRedPacketHandler,
 	)
 }
 
 func (server *adminServer) Run() {
-	adminServerConfig := config.GetGlobalAppConfig().AdminConfig
-	if err := server.Engine.Run(adminServerConfig.Addr); err != nil {
-		panic(fmt.Errorf("run admin server error: %w", err))
+	addr := config.GetGlobalAppConfig().AdminConfig.Addr
+	if addr == "" {
+		panic("server address is empty")
+	}
+
+	log.Println("Server is listening to", addr)
+	httpServer := http.Server{
+		Addr:    addr,
+		Handler: server.engine.Handler(),
+	}
+	if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatalln("Server error:", err)
 	}
 }

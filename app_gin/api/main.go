@@ -1,13 +1,13 @@
 package main
 
 import (
-	"context"
 	"flag"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
 	datadm "github.com/shengchaohua/red-packet-backend/internal/data/dm"
 	datapkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg"
 	internalpkg "github.com/shengchaohua/red-packet-backend/internal/pkg"
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	"github.com/shengchaohua/red-packet-backend/internal/service"
 	apiserver "github.com/shengchaohua/red-packet-backend/server_gin/server/api"
 )
@@ -23,9 +23,9 @@ func init() {
 func main() {
 	config.InitAppConfig(*configFilePath)
 
-	ctx := context.Background()
-
-	// infra
+	// pkg
+	logger.InitLogger(config.GetGlobalAppConfig().AdminConfig)
+	ctx := logger.NewCtxWithTraceId()
 	internalpkg.InitPkg(ctx)
 
 	// data
