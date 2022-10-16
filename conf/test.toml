@@ -1,8 +1,12 @@
 [admin]
-    port = 10000
+    env = "test"
+    addr = "127.0.0.1:10000"
+    log = "./log/admin_server.log"
 
 [api]
-    port = 11000
+    env = "test"
+    addr = "127.0.0.1:11000"
+    log = "./log/api_server.log"
 
 [main_db]
     [[main_db.db]]
@@ -10,7 +14,7 @@
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_main_db"
+        db_name = "red_packet_main_test_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
         db_max_life_time = 3600
@@ -21,7 +25,7 @@
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_main_db"
+        db_name = "red_packet_main_test_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
         db_max_life_time = 3600

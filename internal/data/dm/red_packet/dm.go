@@ -29,7 +29,7 @@ var (
 )
 
 func InitRedPacketDM() {
-	defaultDBEngine := database.GetMainBEngineManager()
+	defaultDBEngine := database.GetMainDBEngineManager()
 	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }
 

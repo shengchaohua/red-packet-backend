@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	redpackethandler "github.com/shengchaohua/red-packet-backend/server_gin/handler/red_packet"
+	"github.com/shengchaohua/red-packet-backend/server_gin/routes"
 )
 
 type Server struct {
@@ -22,11 +23,7 @@ func NewServer() *Server {
 
 func (server *Server) RegisterHandler() {
 	server.Engine.POST(
-		redpackethandler.RouteCreateRedPacket,
-		redpackethandler.CreateRedPacketHandler,
-	)
-	server.Engine.POST(
-		redpackethandler.RouteOpenRedPacket,
+		routes.RouteOpenRedPacket,
 		redpackethandler.OpenRedPacketHandler,
 	)
 }

@@ -7,5 +7,5 @@ import (
 )
 
 func InitPkg(ctx context.Context) {
-	database.InitDBEngineManager(ctx)
+	database.InitEngineManager(ctx)
 }

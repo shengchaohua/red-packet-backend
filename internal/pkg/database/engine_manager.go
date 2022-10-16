@@ -3,9 +3,11 @@ package database
 import (
 	"context"
 
+	"go.uber.org/zap"
 	"xorm.io/xorm"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 )
 
 type EngineManager interface {
@@ -17,12 +19,12 @@ var (
 	mainDBEngineManager EngineManager
 )
 
-func InitDBEngineManager(ctx context.Context) {
+func InitEngineManager(ctx context.Context) {
 	mainDBConfig := config.GetGlobalAppConfig().MainDBConfig
-	// TODO log
+	logger.Logger(ctx).Info("[InitEngineManager]initing_main_db", zap.Any("mainDBConfig", mainDBConfig))
 	mainDBEngineManager = NewDefaultEngineManager(mainDBConfig)
 }
 
-func GetMainBEngineManager() EngineManager {
+func GetMainDBEngineManager() EngineManager {
 	return mainDBEngineManager
 }

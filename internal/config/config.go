@@ -3,21 +3,27 @@ package config
 // ApplicationConfig defines the total config
 type ApplicationConfig struct {
 	// admin
-	*AdminConfig
+	AdminConfig *ServerConfig `toml:"admin"`
 
 	// api
-	*APIConfig
+	APIConfig *ServerConfig `toml:"api"`
 
 	// common
 	MainDBConfig *DatabaseConfig `toml:"main_db"`
 }
 
-type AdminConfig struct {
-	Port int `toml:"port"`
+type ServerConfig struct {
+	Addr string `toml:"addr"`
+	Env  string `toml:"env"`
+	Log  string `toml:"log"`
 }
 
-type APIConfig struct {
-	Port int `toml:"port"`
+func (serverConfig *ServerConfig) IsTestEnv() bool {
+	return mustParseEnv(serverConfig.Env) == EnvTest
+}
+
+func (serverConfig *ServerConfig) IsLiveEnv() bool {
+	return mustParseEnv(serverConfig.Env) == EnvLive
 }
 
 type DatabaseConfig struct {

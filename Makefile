@@ -11,3 +11,6 @@ app_gin_api:
 
 modtidy:
 	go mod tidy
+
+run_app_gin_admin:
+	go run app_gin/admin/main.go

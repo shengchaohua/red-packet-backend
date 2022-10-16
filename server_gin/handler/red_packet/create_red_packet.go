@@ -1,11 +1,11 @@
 package redpackethandler
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 	errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 	serverutils "github.com/shengchaohua/red-packet-backend/server_gin/utils"
@@ -18,7 +18,7 @@ func CreateRedPacketHandler(c *gin.Context) {
 		return
 	}
 
-	ctx := context.Background()
+	ctx := logger.NewCtxWithTraceId()
 	if err := request.Validate(ctx); err != nil {
 		c.JSON(http.StatusOK, serverutils.WrongParam(errorgrouppkg.GetErrmsg(err)))
 		return

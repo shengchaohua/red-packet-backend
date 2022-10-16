@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
+	"go.uber.org/zap"
 )
 
 // CreateRedPacketRequest defines the request
@@ -27,6 +29,8 @@ type CreateRedPacketResponse struct {
 }
 
 func (request *CreateRedPacketRequest) Validate(ctx context.Context) error {
+	logger.Logger(ctx).Info("[CreateRedPacketRequest.Validte]start", zap.Any("request", request))
+
 	if request.RedPacketCategory == 0 {
 		return ErrWrongParam.WithMsg("red packet category is empty")
 	}
@@ -40,6 +44,7 @@ func (service *defaultService) CreateRedPacket(
 	ctx context.Context,
 	request *CreateRedPacketRequest,
 ) (*CreateRedPacketResponse, error) {
+	logger.Logger(ctx).Info("[CreateRedPacket]start", zap.Any("request", request))
 
 	// insert red packet
 	// deduct user money
