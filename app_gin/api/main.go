@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	configFilePath = flag.String("conf", "./conf/conf.toml", "admin app config file")
+	configFilePath = flag.String("conf", "./conf/test.toml", "api app config file")
 )
 
 func init() {
@@ -24,7 +24,7 @@ func main() {
 	config.InitAppConfig(*configFilePath)
 
 	// pkg
-	logger.InitLogger(config.GetGlobalAppConfig().AdminConfig)
+	logger.InitLogger(config.GetGlobalAppConfig().APIConfig)
 	ctx := logger.NewCtxWithTraceId()
 	internalpkg.InitPkg(ctx)
 
