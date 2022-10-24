@@ -6,7 +6,7 @@ import (
 	"github.com/shengchaohua/red-packet-backend/internal/constants"
 )
 
-func wrapResponse(errcode constants.Errcode, errmsg string, response interface{}) gin.H {
+func Response(errcode constants.Errcode, errmsg string, response interface{}) gin.H {
 	return gin.H{
 		"errcode": errcode,
 		"errmsg":  errmsg,
@@ -15,17 +15,17 @@ func wrapResponse(errcode constants.Errcode, errmsg string, response interface{}
 }
 
 func BadRequest() gin.H {
-	return wrapResponse(constants.Errcode_WrongParam, "Bad request", struct{}{})
+	return Response(constants.Errcode_WrongParam, "Bad request", struct{}{})
 }
 
 func ServerError() gin.H {
-	return wrapResponse(constants.Errcode_Server, "Server error", struct{}{})
+	return Response(constants.Errcode_Server, "Server error", struct{}{})
 }
 
 func WrongParam(errmsg string) gin.H {
-	return wrapResponse(constants.Errcode_WrongParam, errmsg, struct{}{})
+	return Response(constants.Errcode_WrongParam, errmsg, struct{}{})
 }
 
 func OkResponse(response interface{}) gin.H {
-	return wrapResponse(constants.Errcode_Ok, "", response)
+	return Response(constants.Errcode_Ok, "", response)
 }

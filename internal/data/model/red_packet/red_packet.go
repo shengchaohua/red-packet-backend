@@ -19,7 +19,7 @@ type RedPacket struct {
 
 // RedPacketTab defines the red packet table in DB
 type RedPacketTab struct {
-	RedPacketId       uint64                 `xorm:"'red_packet_id' bigint pk autoincr"`
+	Id                uint64                 `xorm:"'id' bigint pk autoincr"`
 	RedPacketName     string                 `xorm:"'red_packet_name' varchar(255) notnull"`
 	RedPacketCategory enum.RedPacketCategory `xorm:"'red_packet_category' int notnull"`
 	RedPacketType     enum.RedPacketType     `xorm:"'red_packet_type' int notnull"`
@@ -28,13 +28,13 @@ type RedPacketTab struct {
 	Amount            uint32                 `xorm:"'count' int notnull"`
 	Ctime             uint32                 `xorm:"'ctime' int notnull"`
 	Mtime             uint32                 `xorm:"'mtime' int notnull"`
-	ExtraData         []byte                 `xorm:"'extra_data' text"`
+	ExtraData         []byte                 `xorm:"'extra_data' blob"`
 }
 
 // RedPacketExtraData defines the extra data in red packet
-type RedPacketExtraData struct {
-}
+type RedPacketExtraData struct{}
 
+// ModelToTab convert red packet model to tab
 func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 	if model == nil {
 		return nil, fmt.Errorf("red packet model is nil")
@@ -51,6 +51,7 @@ func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 	return tab, nil
 }
 
+// // ModelToTab convert red packet tab to model
 func (tab *RedPacketTab) TabToModel() (*RedPacket, error) {
 	if tab == nil {
 		return nil, fmt.Errorf("red packet tab is nil")

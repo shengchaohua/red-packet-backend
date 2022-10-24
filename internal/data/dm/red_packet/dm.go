@@ -10,13 +10,19 @@ import (
 )
 
 type DM interface {
-	Insert(
+	InsertWithSession(
 		ctx context.Context,
 		session *xorm.Session,
 		redPacket *redpacketmodel.RedPacket,
 	) error
 
-	QueryById(
+	LoadByIdWithSession(
+		ctx context.Context,
+		session *xorm.Session,
+		redPacketId uint64,
+	) (*redpacketmodel.RedPacket, error)
+
+	LoadById(
 		ctx context.Context,
 		redPacketId uint64,
 		querySlave bool,
@@ -29,8 +35,8 @@ var (
 )
 
 func InitRedPacketDM() {
-	defaultDBEngine := database.GetMainDBEngineManager()
-	defaultDMInstance = NewDefaultDM(defaultDBEngine)
+	mainDBEngineManager := database.GetMainDBEngineManager()
+	defaultDMInstance = NewDefaultDM(mainDBEngineManager)
 }
 
 func GetRedPacketDM() DM {

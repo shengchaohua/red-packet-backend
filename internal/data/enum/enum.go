@@ -36,3 +36,37 @@ func (redPacketType RedPacketType) String() string {
 	}
 	return ""
 }
+
+type TransactionType uint32
+
+const (
+	CreateRedPacket TransactionType = 1
+	OpenRedPacket   TransactionType = 2
+	RefundRedPacket TransactionType = 3 // red packet has remaining money
+)
+
+func (transactionType TransactionType) String() string {
+	switch transactionType {
+	case CreateRedPacket:
+		return "TransactionType(create_red_packet)"
+	case OpenRedPacket:
+		return "TransactionType(open_red_packet)"
+	case RefundRedPacket:
+		return "TransactionType(refund_red_packet)"
+	}
+	return ""
+}
+
+type TransactionStatus uint32
+
+const (
+	TransactionStatusSuccess = 1
+)
+
+func (transactionStatus TransactionStatus) String() string {
+	switch transactionStatus {
+	case TransactionStatusSuccess:
+		return "TransactionStatus(success)"
+	}
+	return ""
+}

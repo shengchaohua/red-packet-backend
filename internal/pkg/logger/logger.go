@@ -10,11 +10,11 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-type loggerKeyType string
+type ctxKey string
 
 const (
-	loggerKeyTypeTraceId loggerKeyType = "TraceId"
-	loggerKeyTypeLogger  loggerKeyType = "Logger"
+	ctxKeyTraceId ctxKey = "TraceId"
+	ctxKeyLogger  ctxKey = "Logger"
 )
 
 var zapLogger *zap.Logger
@@ -35,8 +35,8 @@ func InitLogger(serverConfig *config.ServerConfig) {
 func NewCtxWithTraceId() context.Context {
 	ctx := context.Background()
 	traceId := uuid.NewString()
-	newLogger := zapLogger.With(zap.String(string(loggerKeyTypeTraceId), traceId))
-	newCtx := context.WithValue(ctx, loggerKeyTypeLogger, newLogger)
+	newLogger := zapLogger.With(zap.String(string(ctxKeyTraceId), traceId))
+	newCtx := context.WithValue(ctx, ctxKeyLogger, newLogger)
 	return newCtx
 }
 
@@ -45,7 +45,7 @@ func Logger(ctx context.Context) *zap.Logger {
 	if ctx == nil {
 		return zapLogger
 	}
-	if newLogger, ok := ctx.Value(loggerKeyTypeLogger).(*zap.Logger); ok {
+	if newLogger, ok := ctx.Value(ctxKeyLogger).(*zap.Logger); ok {
 		return newLogger
 	}
 	return zapLogger

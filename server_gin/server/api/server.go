@@ -63,6 +63,10 @@ func (server *apiServer) setLogger() {
 
 func (server *apiServer) registerHandler() {
 	server.engine.POST(
+		route.RouteCreateRedPacket,
+		redpackethandler.CreateRedPacketHandler,
+	)
+	server.engine.POST(
 		route.RouteOpenRedPacket,
 		redpackethandler.OpenRedPacketHandler,
 	)

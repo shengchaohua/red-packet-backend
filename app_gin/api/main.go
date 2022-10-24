@@ -4,11 +4,15 @@ import (
 	"flag"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	datadm "github.com/shengchaohua/red-packet-backend/internal/data/dm"
-	datapkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg"
+	redpacketdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet"
+	userwalletdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet"
+	userwallettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet_transaction"
+	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
+	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
+	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	internalpkg "github.com/shengchaohua/red-packet-backend/internal/pkg"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
-	"github.com/shengchaohua/red-packet-backend/internal/service"
+	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 	apiserver "github.com/shengchaohua/red-packet-backend/server_gin/server/api"
 )
 
@@ -28,12 +32,18 @@ func main() {
 	ctx := logger.NewCtxWithTraceId()
 	internalpkg.InitPkg(ctx)
 
-	// data
-	datadm.InitDM()
-	datapkg.InitPkg()
+	// data dm
+	redpacketdm.InitRedPacketDM()
+	userwalletdm.InitUserWalletDM()
+	userwallettxndm.InitUserWalletTxnDM()
+
+	// data pkg
+	redpacketpkg.InitRedPacketManager()
+	userwalletpkg.InitUserWalletManager()
+	userwallettxnpkg.InitUserWalletTxnManager()
 
 	// service
-	service.InitService()
+	redpacketservice.InitRedPacketService()
 
 	// server
 	apiserver.NewServer().Run()

@@ -9,9 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	redpackethandler "github.com/shengchaohua/red-packet-backend/server_gin/handler/red_packet"
 	"github.com/shengchaohua/red-packet-backend/server_gin/middleware"
-	"github.com/shengchaohua/red-packet-backend/server_gin/route"
 )
 
 type adminServer struct {
@@ -61,10 +59,7 @@ func (server *adminServer) setLogger() {
 }
 
 func (server *adminServer) registerHandler() {
-	server.engine.POST(
-		route.RouteCreateRedPacket,
-		redpackethandler.CreateRedPacketHandler,
-	)
+
 }
 
 func (server *adminServer) Run() {

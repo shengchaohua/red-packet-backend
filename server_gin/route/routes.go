@@ -2,10 +2,12 @@ package route
 
 // admin
 const (
-	RouteCreateRedPacket = "/red-packet-admin/create-red-packet"
+	RouteSearchRedPacket       = "/api/red-packet/search"
+	RouteSearchRedPacketRecord = "/api/red-packet-record/open"
 )
 
 // api
 const (
-	RouteOpenRedPacket = "/red-packet-api/user-open-red-packet"
+	RouteCreateRedPacket = "/api/red-packet/create"
+	RouteOpenRedPacket   = "/api/red-packet/open"
 )

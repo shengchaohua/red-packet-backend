@@ -2,20 +2,28 @@ package redpacketservice
 
 import (
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
+	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
+	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
 type defaultService struct {
 	database.EngineManager
-	redPacketManager redpacketpkg.Manager
+	redPacketManager     redpacketpkg.Manager
+	userWalletManager    userwalletpkg.Manager
+	userWalletTxnManager userwallettxnpkg.Manager
 }
 
 func NewDefaultService(
 	engineManager database.EngineManager,
 	redPacketManager redpacketpkg.Manager,
+	userWalletManager userwalletpkg.Manager,
+	userWalletTxnManager userwallettxnpkg.Manager,
 ) Service {
 	return &defaultService{
-		EngineManager:    engineManager,
-		redPacketManager: redPacketManager,
+		EngineManager:        engineManager,
+		redPacketManager:     redPacketManager,
+		userWalletManager:    userWalletManager,
+		userWalletTxnManager: userWalletTxnManager,
 	}
 }

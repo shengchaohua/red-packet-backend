@@ -11,16 +11,16 @@ import (
 )
 
 type defaultManager struct {
-	RedPacketDM redpacketdm.DM
+	redPacketDM redpacketdm.DM
 }
 
 func NewDefaultAgent(redPacketDM redpacketdm.DM) Manager {
 	return &defaultManager{
-		RedPacketDM: redPacketDM,
+		redPacketDM: redPacketDM,
 	}
 }
 
-func (agent *defaultManager) CreateRedPacket(
+func (manager *defaultManager) CreateRedPacket(
 	ctx context.Context,
 	session *xorm.Session,
 	redPacketName string,
@@ -40,8 +40,8 @@ func (agent *defaultManager) CreateRedPacket(
 		},
 	}
 
-	if err := agent.RedPacketDM.Insert(ctx, session, redPacket); err != nil {
-		return nil, ErrCreateRedPacket.WrapWithMsg(err, "[CreateRedPacket]failed to create new red packet")
+	if err := manager.redPacketDM.InsertWithSession(ctx, session, redPacket); err != nil {
+		return nil, ErrCreateRedPacket.WrapWithMsg(err, "[CreateRedPacket]create_new_red_packet_error")
 	}
 
 	return redPacket, nil
