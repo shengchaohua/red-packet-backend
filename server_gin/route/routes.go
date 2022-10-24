@@ -3,7 +3,7 @@ package route
 // admin
 const (
 	RouteSearchRedPacket       = "/api/red-packet/search"
-	RouteSearchRedPacketRecord = "/api/red-packet-record/open"
+	RouteSearchRedPacketRecord = "/api/red-packet-record/search"
 )
 
 // api

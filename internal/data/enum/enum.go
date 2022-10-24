@@ -56,17 +56,3 @@ func (transactionType TransactionType) String() string {
 	}
 	return ""
 }
-
-type TransactionStatus uint32
-
-const (
-	TransactionStatusSuccess = 1
-)
-
-func (transactionStatus TransactionStatus) String() string {
-	switch transactionStatus {
-	case TransactionStatusSuccess:
-		return "TransactionStatus(success)"
-	}
-	return ""
-}

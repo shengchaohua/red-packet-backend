@@ -4,8 +4,8 @@ import (
 	"context"
 
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
+	redpackettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet_transaction"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
-	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
@@ -31,15 +31,15 @@ func InitRedPacketService() {
 	if userWalletManager == nil {
 		panic("userWalletManager has not been inited")
 	}
-	userWalletTxnManager := userwallettxnpkg.GetManager()
-	if userWalletTxnManager == nil {
-		panic("userWalletTxnManager has not been inited")
+	redPacketTxnManager := redpackettxnpkg.GetManager()
+	if redPacketTxnManager == nil {
+		panic("redPacketTxnManager has not been inited")
 	}
 	defaultServiceInstance = NewDefaultService(
 		engineManager,
 		redPacketManager,
 		userWalletManager,
-		userWalletTxnManager,
+		redPacketTxnManager,
 	)
 }
 

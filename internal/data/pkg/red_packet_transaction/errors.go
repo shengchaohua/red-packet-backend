@@ -1,4 +1,4 @@
-package userwallettxnpkg
+package redpackettxnpkg
 
 import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 

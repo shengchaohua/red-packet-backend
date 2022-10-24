@@ -5,11 +5,11 @@ import (
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
 	redpacketdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet"
+	redpackettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet_transaction"
 	userwalletdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet"
-	userwallettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet_transaction"
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
+	redpackettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet_transaction"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
-	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	internalpkg "github.com/shengchaohua/red-packet-backend/internal/pkg"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
@@ -35,12 +35,12 @@ func main() {
 	// data dm
 	redpacketdm.InitRedPacketDM()
 	userwalletdm.InitUserWalletDM()
-	userwallettxndm.InitUserWalletTxnDM()
+	redpackettxndm.InitRedPacketTxnDM()
 
 	// data pkg
 	redpacketpkg.InitRedPacketManager()
 	userwalletpkg.InitUserWalletManager()
-	userwallettxnpkg.InitUserWalletTxnManager()
+	redpackettxnpkg.InitRedPacketTxnManager()
 
 	// service
 	redpacketservice.InitRedPacketService()

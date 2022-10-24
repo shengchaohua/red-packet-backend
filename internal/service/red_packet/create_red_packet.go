@@ -2,6 +2,7 @@ package redpacketservice
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet"
@@ -78,6 +79,17 @@ func (service *defaultService) CreateRedPacket(
 			return nil, err
 		}
 
+		if err := service.redPacketTxnManager.AddUserWalletTxn(
+			ctx,
+			session,
+			request.UserId,
+			enum.CreateRedPacket,
+			fmt.Sprint(redPacket.Id),
+			redPacket.Amount,
+		); err != nil {
+			return nil, err
+		}
+
 		if err := service.userWalletManager.DeductUserWallet(
 			ctx,
 			session,
@@ -90,7 +102,8 @@ func (service *defaultService) CreateRedPacket(
 		return redPacket, nil
 	})
 	if err != nil {
-		return nil, ErrServer.WrapWithMsg(err, "[CreateRedPacket]transaction_error")
+		logger.Logger(ctx).Error("[CreateRedPacket]transaction_error", zap.Any("error", err))
+		return nil, err
 	}
 
 	return &CreateRedPacketResponse{
