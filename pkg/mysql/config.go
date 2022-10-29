@@ -11,8 +11,9 @@ type Config struct {
 	DBName   string
 
 	// xorm
-	DBMaxOpenConns    int
-	DBMaxIdleConns    int
-	DBConnMaxLifeTime time.Duration
-	DBShowSQL         bool
+	MaxOpenConns         int
+	MaxIdleConns         int
+	ConnMaxLifeTime      time.Duration
+	ShowSQL              bool
+	AllowNativePasswords bool
 }

@@ -10,7 +10,7 @@ import (
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
 	redpackettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet_transaction"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
-	internalpkg "github.com/shengchaohua/red-packet-backend/internal/pkg"
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 	apiserver "github.com/shengchaohua/red-packet-backend/server_gin/server/api"
@@ -30,7 +30,7 @@ func main() {
 	// pkg
 	logger.InitLogger(config.GetGlobalAppConfig().APIConfig)
 	ctx := logger.NewCtxWithTraceId()
-	internalpkg.InitPkg(ctx)
+	database.InitEngineManager(ctx)
 
 	// data dm
 	redpacketdm.InitRedPacketDM()

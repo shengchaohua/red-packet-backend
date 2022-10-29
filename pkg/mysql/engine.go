@@ -14,10 +14,11 @@ func NewMySQLEngine(config *Config) (*xorm.Engine, error) {
 	}
 
 	mysqlConfig := &mysql.Config{
-		Addr:   host,
-		User:   config.User,
-		Passwd: config.Password,
-		DBName: config.DBName,
+		Addr:                 host,
+		User:                 config.User,
+		Passwd:               config.Password,
+		DBName:               config.DBName,
+		AllowNativePasswords: config.AllowNativePasswords,
 	}
 
 	engine, err := xorm.NewEngine("mysql", mysqlConfig.FormatDSN())
@@ -25,10 +26,10 @@ func NewMySQLEngine(config *Config) (*xorm.Engine, error) {
 		return nil, err
 	}
 
-	engine.SetMaxOpenConns(config.DBMaxOpenConns)
-	engine.SetMaxIdleConns(config.DBMaxIdleConns)
-	engine.SetConnMaxLifetime(config.DBConnMaxLifeTime)
-	engine.ShowSQL(config.DBShowSQL)
+	engine.SetMaxOpenConns(config.MaxOpenConns)
+	engine.SetMaxIdleConns(config.MaxIdleConns)
+	engine.SetConnMaxLifetime(config.ConnMaxLifeTime)
+	engine.ShowSQL(config.ShowSQL)
 
 	return engine, nil
 }

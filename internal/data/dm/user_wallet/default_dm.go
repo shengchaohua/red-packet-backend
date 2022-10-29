@@ -109,7 +109,7 @@ func (dm *defaultDM) LoadByUserIdWithSessionForUpdate(
 	session *xorm.Session,
 	userId uint64,
 ) (*userwalletmodel.UserWallet, error) {
-	var userWalletTab *userwalletmodel.UserWalletTab
+	var userWalletTab = &userwalletmodel.UserWalletTab{}
 
 	has, err := session.
 		Where("user_id = ?", userId).

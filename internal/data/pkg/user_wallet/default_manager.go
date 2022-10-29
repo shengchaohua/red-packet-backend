@@ -32,11 +32,12 @@ func (manager *defaultManager) DeductUserWallet(
 		return ErrDeductUserWallet.WithMsg(fmt.Sprintf("user_wallet_not_found|user_id=%d", userId))
 	}
 	if userWallet.Balance < uint64(amount) {
-		return ErrDeductUserWallet
+		return ErrDeductUserWallet.WithMsg("user_wallet_balance_is_not_enough")
 	}
 
-	userWallet.Balance += uint64(amount)
-	if err := manager.userWalletDM.UpdateWithSession(ctx, session, userWallet); err != nil {
+	userWallet.Balance -= uint64(amount)
+	err = manager.userWalletDM.UpdateWithSession(ctx, session, userWallet)
+	if err != nil {
 		return ErrDeductUserWallet.WrapWithMsg(err, "update_user_wallet_error")
 	}
 
@@ -58,7 +59,8 @@ func (manager *defaultManager) AddUserWallet(
 	}
 
 	userWallet.Balance += uint64(amount)
-	if err := manager.userWalletDM.UpdateWithSession(ctx, session, userWallet); err != nil {
+	err = manager.userWalletDM.UpdateWithSession(ctx, session, userWallet)
+	if err != nil {
 		return ErrDeductUserWallet.WrapWithMsg(err, "update_user_wallet_error")
 	}
 

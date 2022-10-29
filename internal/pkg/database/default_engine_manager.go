@@ -30,15 +30,16 @@ func NewDefaultEngineManager(databaseConfig *config.DatabaseConfig) *defaultEngi
 
 	for _, dbConfig := range databaseConfig.DBConfigs {
 		mysqlConfig := &mysqlpkg.Config{
-			Host:              dbConfig.Host,
-			Port:              dbConfig.Port,
-			User:              dbConfig.User,
-			Password:          dbConfig.Password,
-			DBName:            dbConfig.DBName,
-			DBMaxOpenConns:    dbConfig.DBMaxOpenConns,
-			DBMaxIdleConns:    dbConfig.DBMaxIdleConns,
-			DBConnMaxLifeTime: time.Duration(dbConfig.DBConnMaxLifeTime) * time.Second,
-			DBShowSQL:         dbConfig.DBShowSQL,
+			Host:                 dbConfig.Host,
+			Port:                 dbConfig.Port,
+			User:                 dbConfig.User,
+			Password:             dbConfig.Password,
+			DBName:               dbConfig.DBName,
+			MaxOpenConns:         dbConfig.DBMaxOpenConns,
+			MaxIdleConns:         dbConfig.DBMaxIdleConns,
+			ConnMaxLifeTime:      time.Duration(dbConfig.DBConnMaxLifeTime) * time.Second,
+			ShowSQL:              dbConfig.DBShowSQL,
+			AllowNativePasswords: dbConfig.DBIsMaster,
 		}
 
 		if dbConfig.DBIsMaster {

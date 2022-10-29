@@ -24,8 +24,8 @@ type RedPacketTab struct {
 	RedPacketCategory enum.RedPacketCategory `xorm:"'red_packet_category' int notnull"`
 	RedPacketType     enum.RedPacketType     `xorm:"'red_packet_type' int notnull"`
 	Quantity          uint32                 `xorm:"'quantity' int notnull"`
+	Amount            uint32                 `xorm:"'amount' int notnull"`
 	RemainingQuantity uint32                 `xorm:"'remaining_quantity' int notnull"`
-	Amount            uint32                 `xorm:"'count' int notnull"`
 	Ctime             uint32                 `xorm:"'ctime' int notnull"`
 	Mtime             uint32                 `xorm:"'mtime' int notnull"`
 	ExtraData         []byte                 `xorm:"'extra_data' blob"`

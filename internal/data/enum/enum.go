@@ -11,11 +11,11 @@ const (
 func (redPacketCategory RedPacketCategory) String() string {
 	switch redPacketCategory {
 	case RedPacketCategoryP2P:
-		return "RedPacketCategory(peer_to_peer)"
+		return "peer_to_peer"
 	case RedPacketCategoryGroup:
-		return "RedPacketCategory(group)"
+		return "group"
 	case RedPacketCategoryGroupExclusive:
-		return "RedPacketCategory(group_exclusive)"
+		return "group_exclusive"
 	}
 	return ""
 }
@@ -30,9 +30,9 @@ const (
 func (redPacketType RedPacketType) String() string {
 	switch redPacketType {
 	case RedPacketTypeRandomAmount:
-		return "RedPacketType(random_amount)"
+		return "random_amount"
 	case RedPacketTypeIdenticalAmount:
-		return "RedPacketType(identical_amount)"
+		return "identical_amount"
 	}
 	return ""
 }
@@ -48,11 +48,11 @@ const (
 func (transactionType TransactionType) String() string {
 	switch transactionType {
 	case CreateRedPacket:
-		return "TransactionType(create_red_packet)"
+		return "create_red_packet"
 	case OpenRedPacket:
-		return "TransactionType(open_red_packet)"
+		return "open_red_packet"
 	case RefundRedPacket:
-		return "TransactionType(refund_red_packet)"
+		return "refund_red_packet"
 	}
 	return ""
 }

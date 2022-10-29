@@ -31,14 +31,15 @@ type DatabaseConfig struct {
 }
 
 type DBConfig struct {
-	Host              string `toml:"host"`
-	Port              string `toml:"port"`
-	User              string `toml:"user"`
-	Password          string `toml:"password"`
-	DBName            string `toml:"db_name"`
-	DBMaxOpenConns    int    `toml:"db_max_open_conns"`
-	DBMaxIdleConns    int    `toml:"db_max_idle_conns"`
-	DBConnMaxLifeTime int    `toml:"db_max_life_time"` // seconds
-	DBShowSQL         bool   `toml:"db_show_sql"`
-	DBIsMaster        bool   `toml:"db_is_master"`
+	Host                 string `toml:"host"`
+	Port                 string `toml:"port"`
+	User                 string `toml:"user"`
+	Password             string `toml:"password"`
+	AllowNativePasswords bool   `toml:"allow_native_passwords"`
+	DBName               string `toml:"db_name"`
+	DBMaxOpenConns       int    `toml:"db_max_open_conns"`
+	DBMaxIdleConns       int    `toml:"db_max_idle_conns"`
+	DBConnMaxLifeTime    int    `toml:"db_max_life_time"` // seconds
+	DBShowSQL            bool   `toml:"db_show_sql"`
+	DBIsMaster           bool   `toml:"db_is_master"`
 }

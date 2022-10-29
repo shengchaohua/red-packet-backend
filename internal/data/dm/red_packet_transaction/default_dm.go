@@ -26,8 +26,8 @@ func (dm *defaultDM) InsertWithSession(
 	session *xorm.Session,
 	redPacketTransaction *redpackettxnmodel.RedPacketTransaction,
 ) error {
-	if session != nil {
-		return ErrParam.WithMsg("[InsertWithSession]session_cannot_be_nil")
+	if session == nil {
+		return ErrParam.WithMsg("session cannot be nil")
 	}
 
 	redPacketTxnTab, err := redPacketTransaction.ModelToTab()
@@ -37,14 +37,14 @@ func (dm *defaultDM) InsertWithSession(
 
 	affected, err := session.Table(dm.tableName).InsertOne(redPacketTxnTab)
 	if err != nil {
-		return ErrInsert.WrapWithMsg(err, fmt.Sprintf("insert db error|user_id=%d,txn_type=%s,reference_id=%s",
+		return ErrInsert.WrapWithMsg(err, fmt.Sprintf("insert_db_error|user_id=%d,txn_type=%s,reference_id=%s",
 			redPacketTransaction.UserId,
 			redPacketTransaction.TransactionType.String(),
 			redPacketTransaction.ReferenceId,
 		))
 	}
 	if affected == 0 {
-		return ErrInsert.WrapWithMsg(err, fmt.Sprintf("insert db failed|user_id=%d,txn_type=%s,reference_id=%s",
+		return ErrInsert.WrapWithMsg(err, fmt.Sprintf("insert_db_failed|user_id=%d,txn_type=%s,reference_id=%s",
 			redPacketTransaction.UserId,
 			redPacketTransaction.TransactionType.String(),
 			redPacketTransaction.ReferenceId,

@@ -10,7 +10,7 @@ import (
 )
 
 type Manager interface {
-	AddUserWalletTxn(
+	AddRedPacketTxn(
 		ctx context.Context,
 		session *xorm.Session,
 		userId uint64,

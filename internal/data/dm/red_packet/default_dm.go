@@ -27,8 +27,8 @@ func (dm *defaultDM) InsertWithSession(
 	session *xorm.Session,
 	redPacket *redpacketmodel.RedPacket,
 ) error {
-	if session != nil {
-		return ErrParam.WithMsg("[InsertWithSession]session_cannot_be_nil")
+	if session == nil {
+		return ErrParam.WithMsg("session cannot be nil")
 	}
 
 	return dm.insert(ctx, session, redPacket)
@@ -52,13 +52,13 @@ func (dm *defaultDM) insert(
 	affected, err := session.Table(dm.tableName).InsertOne(redPacketTab)
 	if err != nil {
 		return ErrInsert.WrapWithMsg(err, fmt.Sprintf(
-			"insert db error|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
+			"insert_db_error|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
 			redPacket.RedPacketName, redPacket.RedPacketCategory, redPacket.RedPacketType,
 		))
 	}
 	if affected == 0 {
 		return ErrInsert.WithMsg(fmt.Sprintf(
-			"insert db failed|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
+			"insert_db_failed|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
 			redPacket.RedPacketName, redPacket.RedPacketCategory, redPacket.RedPacketType,
 		))
 	}
@@ -72,18 +72,10 @@ func (dm *defaultDM) LoadByIdWithSession(
 	redPacketId uint64,
 ) (*redpacketmodel.RedPacket, error) {
 	if session == nil {
-		return nil, ErrParam.WithMsg("[LoadByIdWithSession]session cannot be nil")
+		return nil, ErrParam.WithMsg("session cannot be nil")
 	}
 
-	redPacket, err := dm.loadById(ctx, session, redPacketId, true)
-	if err != nil {
-		return nil, err
-	}
-	if redPacket == nil {
-		return nil, nil
-	}
-
-	return redPacket, nil
+	return dm.loadById(ctx, session, redPacketId, true)
 }
 
 func (dm *defaultDM) LoadById(

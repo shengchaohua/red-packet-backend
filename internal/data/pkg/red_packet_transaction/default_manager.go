@@ -19,7 +19,7 @@ func NewDefaultManager(userWalletTxnDM redpackettxndm.DM) Manager {
 	}
 }
 
-func (manager *defaultManager) AddUserWalletTxn(
+func (manager *defaultManager) AddRedPacketTxn(
 	ctx context.Context,
 	session *xorm.Session,
 	userId uint64,

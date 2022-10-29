@@ -26,10 +26,10 @@ func New(pkg string, code int) *errorGroup {
 func (errGroup *errorGroup) Error() string {
 	if errGroup.cause == nil {
 		if errGroup.msg == "" {
-			return fmt.Sprintf("ErrorGroup[Pkg=%s,Code=%d]", errGroup.pkg, errGroup.code)
+			return fmt.Sprintf("ErrorGroup[Pkg='%s',Code=%d]", errGroup.pkg, errGroup.code)
 		}
 
-		return fmt.Sprintf("ErrorGroup[Pkg=%s,Code=%d,Msg=%s]",
+		return fmt.Sprintf("ErrorGroup[Pkg='%s',Code=%d,Msg='%s']",
 			errGroup.pkg,
 			errGroup.code,
 			errGroup.msg,
@@ -84,7 +84,10 @@ func (errGroup *errorGroup) Is(err error) bool {
 // GetErrcode gets error code from an error.
 func GetErrcode(err error) (int, bool) {
 	errGroup, ok := as(err)
-	return errGroup.code, ok
+	if ok {
+		return errGroup.code, ok
+	}
+	return 0, ok
 }
 
 // GetErrmsg gets pure error message from an error.

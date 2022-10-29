@@ -14,7 +14,8 @@
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_main_test_db"
+        allow_native_passwords = true
+        db_name = "red_packet_main_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
         db_max_life_time = 3600
@@ -25,7 +26,8 @@
         port = "3306"
         user = "root"
         password = ""
-        db_name = "red_packet_main_test_db"
+        allow_native_passwords = true
+        db_name = "red_packet_main_db"
         db_max_open_conns = 100
         db_max_idle_conns = 100
         db_max_life_time = 3600

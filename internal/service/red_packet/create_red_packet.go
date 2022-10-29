@@ -32,13 +32,11 @@ type CreateRedPacketResponse struct {
 }
 
 func (request *CreateRedPacketRequest) Validate(ctx context.Context) error {
-	logger.Logger(ctx).Info("[CreateRedPacketRequest.Validte]start", zap.Any("request", request))
-
 	if request.RequestId == "" {
 		return ErrWrongParam.WithMsg("request id is empty")
 	}
 	if request.UserId == 0 {
-		return ErrWrongParam.WithMsg("user id is empty")
+		return ErrWrongParam.WithMsg("user id is zero")
 	}
 	if request.RedPacketCategory == 0 {
 		return ErrWrongParam.WithMsg("red packet category is empty")
@@ -67,7 +65,7 @@ func (service *defaultService) CreateRedPacket(
 		err       error
 	)
 	_, err = service.EngineManager.GetMasterEngine().Transaction(func(session *xorm.Session) (interface{}, error) {
-		if redPacket, err = service.redPacketManager.CreateRedPacket(
+		redPacket, err = service.redPacketManager.CreateRedPacket(
 			ctx,
 			session,
 			request.RedPacketName,
@@ -75,11 +73,12 @@ func (service *defaultService) CreateRedPacket(
 			request.RedPacketType,
 			request.Quantity,
 			request.Amount,
-		); err != nil {
+		)
+		if err != nil {
 			return nil, err
 		}
 
-		if err := service.redPacketTxnManager.AddUserWalletTxn(
+		if err = service.redPacketTxnManager.AddRedPacketTxn(
 			ctx,
 			session,
 			request.UserId,
@@ -90,7 +89,7 @@ func (service *defaultService) CreateRedPacket(
 			return nil, err
 		}
 
-		if err := service.userWalletManager.DeductUserWallet(
+		if err = service.userWalletManager.DeductUserWallet(
 			ctx,
 			session,
 			request.UserId,
@@ -102,7 +101,7 @@ func (service *defaultService) CreateRedPacket(
 		return redPacket, nil
 	})
 	if err != nil {
-		logger.Logger(ctx).Error("[CreateRedPacket]transaction_error", zap.Any("error", err))
+		logger.Logger(ctx).Error("[defaultService.CreateRedPacket]transaction_error", zap.Any("error", err))
 		return nil, err
 	}
 

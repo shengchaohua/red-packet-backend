@@ -20,14 +20,20 @@ func CreateRedPacketHandler(c *gin.Context) {
 		return
 	}
 
-	ctx := logger.NewCtxWithTraceId()
-	if err := request.Validate(ctx); err != nil {
+	var (
+		ctx      = logger.NewCtxWithTraceId()
+		response *redpacketservice.CreateRedPacketResponse
+		err      error
+	)
+	logger.Logger(ctx).Info("[CreateRedPacketHandler]start", zap.Any("request", request))
+
+	if err = request.Validate(ctx); err != nil {
 		logger.Logger(ctx).Error("[CreateRedPacketHandler]validate_request_error", zap.Error(err))
 		c.JSON(http.StatusOK, serverutils.WrongParam(errorgrouppkg.GetErrmsg(err)))
 		return
 	}
 
-	response, err := redpacketservice.GetService().CreateRedPacket(ctx, request)
+	response, err = redpacketservice.GetService().CreateRedPacket(ctx, request)
 	if err != nil {
 		logger.Logger(ctx).Error("[CreateRedPacketHandler]create_red_packet_error", zap.Error(err))
 		if errcode, ok := errorgrouppkg.GetErrcode(err); ok {
