@@ -12,17 +12,17 @@ import (
 )
 
 // CreateRedPacketRequest defines the request
-// RedPacketName - optional
-// Quantity - the max quantity of people that can open the red packet
-// Amount - the money amount in the red packet
+// - RedPacketName: optional
+// - Quantity: the max quantity of people that can open the red packet
+// - Amount: the money amount
 type CreateRedPacketRequest struct {
-	RequestId         string                 `json:"request_id,omitempty"`
-	UserId            uint64                 `json:"user_id,omitempty"`
-	RedPacketCategory enum.RedPacketCategory `json:"red_packet_category,omitempty"`
-	RedPacketType     enum.RedPacketType     `json:"red_packet_type,omitempty"`
-	RedPacketName     string                 `json:"red_packet_name,omitempty"`
-	Quantity          uint32                 `json:"quantity,omitempty"`
-	Amount            uint32                 `json:"amount,omitempty"`
+	RequestId           string                   `json:"request_id,omitempty"`
+	UserId              uint64                   `json:"user_id,omitempty"`
+	RedPacketCategory   enum.RedPacketCategory   `json:"red_packet_category,omitempty"`
+	RedPacketResultType enum.RedPacketResultType `json:"red_packet_result_type,omitempty"`
+	RedPacketName       string                   `json:"red_packet_name,omitempty"`
+	Quantity            uint32                   `json:"quantity,omitempty"`
+	Amount              uint32                   `json:"amount,omitempty"`
 }
 
 // CreateRedPacketResponse defines the reponse
@@ -31,24 +31,31 @@ type CreateRedPacketResponse struct {
 	RedPacketId uint64 `json:"red_packet_id,omitempty"`
 }
 
-func (request *CreateRedPacketRequest) Validate(ctx context.Context) error {
+func (request *CreateRedPacketRequest) Validate() error {
 	if request.RequestId == "" {
 		return ErrWrongParam.WithMsg("request id is empty")
 	}
 	if request.UserId == 0 {
-		return ErrWrongParam.WithMsg("user id is zero")
+		return ErrWrongParam.WithMsg("user id is empty")
 	}
 	if request.RedPacketCategory == 0 {
 		return ErrWrongParam.WithMsg("red packet category is empty")
 	}
-	if request.RedPacketType == 0 {
-		return ErrWrongParam.WithMsg("red packet type is empty")
-	}
-	if request.Quantity == 0 {
-		return ErrWrongParam.WithMsg("red packet quantity is zero")
-	}
 	if request.Amount == 0 {
 		return ErrWrongParam.WithMsg("red packet amount is zero")
+	}
+	switch request.RedPacketCategory {
+	case enum.RedPacketCategoryP2P:
+		if request.Quantity != 1 {
+			return ErrWrongParam.WithMsg("P2P red packet quantity is not one")
+		}
+	case enum.RedPacketCategoryGroup:
+		if request.RedPacketResultType == 0 {
+			return ErrWrongParam.WithMsg("red packet type is empty")
+		}
+		if request.Quantity == 0 {
+			return ErrWrongParam.WithMsg("red packet quantity is empty")
+		}
 	}
 
 	return nil
@@ -70,11 +77,25 @@ func (service *defaultService) CreateRedPacket(
 			session,
 			request.RedPacketName,
 			request.RedPacketCategory,
-			request.RedPacketType,
+			request.RedPacketResultType,
 			request.Quantity,
 			request.Amount,
 		)
 		if err != nil {
+			return nil, err
+		}
+
+		amount := request.Amount
+		if request.RedPacketResultType == enum.RedPacketResultTypeIdenticalAmount {
+			amount = redPacket.Amount * redPacket.Quantity
+		}
+
+		if err = service.userWalletManager.DeductUserWallet(
+			ctx,
+			session,
+			request.UserId,
+			amount,
+		); err != nil {
 			return nil, err
 		}
 
@@ -84,16 +105,7 @@ func (service *defaultService) CreateRedPacket(
 			request.UserId,
 			enum.CreateRedPacket,
 			fmt.Sprint(redPacket.Id),
-			redPacket.Amount,
-		); err != nil {
-			return nil, err
-		}
-
-		if err = service.userWalletManager.DeductUserWallet(
-			ctx,
-			session,
-			request.UserId,
-			redPacket.Amount,
+			amount,
 		); err != nil {
 			return nil, err
 		}
@@ -102,7 +114,7 @@ func (service *defaultService) CreateRedPacket(
 	})
 	if err != nil {
 		logger.Logger(ctx).Error("[defaultService.CreateRedPacket]transaction_error", zap.Any("error", err))
-		return nil, err
+		return nil, errorMapping(err)
 	}
 
 	return &CreateRedPacketResponse{

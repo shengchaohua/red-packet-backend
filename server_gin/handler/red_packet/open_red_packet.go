@@ -6,12 +6,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
+	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 )
 
 func OpenRedPacketHandler(ctx *gin.Context) {
-	request := &userservice.OpenRedPacketRequest{}
+	request := &redpacketservice.OpenRedPacketRequest{}
 	if err := json.NewDecoder(ctx.Request.Body).Decode(request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"err_code": "0",
@@ -19,7 +18,7 @@ func OpenRedPacketHandler(ctx *gin.Context) {
 	}
 
 	newCtx := context.Background()
-	response, err := userservice.GetDefaultService().OpenRedPacket(newCtx, request)
+	response, err := redpacketservice.GetService().OpenRedPacket(newCtx, request)
 	if err != nil {
 		ctx.JSON(
 			http.StatusOK, gin.H{})

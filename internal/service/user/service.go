@@ -1,9 +1,16 @@
 package userservice
 
-import "context"
+import (
+	"context"
+
+	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
+)
 
 type Service interface {
-	OpenRedPacket(ctx context.Context, request *OpenRedPacketRequest) (*OpenRedPacketResponse, error)
+	CreateRandomUsers(
+		ctx context.Context,
+		request *CreateRandomUsersRequest,
+	) (*CreateRandomUsersResponse, error)
 }
 
 var (
@@ -11,9 +18,13 @@ var (
 )
 
 func InitService() {
-	defaultServiceInstance = NewDefaultService()
+	userWalletManager := userwalletpkg.GetDefaultManager()
+	if userWalletManager == nil {
+		panic("userWalletManager has not been inited")
+	}
+	defaultServiceInstance = NewDefaultService(userWalletManager)
 }
 
-func GetDefaultService() Service {
+func GetService() Service {
 	return defaultServiceInstance
 }

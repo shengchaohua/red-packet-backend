@@ -53,13 +53,17 @@ func (dm *defaultDM) insert(
 	if err != nil {
 		return ErrInsert.WrapWithMsg(err, fmt.Sprintf(
 			"insert_db_error|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
-			redPacket.RedPacketName, redPacket.RedPacketCategory, redPacket.RedPacketType,
+			redPacket.RedPacketName,
+			redPacket.RedPacketCategory.String(),
+			redPacket.RedPacketResultType.String(),
 		))
 	}
 	if affected == 0 {
 		return ErrInsert.WithMsg(fmt.Sprintf(
 			"insert_db_failed|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
-			redPacket.RedPacketName, redPacket.RedPacketCategory, redPacket.RedPacketType,
+			redPacket.RedPacketName,
+			redPacket.RedPacketCategory.String(),
+			redPacket.RedPacketResultType.String(),
 		))
 	}
 

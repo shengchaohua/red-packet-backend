@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `red_packet_tab` (
     `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `red_packet_name` VARCHAR(100) NOT NULL DEFAULT '',
     `red_packet_category` INT UNSIGNED NOT NULL,
-    `red_packet_type` INT UNSIGNED NOT NULL,
+    `red_packet_result_type` INT UNSIGNED NOT NULL,
     `quantity` INT UNSIGNED NOT NULL,
     `amount` INT UNSIGNED NOT NULL,
     `remaining_quantity` INT UNSIGNED NOT NULL,

@@ -14,6 +14,11 @@ type Service interface {
 		ctx context.Context,
 		request *CreateRedPacketRequest,
 	) (*CreateRedPacketResponse, error)
+
+	OpenRedPacket(
+		ctx context.Context,
+		request *OpenRedPacketRequest,
+	) (*OpenRedPacketRequest, error)
 }
 
 var defaultServiceInstance Service

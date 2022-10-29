@@ -25,18 +25,18 @@ func (manager *defaultManager) CreateRedPacket(
 	session *xorm.Session,
 	redPacketName string,
 	redPacketCategory enum.RedPacketCategory,
-	redPacketType enum.RedPacketType,
+	redPacketResultType enum.RedPacketResultType,
 	quantity uint32,
 	amount uint32,
 ) (*redpacketmodel.RedPacket, error) {
 	redPacket := &redpacketmodel.RedPacket{
 		RedPacketTab: &redpacketmodel.RedPacketTab{
-			RedPacketName:     redPacketName,
-			RedPacketCategory: redPacketCategory,
-			RedPacketType:     redPacketType,
-			Quantity:          quantity,
-			RemainingQuantity: quantity,
-			Amount:            amount,
+			RedPacketName:       redPacketName,
+			RedPacketCategory:   redPacketCategory,
+			RedPacketResultType: redPacketResultType,
+			Quantity:            quantity,
+			RemainingQuantity:   quantity,
+			Amount:              amount,
 		},
 	}
 

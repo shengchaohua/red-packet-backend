@@ -1,19 +1,13 @@
 package userservice
 
-import (
-	"context"
-)
+import userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
 
 type defaultService struct {
+	useWalletManager userwalletpkg.Manager
 }
 
-func NewDefaultService() *defaultService {
-	return &defaultService{}
-}
-
-func (service *defaultService) OpenRedPacket(
-	ctx context.Context,
-	request *OpenRedPacketRequest,
-) (*OpenRedPacketResponse, error) {
-	return &OpenRedPacketResponse{}, nil
+func NewDefaultService(useWalletManager userwalletpkg.Manager) *defaultService {
+	return &defaultService{
+		useWalletManager: useWalletManager,
+	}
 }

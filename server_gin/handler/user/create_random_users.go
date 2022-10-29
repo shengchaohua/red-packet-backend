@@ -1,21 +1,19 @@
-package redpackethandler
+package userhandler
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-
 	"github.com/shengchaohua/red-packet-backend/internal/constants"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
-	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
+	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
 	errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
-	"github.com/shengchaohua/red-packet-backend/server_gin/route"
 	serverutils "github.com/shengchaohua/red-packet-backend/server_gin/utils"
+	"go.uber.org/zap"
 )
 
-func CreateRedPacketHandler(c *gin.Context) {
-	var request = &redpacketservice.CreateRedPacketRequest{}
+func CreateRandomUsersHandler(c *gin.Context) {
+	var request = &userservice.CreateRandomUsersRequest{}
 	if c.ShouldBindJSON(request) != nil {
 		c.JSON(http.StatusOK, serverutils.BadRequest())
 		return
@@ -23,10 +21,10 @@ func CreateRedPacketHandler(c *gin.Context) {
 
 	var (
 		ctx      = logger.NewCtxWithTraceId()
-		response *redpacketservice.CreateRedPacketResponse
+		response *userservice.CreateRandomUsersResponse
 		err      error
 	)
-	logger.Logger(ctx).Info("[CreateRedPacketHandler]start", zap.Any("request", request))
+	logger.Logger(ctx).Info("[CreateRandomUsersHandler]start", zap.Any("request", request))
 
 	if err = request.Validate(); err != nil {
 		logger.Logger(ctx).Error("[CreateRedPacketHandler]validate_request_error", zap.Error(err))
@@ -34,13 +32,13 @@ func CreateRedPacketHandler(c *gin.Context) {
 		return
 	}
 
-	response, err = redpacketservice.GetService().CreateRedPacket(ctx, request)
+	response, err = userservice.GetService().CreateRandomUsers(ctx, request)
 	if err != nil {
-		logger.Logger(ctx).Error("[CreateRedPacketHandler]service_error", zap.Error(err))
-		errcode, ok := errorgrouppkg.GetErrcode(err)
-		if ok && allowedErrorMap[route.RouteCreateRedPacket][constants.Errcode(errcode)] {
+		logger.Logger(ctx).Error("[CreateRandomUsersHandler]service_error", zap.Error(err))
+		if errcode, ok := errorgrouppkg.GetErrcode(err); ok {
+			errcodeEnum := constants.ParseErrcodeEnum(errcode)
 			c.JSON(http.StatusOK, serverutils.Response(
-				errcode,
+				errcodeEnum,
 				errorgrouppkg.GetErrmsg(err),
 				nil,
 			))
@@ -51,7 +49,7 @@ func CreateRedPacketHandler(c *gin.Context) {
 		return
 	}
 
-	logger.Logger(ctx).Info("[CreateRedPacketHandler]response", zap.Any("response", response))
+	logger.Logger(ctx).Info("[CreateRandomUsersHandler]response", zap.Any("response", response))
 	c.JSON(http.StatusOK, serverutils.OkResponse(response))
 
 	return

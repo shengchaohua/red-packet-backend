@@ -16,7 +16,7 @@ type Manager interface {
 		session *xorm.Session,
 		redPacketName string,
 		redPacketCategory enum.RedPacketCategory,
-		redPacketType enum.RedPacketType,
+		redPacketResultType enum.RedPacketResultType,
 		quantity uint32,
 		amount uint32,
 	) (*redpacketmodel.RedPacket, error)

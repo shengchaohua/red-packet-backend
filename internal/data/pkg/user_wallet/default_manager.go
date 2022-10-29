@@ -2,9 +2,9 @@ package userwalletpkg
 
 import (
 	"context"
-	"fmt"
 
 	userwalletdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet"
+	userwalletmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_wallet"
 	"xorm.io/xorm"
 )
 
@@ -24,12 +24,17 @@ func (manager *defaultManager) DeductUserWallet(
 	userId uint64,
 	amount uint32,
 ) error {
-	userWallet, err := manager.userWalletDM.LoadByUserIdWithSessionForUpdate(ctx, session, userId)
+	var (
+		userWallet *userwalletmodel.UserWallet
+		err        error
+	)
+
+	userWallet, err = manager.userWalletDM.LoadByUserIdWithSessionForUpdate(ctx, session, userId)
 	if err != nil {
 		return ErrDeductUserWallet.WrapWithMsg(err, "load_user_wallet_error")
 	}
 	if userWallet == nil {
-		return ErrDeductUserWallet.WithMsg(fmt.Sprintf("user_wallet_not_found|user_id=%d", userId))
+		return ErrDeductUserWallet.WithMsg("user_wallet_not_found")
 	}
 	if userWallet.Balance < uint64(amount) {
 		return ErrDeductUserWallet.WithMsg("user_wallet_balance_is_not_enough")
@@ -50,18 +55,23 @@ func (manager *defaultManager) AddUserWallet(
 	userId uint64,
 	amount uint32,
 ) error {
-	userWallet, err := manager.userWalletDM.LoadByUserIdWithSessionForUpdate(ctx, session, userId)
+	var (
+		userWallet *userwalletmodel.UserWallet
+		err        error
+	)
+
+	userWallet, err = manager.userWalletDM.LoadByUserIdWithSessionForUpdate(ctx, session, userId)
 	if err != nil {
-		return ErrDeductUserWallet.WrapWithMsg(err, "load_user_wallet_error")
+		return ErrAddUserWallet.WrapWithMsg(err, "load_user_wallet_error")
 	}
 	if userWallet == nil {
-		return ErrDeductUserWallet.WithMsg(fmt.Sprintf("user_wallet_not_found|user_id=%d", userId))
+		return ErrAddUserWallet.WithMsg("user_wallet_not_found")
 	}
 
 	userWallet.Balance += uint64(amount)
 	err = manager.userWalletDM.UpdateWithSession(ctx, session, userWallet)
 	if err != nil {
-		return ErrDeductUserWallet.WrapWithMsg(err, "update_user_wallet_error")
+		return ErrAddUserWallet.WrapWithMsg(err, "update_user_wallet_error")
 	}
 
 	return nil
