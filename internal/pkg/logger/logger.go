@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	logpkg "github.com/shengchaohua/red-packet-backend/pkg/log"
+	loggerpkg "github.com/shengchaohua/red-packet-backend/pkg/logger"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -24,11 +24,11 @@ func InitLogger(serverConfig *config.ServerConfig) {
 	if serverConfig.IsLiveEnv() {
 		logLevel = zapcore.InfoLevel
 	}
-	zapConfig := &logpkg.ZapConfig{
+	zapConfig := &loggerpkg.ZapConfig{
 		LogFile:  serverConfig.Log,
 		LogLevel: logLevel,
 	}
-	zapLogger = logpkg.NewZapLogger(zapConfig)
+	zapLogger = loggerpkg.NewZapLogger(zapConfig)
 }
 
 // NewCtxWithTraceId returns a context which knows its request ID
