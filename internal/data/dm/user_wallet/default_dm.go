@@ -29,7 +29,7 @@ func (dm *defaultDM) InsertWithSession(
 	session *xorm.Session,
 	userWallet *userwalletmodel.UserWallet,
 ) error {
-	if session != nil {
+	if session == nil {
 		return ErrParam.WithMsg("[InsertWithSession]session_cannot_be_nil")
 	}
 

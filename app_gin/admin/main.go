@@ -15,6 +15,7 @@ import (
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
+	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
 	adminserver "github.com/shengchaohua/red-packet-backend/server_gin/server/admin"
 )
 
@@ -47,6 +48,7 @@ func main() {
 	userwallettxnpkg.InitManager()
 
 	// service
+	userservice.InitService()
 	redpacketservice.InitService()
 
 	// server

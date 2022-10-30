@@ -56,7 +56,7 @@ func (service *defaultService) CreateRandomUsers(
 			}
 
 			if request.EnableWallet {
-				err = service.useWalletManager.CreateUserWallet(ctx, session, user.Id)
+				err = service.userWalletManager.CreateUserWallet(ctx, session, user.Id)
 				if err != nil {
 					return nil, err
 				}
@@ -70,5 +70,7 @@ func (service *defaultService) CreateRandomUsers(
 		}
 	}
 
-	return &CreateRandomUsersResponse{}, nil
+	return &CreateRandomUsersResponse{
+		RequestId: request.RequestId,
+	}, nil
 }

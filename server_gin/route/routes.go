@@ -2,8 +2,9 @@ package route
 
 // admin
 const (
-	RouteSearchRedPacket       = "/api/red-packet/search"
-	RouteSearchRedPacketRecord = "/api/red-packet-record/search"
+	RouteCreateRandomUsers     = "/admin/create-random-users"
+	RouteSearchRedPacket       = "/admin/red-packet/search"
+	RouteSearchRedPacketRecord = "/admin/user-wallet-transaction/search"
 )
 
 // api
