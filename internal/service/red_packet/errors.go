@@ -15,9 +15,13 @@ var (
 	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, int(constants.Errcode_WalletBalanceNotEnough))
 )
 
+const (
+	errmsgWalletBalanceNotEnough = "user wallet balance is not enough"
+)
+
 func errorMapping(err error) error {
 	if userwalletpkg.ErrWalletBalanceNotEnough.Is(err) {
-		return ErrWalletBalanceNotEnough.Wrap(err)
+		return ErrWalletBalanceNotEnough.WrapWithMsg(err, errmsgWalletBalanceNotEnough)
 	}
 	return ErrServer.Wrap(err)
 }

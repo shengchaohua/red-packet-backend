@@ -45,20 +45,25 @@ func (errGroup *errorGroup) WithMsg(msg string) *errorGroup {
 	}
 
 	return &errorGroup{
-		cause: errGroup.cause,
-		pkg:   errGroup.pkg,
-		code:  errGroup.code,
-		msg:   msg,
+		pkg:  errGroup.pkg,
+		code: errGroup.code,
+		msg:  msg,
 	}
 }
 
 // Wrap wraps an error.
 // Note: use WrapWithMsg as much as possible
 func (errGroup *errorGroup) Wrap(err error) *errorGroup {
+	errmsg := errGroup.msg
+	if errGroup.msg == "" {
+		errmsg = err.Error()
+	}
+
 	return &errorGroup{
 		cause: errors.Wrap(err, errGroup.Error()),
 		pkg:   errGroup.pkg,
 		code:  errGroup.code,
+		msg:   errmsg,
 	}
 }
 

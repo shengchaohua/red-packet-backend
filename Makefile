@@ -9,3 +9,7 @@ app_gin_admin:
 
 app_gin_api:
 	go build -o bin/app_gin/red-packet-backend-api ./app_gin/api
+
+unittests = $(shell go list ./... | grep -Ev "tests")
+unittest:
+	@go test -v -short -mod=readonly $(unittests)
