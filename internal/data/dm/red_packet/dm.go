@@ -34,7 +34,7 @@ var (
 	defaultDMInstance DM
 )
 
-func InitRedPacketDM() {
+func InitDM() {
 	mainDBEngineManager := database.GetMainDBEngineManager()
 	defaultDMInstance = NewDefaultDM(mainDBEngineManager)
 }

@@ -4,16 +4,32 @@ import (
 	"context"
 
 	usermodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user"
+	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
+	"xorm.io/xorm"
 )
 
 type DM interface {
-	Create(ctx context.Context, user *usermodel.User) error
+	InsertWithSession(
+		ctx context.Context,
+		session *xorm.Session,
+		user *usermodel.User,
+	) error
 }
 
-func InitUserDM() {
-	defaultDM = &DefaultDM{}
+var (
+	defaultDMInstance DM
+)
+
+func InitDM() {
+	mainDBEngineManager := database.GetMainDBEngineManager()
+	if mainDBEngineManager == nil {
+		panic("mainDBEngineManager has not been inited")
+	}
+	defaultDMInstance = NewDefaultDM(
+		mainDBEngineManager,
+	)
 }
 
-func GetDataManager() DM {
-	return defaultDM
+func GetUserDM() DM {
+	return defaultDMInstance
 }

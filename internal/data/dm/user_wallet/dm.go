@@ -40,7 +40,7 @@ var (
 	defaultDMInstance DM
 )
 
-func InitUserWalletDM() {
+func InitDM() {
 	defaultDBEngine := database.GetMainDBEngineManager()
 	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
-	redpackettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet_transaction"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
+	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
@@ -23,7 +23,7 @@ type Service interface {
 
 var defaultServiceInstance Service
 
-func InitRedPacketService() {
+func InitService() {
 	engineManager := database.GetMainDBEngineManager()
 	if engineManager == nil {
 		panic("engineManager has not been inited")
@@ -32,22 +32,22 @@ func InitRedPacketService() {
 	if redPacketManager == nil {
 		panic("redPacketManager has not been inited")
 	}
-	userWalletManager := userwalletpkg.GetDefaultManager()
+	userWalletManager := userwalletpkg.GetUserWalletManager()
 	if userWalletManager == nil {
 		panic("userWalletManager has not been inited")
 	}
-	redPacketTxnManager := redpackettxnpkg.GetManager()
-	if redPacketTxnManager == nil {
-		panic("redPacketTxnManager has not been inited")
+	userWalletTxnManager := userwallettxnpkg.GetUserWalletTxnManager()
+	if userWalletTxnManager == nil {
+		panic("userWalletTxnManager has not been inited")
 	}
 	defaultServiceInstance = NewDefaultService(
 		engineManager,
 		redPacketManager,
 		userWalletManager,
-		redPacketTxnManager,
+		userWalletTxnManager,
 	)
 }
 
-func GetService() Service {
+func GetRedPacketService() Service {
 	return defaultServiceInstance
 }

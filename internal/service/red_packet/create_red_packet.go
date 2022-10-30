@@ -90,7 +90,7 @@ func (service *defaultService) CreateRedPacket(
 			amount = redPacket.Amount * redPacket.Quantity
 		}
 
-		if err = service.userWalletManager.DeductUserWallet(
+		if err = service.userWalletManager.DeductUserWalletBalance(
 			ctx,
 			session,
 			request.UserId,
@@ -99,7 +99,7 @@ func (service *defaultService) CreateRedPacket(
 			return nil, err
 		}
 
-		if err = service.redPacketTxnManager.AddRedPacketTxn(
+		if err = service.redPacketTxnManager.AddUserWalletTxn(
 			ctx,
 			session,
 			request.UserId,

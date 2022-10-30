@@ -34,7 +34,6 @@ type RedPacketTab struct {
 // RedPacketExtraData defines the extra data in red packet
 type RedPacketExtraData struct{}
 
-// ModelToTab convert red packet model to tab
 func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 	if model == nil {
 		return nil, fmt.Errorf("red packet model is nil")
@@ -44,14 +43,13 @@ func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 
 	extraDataBytes, err := json.Marshal(model.ExtraData)
 	if err != nil {
-		return nil, fmt.Errorf("fail to marshal red packet extra data: %w", err)
+		return nil, fmt.Errorf("marshal red packet extra data error: %w", err)
 	}
 	tab.ExtraData = extraDataBytes
 
 	return tab, nil
 }
 
-// // ModelToTab convert red packet tab to model
 func (tab *RedPacketTab) TabToModel() (*RedPacket, error) {
 	if tab == nil {
 		return nil, fmt.Errorf("red packet tab is nil")
@@ -63,7 +61,7 @@ func (tab *RedPacketTab) TabToModel() (*RedPacket, error) {
 
 	extraData := &RedPacketExtraData{}
 	if err := json.Unmarshal(tab.ExtraData, extraData); err != nil {
-		return nil, fmt.Errorf("fail to unmarshal red packet extra data: %w", err)
+		return nil, fmt.Errorf("unmarshal red packet extra data error: %w", err)
 	}
 	model.ExtraData = extraData
 

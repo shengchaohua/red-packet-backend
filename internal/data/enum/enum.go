@@ -37,18 +37,21 @@ func (redPacketResultType RedPacketResultType) String() string {
 type TransactionType uint32
 
 const (
-	CreateRedPacket TransactionType = 1
-	OpenRedPacket   TransactionType = 2
-	RefundRedPacket TransactionType = 3 // red packet has remaining money
+	TopupUserWallet TransactionType = 1
+	CreateRedPacket TransactionType = 2
+	OpenRedPacket   TransactionType = 3
+	ReturnRedPacket TransactionType = 4 // red packet has remaining money
 )
 
 func (transactionType TransactionType) String() string {
 	switch transactionType {
+	case TopupUserWallet:
+		return "topup_user_wallet"
 	case CreateRedPacket:
 		return "create_red_packet"
 	case OpenRedPacket:
 		return "open_red_packet"
-	case RefundRedPacket:
+	case ReturnRedPacket:
 		return "refund_red_packet"
 	}
 	return ""

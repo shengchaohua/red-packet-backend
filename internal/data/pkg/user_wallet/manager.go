@@ -9,14 +9,20 @@ import (
 )
 
 type Manager interface {
-	DeductUserWallet(
+	CreateUserWallet(
+		ctx context.Context,
+		session *xorm.Session,
+		userId uint64,
+	) error
+
+	DeductUserWalletBalance(
 		ctx context.Context,
 		session *xorm.Session,
 		userId uint64,
 		amount uint32,
 	) error
 
-	AddUserWallet(
+	AddUserWalletBalance(
 		ctx context.Context,
 		session *xorm.Session,
 		userWalletId uint64,
@@ -26,11 +32,11 @@ type Manager interface {
 
 var defaultManagerInstance Manager
 
-func InitUserWalletManager() {
+func InitManager() {
 	userWalletDM := userwalletdm.GetUserWalletDM()
 	defaultManagerInstance = NewDefaultManager(userWalletDM)
 }
 
-func GetDefaultManager() Manager {
+func GetUserWalletManager() Manager {
 	return defaultManagerInstance
 }

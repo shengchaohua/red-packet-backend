@@ -1,16 +1,16 @@
-package redpackettxnpkg
+package userwallettxnpkg
 
 import (
 	"context"
 
 	"xorm.io/xorm"
 
-	redpackettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet_transaction"
+	userwallettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
 )
 
 type Manager interface {
-	AddRedPacketTxn(
+	AddUserWalletTxn(
 		ctx context.Context,
 		session *xorm.Session,
 		userId uint64,
@@ -22,11 +22,11 @@ type Manager interface {
 
 var defaultManagerInstance Manager
 
-func InitRedPacketTxnManager() {
-	redPacketTxnDM := redpackettxndm.GetRedPacketTxnDM()
-	defaultManagerInstance = NewDefaultManager(redPacketTxnDM)
+func InitManager() {
+	userWalletTxnDM := userwallettxndm.GetUserWalletTxnDM()
+	defaultManagerInstance = NewDefaultManager(userWalletTxnDM)
 }
 
-func GetManager() Manager {
+func GetUserWalletTxnManager() Manager {
 	return defaultManagerInstance
 }

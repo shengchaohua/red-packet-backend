@@ -2,7 +2,7 @@ package userwallettxndm
 
 import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 
-const pkgName = "userwalletdm"
+const pkgName = "userwallettxndm"
 
 // errros
 var (

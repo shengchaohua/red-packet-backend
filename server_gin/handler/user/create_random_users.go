@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shengchaohua/red-packet-backend/internal/constants"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
 	errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
@@ -32,19 +31,9 @@ func CreateRandomUsersHandler(c *gin.Context) {
 		return
 	}
 
-	response, err = userservice.GetService().CreateRandomUsers(ctx, request)
+	response, err = userservice.GetUserService().CreateRandomUsers(ctx, request)
 	if err != nil {
 		logger.Logger(ctx).Error("[CreateRandomUsersHandler]service_error", zap.Error(err))
-		if errcode, ok := errorgrouppkg.GetErrcode(err); ok {
-			errcodeEnum := constants.ParseErrcodeEnum(errcode)
-			c.JSON(http.StatusOK, serverutils.Response(
-				errcodeEnum,
-				errorgrouppkg.GetErrmsg(err),
-				nil,
-			))
-			return
-		}
-
 		c.JSON(http.StatusOK, serverutils.ServerError())
 		return
 	}

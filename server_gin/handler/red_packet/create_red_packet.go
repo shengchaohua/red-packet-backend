@@ -34,7 +34,7 @@ func CreateRedPacketHandler(c *gin.Context) {
 		return
 	}
 
-	response, err = redpacketservice.GetService().CreateRedPacket(ctx, request)
+	response, err = redpacketservice.GetRedPacketService().CreateRedPacket(ctx, request)
 	if err != nil {
 		logger.Logger(ctx).Error("[CreateRedPacketHandler]service_error", zap.Error(err))
 		errcode, ok := errorgrouppkg.GetErrcode(err)

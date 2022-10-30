@@ -18,7 +18,7 @@ func OpenRedPacketHandler(ctx *gin.Context) {
 	}
 
 	newCtx := context.Background()
-	response, err := redpacketservice.GetService().OpenRedPacket(newCtx, request)
+	response, err := redpacketservice.GetRedPacketService().OpenRedPacket(newCtx, request)
 	if err != nil {
 		ctx.JSON(
 			http.StatusOK, gin.H{})

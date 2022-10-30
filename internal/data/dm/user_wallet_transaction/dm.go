@@ -3,17 +3,16 @@ package userwallettxndm
 import (
 	"context"
 
-	"xorm.io/xorm"
-
-	redpackettxnmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet_transaction"
+	userwallettxnmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
+	"xorm.io/xorm"
 )
 
 type DM interface {
 	InsertWithSession(
 		ctx context.Context,
 		session *xorm.Session,
-		redPacketTransaction *redpackettxnmodel.RedPacketTransaction,
+		userWalletTransaction *userwallettxnmodel.UserWalletTransaction,
 	) error
 }
 
@@ -21,11 +20,11 @@ var (
 	defaultDMInstance DM
 )
 
-func InitRedPacketTxnDM() {
+func InitDM() {
 	defaultDBEngine := database.GetMainDBEngineManager()
 	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }
 
-func GetRedPacketTxnDM() DM {
+func GetUserWalletTxnDM() DM {
 	return defaultDMInstance
 }

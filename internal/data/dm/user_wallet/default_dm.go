@@ -9,6 +9,7 @@ import (
 	userwalletmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_wallet"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
+	"github.com/shengchaohua/red-packet-backend/internal/utils"
 )
 
 type defaultDM struct {
@@ -45,12 +46,16 @@ func (dm *defaultDM) insert(
 		session = dm.GetMasterEngine().Table(dm.tableName)
 	}
 
-	redPacketTab, err := userWallet.ModelToTab()
+	now := utils.GetCurrentTime()
+	userWallet.Ctime = now
+	userWallet.Mtime = now
+
+	userWalletTab, err := userWallet.ModelToTab()
 	if err != nil {
 		return ErrData.Wrap(err)
 	}
 
-	affected, err := session.Table(dm.tableName).InsertOne(redPacketTab)
+	affected, err := session.Table(dm.tableName).InsertOne(userWalletTab)
 	if err != nil {
 		return ErrInsert.WrapWithMsg(err, fmt.Sprintf("insert db error|user_id=%d", userWallet.Id))
 	}
@@ -83,6 +88,7 @@ func (dm *defaultDM) update(
 		session = dm.GetMasterEngine().Table(dm.tableName)
 	}
 
+	userWallet.Mtime = utils.GetCurrentTime()
 	userWalletTab, err := userWallet.ModelToTab()
 	if err != nil {
 		return ErrData.Wrap(err)

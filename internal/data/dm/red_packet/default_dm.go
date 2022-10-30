@@ -7,6 +7,7 @@ import (
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
+	utils "github.com/shengchaohua/red-packet-backend/internal/utils"
 	"xorm.io/xorm"
 )
 
@@ -43,6 +44,10 @@ func (dm *defaultDM) insert(
 		logger.Logger(ctx).Info("[defaultDM.insert]session_is_nil,use_default_session")
 		session = dm.GetMasterEngine().Table(dm.tableName)
 	}
+
+	now := utils.GetCurrentTime()
+	redPacket.Ctime = now
+	redPacket.Mtime = now
 
 	redPacketTab, err := redPacket.ModelToTab()
 	if err != nil {

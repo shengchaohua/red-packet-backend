@@ -1,25 +1,25 @@
-package redpackettxnpkg
+package userwallettxnpkg
 
 import (
 	"context"
 
-	redpackettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet_transaction"
+	userwallettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
-	redpackettxnmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet_transaction"
+	userwallettxnmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_wallet_transaction"
 	"xorm.io/xorm"
 )
 
 type defaultManager struct {
-	redPacketTxnDM redpackettxndm.DM
+	redPacketTxnDM userwallettxndm.DM
 }
 
-func NewDefaultManager(userWalletTxnDM redpackettxndm.DM) Manager {
+func NewDefaultManager(userWalletTxnDM userwallettxndm.DM) Manager {
 	return &defaultManager{
 		redPacketTxnDM: userWalletTxnDM,
 	}
 }
 
-func (manager *defaultManager) AddRedPacketTxn(
+func (manager *defaultManager) AddUserWalletTxn(
 	ctx context.Context,
 	session *xorm.Session,
 	userId uint64,
@@ -27,8 +27,8 @@ func (manager *defaultManager) AddRedPacketTxn(
 	referenceId string,
 	amount uint32,
 ) error {
-	redPacketTxn := &redpackettxnmodel.RedPacketTransaction{
-		RedPacketTransactionTab: &redpackettxnmodel.RedPacketTransactionTab{
+	userWalletTxn := &userwallettxnmodel.UserWalletTransaction{
+		UserWalletTransactionTab: &userwallettxnmodel.UserWalletTransactionTab{
 			UserId:          userId,
 			TransactionType: transactionType,
 			ReferenceId:     referenceId,
@@ -36,7 +36,7 @@ func (manager *defaultManager) AddRedPacketTxn(
 		},
 	}
 
-	err := manager.redPacketTxnDM.InsertWithSession(ctx, session, redPacketTxn)
+	err := manager.redPacketTxnDM.InsertWithSession(ctx, session, userWalletTxn)
 	if err != nil {
 		return ErrAddUserWalletTxn.WrapWithMsg(err, "insert_new_user_wallet_txn_error")
 	}
