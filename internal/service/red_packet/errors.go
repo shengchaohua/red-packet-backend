@@ -16,9 +16,6 @@ var (
 )
 
 func errorMapping(err error) error {
-	if userwalletpkg.ErrWalletNotActive.Is(err) {
-		return ErrWalletNotActive.Wrap(err)
-	}
 	if userwalletpkg.ErrWalletBalanceNotEnough.Is(err) {
 		return ErrWalletBalanceNotEnough.Wrap(err)
 	}

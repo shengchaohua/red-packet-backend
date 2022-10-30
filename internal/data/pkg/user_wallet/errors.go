@@ -10,6 +10,5 @@ var (
 	ErrAddUserWalletBalance    = errorgrouppkg.New(pkgName, 3)
 
 	// business
-	ErrWalletNotActive        = errorgrouppkg.New(pkgName, 10)
-	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, 11)
+	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, 10)
 )

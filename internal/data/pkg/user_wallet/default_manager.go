@@ -56,7 +56,7 @@ func (manager *defaultManager) DeductUserWalletBalance(
 		return ErrDeductUserWalletBalance.WithMsg("user_wallet_not_found")
 	}
 	if userWallet.Balance < uint64(amount) {
-		return ErrDeductUserWalletBalance.WithMsg("user_wallet_balance_is_not_enough")
+		return ErrWalletBalanceNotEnough.WithMsg("user_wallet_balance_is_not_enough")
 	}
 
 	userWallet.Balance -= uint64(amount)
