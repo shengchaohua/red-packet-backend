@@ -56,6 +56,9 @@ func (request *CreateRedPacketRequest) Validate() error {
 		if request.ReceiverUserId == 0 {
 			return ErrWrongParam.WithMsg("red packet receiver user id is empty")
 		}
+		if request.ReceiverUserId == request.UserId {
+			return ErrWrongParam.WithMsg("cannot send red packet to yourself")
+		}
 	case enum.RedPacketCategoryGroup:
 		if request.RedPacketResultType == 0 {
 			return ErrWrongParam.WithMsg("red packet type is empty")
