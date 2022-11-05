@@ -11,14 +11,24 @@ import (
 )
 
 type Manager interface {
-	CreateRedPacket(
+	CreateP2PRedPacket(
 		ctx context.Context,
 		session *xorm.Session,
 		redPacketName string,
-		redPacketCategory enum.RedPacketCategory,
 		redPacketResultType enum.RedPacketResultType,
 		quantity uint32,
 		amount uint32,
+		receiverUserId uint64,
+	) (*redpacketmodel.RedPacket, error)
+
+	CreateGroupRedPacket(
+		ctx context.Context,
+		session *xorm.Session,
+		redPacketName string,
+		redPacketResultType enum.RedPacketResultType,
+		quantity uint32,
+		amount uint32,
+		groupId uint64,
 	) (*redpacketmodel.RedPacket, error)
 }
 

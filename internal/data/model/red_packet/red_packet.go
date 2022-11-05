@@ -32,7 +32,10 @@ type RedPacketTab struct {
 }
 
 // RedPacketExtraData defines the extra data in red packet
-type RedPacketExtraData struct{}
+type RedPacketExtraData struct {
+	ReceiverUserId uint64 `json:"receiver_user_id,omitempty"` // valid for P2P red packet
+	GroupId        uint64 `json:"group_id,omitempty"`         // valid for Group red packet
+}
 
 func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 	if model == nil {

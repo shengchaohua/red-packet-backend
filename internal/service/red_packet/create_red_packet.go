@@ -15,6 +15,8 @@ import (
 // - RedPacketName: optional
 // - Quantity: the max quantity of people that can open the red packet
 // - Amount: the money amount
+// - ReceiverUserId: only valid when red packet category is P2P
+// - GroupId: only valid when
 type CreateRedPacketRequest struct {
 	RequestId           string                   `json:"request_id,omitempty"`
 	UserId              uint64                   `json:"user_id,omitempty"`
@@ -23,6 +25,8 @@ type CreateRedPacketRequest struct {
 	RedPacketName       string                   `json:"red_packet_name,omitempty"`
 	Quantity            uint32                   `json:"quantity,omitempty"`
 	Amount              uint32                   `json:"amount,omitempty"`
+	ReceiverUserId      uint64                   `json:"receiver_user_id,omitempty"`
+	GroupId             uint64                   `json:"group_id,omitempty"`
 }
 
 // CreateRedPacketResponse defines the reponse
@@ -47,7 +51,10 @@ func (request *CreateRedPacketRequest) Validate() error {
 	switch request.RedPacketCategory {
 	case enum.RedPacketCategoryP2P:
 		if request.Quantity != 1 {
-			return ErrWrongParam.WithMsg("P2P red packet quantity is not one")
+			return ErrWrongParam.WithMsg("red packet quantity is not one")
+		}
+		if request.ReceiverUserId == 0 {
+			return ErrWrongParam.WithMsg("red packet receiver user id is empty")
 		}
 	case enum.RedPacketCategoryGroup:
 		if request.RedPacketResultType == 0 {
@@ -55,6 +62,9 @@ func (request *CreateRedPacketRequest) Validate() error {
 		}
 		if request.Quantity == 0 {
 			return ErrWrongParam.WithMsg("red packet quantity is empty")
+		}
+		if request.GroupId == 0 {
+			return ErrWrongParam.WithMsg("red packet group id is empty")
 		}
 	}
 
@@ -72,41 +82,40 @@ func (service *defaultService) CreateRedPacket(
 		err       error
 	)
 	_, err = service.EngineManager.GetMasterEngine().Transaction(func(session *xorm.Session) (interface{}, error) {
-		redPacket, err = service.redPacketManager.CreateRedPacket(
-			ctx,
-			session,
-			request.RedPacketName,
-			request.RedPacketCategory,
-			request.RedPacketResultType,
-			request.Quantity,
-			request.Amount,
-		)
-		if err != nil {
-			return nil, err
+		// create red packet
+		switch request.RedPacketCategory {
+		case enum.RedPacketCategoryP2P:
+			redPacket, err = service.createP2PRedPacket(ctx, session, request)
+			if err != nil {
+				return nil, err
+			}
+		case enum.RedPacketCategoryGroup:
+			redPacket, err = service.createGroupRedPacket(ctx, session, request)
+			if err != nil {
+				return nil, err
+			}
 		}
 
+		// deduct money
 		amount := request.Amount
 		if request.RedPacketResultType == enum.RedPacketResultTypeIdenticalAmount {
 			amount = redPacket.Amount * redPacket.Quantity
 		}
-
-		if err = service.userWalletManager.DeductUserWalletBalance(
-			ctx,
-			session,
-			request.UserId,
-			amount,
-		); err != nil {
+		err = service.userWalletManager.DeductUserWalletBalance(ctx, session, request.UserId, amount)
+		if err != nil {
 			return nil, err
 		}
 
-		if err = service.redPacketTxnManager.AddUserWalletTxn(
+		// save user wallet txn
+		err = service.redPacketTxnManager.AddUserWalletTxn(
 			ctx,
 			session,
 			request.UserId,
 			enum.CreateRedPacket,
 			fmt.Sprint(redPacket.Id),
 			amount,
-		); err != nil {
+		)
+		if err != nil {
 			return nil, err
 		}
 
@@ -121,4 +130,37 @@ func (service *defaultService) CreateRedPacket(
 		RequestId:   request.RequestId,
 		RedPacketId: redPacket.Id,
 	}, nil
+}
+
+func (service *defaultService) createP2PRedPacket(
+	ctx context.Context,
+	session *xorm.Session,
+	request *CreateRedPacketRequest,
+) (*redpacketmodel.RedPacket, error) {
+	return service.redPacketManager.CreateP2PRedPacket(
+		ctx,
+		session,
+		request.RedPacketName,
+		request.RedPacketResultType,
+		request.Quantity,
+		request.Amount,
+		request.ReceiverUserId,
+	)
+}
+
+func (service *defaultService) createGroupRedPacket(
+	ctx context.Context,
+	session *xorm.Session,
+	request *CreateRedPacketRequest,
+) (*redpacketmodel.RedPacket, error) {
+	// TODO check if sender is in the target Group
+	return service.redPacketManager.CreateGroupRedPacket(
+		ctx,
+		session,
+		request.RedPacketName,
+		request.RedPacketResultType,
+		request.Quantity,
+		request.Amount,
+		request.GroupId,
+	)
 }
