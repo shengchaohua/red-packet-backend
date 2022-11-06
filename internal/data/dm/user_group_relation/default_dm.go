@@ -25,8 +25,8 @@ func NewDefaultDM(engineManager database.EngineManager, env config.Env) DM {
 	}
 }
 
-func (dm *defaultDM) getShardingTable(userIdOrGroupId uint64) string {
-	return fmt.Sprintf(dm.shardingTableFormat, userIdOrGroupId%dm.shardingNum)
+func (dm *defaultDM) getShardingTable(userId uint64) string {
+	return fmt.Sprintf(dm.shardingTableFormat, userId%dm.shardingNum)
 }
 
 func (dm *defaultDM) LoadByUserIdAndGroupId(
@@ -39,7 +39,9 @@ func (dm *defaultDM) LoadByUserIdAndGroupId(
 		shardingTable       = dm.getShardingTable(userId)
 	)
 
-	has, err := dm.GetSlaveEngine().Table(shardingTable).Get(userGroupMappingTab)
+	has, err := dm.GetSlaveEngine().Table(shardingTable).
+		Where("user_id = ? and group_id = ?", userId, groupId).
+		Get(userGroupMappingTab)
 	if err != nil {
 		return nil, ErrQuery.WrapWithMsg(err, fmt.Sprintf("query_db_error|user_id=%d,group_id=%d",
 			userId, groupId,

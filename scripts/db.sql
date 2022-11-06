@@ -53,8 +53,7 @@ CREATE TABLE IF NOT EXISTS `user_group_relation_tab` (
     `ctime` INT UNSIGNED NOT NULL,
     `mtime` INT UNSIGNED NOT NULL,
     `extra_data` blob NOT NULL,
-    INDEX `idx_user_id` (`user_id`),
-    INDEX `idx_group_id` (`group_id`)  
+    INDEX `idx_user_id_group_id` (`user_id`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

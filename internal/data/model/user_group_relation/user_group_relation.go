@@ -9,7 +9,7 @@ import (
 
 const (
 	UserGroupRelationTableName           = "user_group_relation_tab"
-	UserGroupRelationShardingTableFormat = UserGroupRelationTableName + "_%08d" // sharded by user_id or group_id
+	UserGroupRelationShardingTableFormat = UserGroupRelationTableName + "_%08d" // sharded by user_id
 )
 
 type UserGroupRelation struct {
