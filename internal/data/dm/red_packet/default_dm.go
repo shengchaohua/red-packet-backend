@@ -143,7 +143,7 @@ func (dm *defaultDM) loadById(
 		session = engine.Table(dm.tableName)
 	}
 
-	has, err := engine.Table(dm.tableName).
+	has, err := engine.Table(dm.tableName).Context(ctx).
 		Where("red_packet_id = ?", redPacketId).
 		Get(redPacketTab)
 	if err != nil {

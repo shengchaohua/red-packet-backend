@@ -39,7 +39,9 @@ func (dm *defaultDM) LoadByUserIdAndGroupId(
 		shardingTable       = dm.getShardingTable(userId)
 	)
 
-	has, err := dm.GetSlaveEngine().Table(shardingTable).
+	has, err := dm.GetSlaveEngine().
+		Table(shardingTable).
+		Context(ctx).
 		Where("user_id = ? and group_id = ?", userId, groupId).
 		Get(userGroupMappingTab)
 	if err != nil {
