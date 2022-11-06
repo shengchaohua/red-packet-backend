@@ -57,6 +57,14 @@ func (transactionType TransactionType) String() string {
 	return ""
 }
 
+type UserRelationType uint32
+
+const (
+	UserRelationTypeFriend       UserRelationType = 1
+	UserRelationTypeDeleteFriend UserRelationType = 2 // delete friend after becoming friend
+	UserRelationTypeBlacklist    UserRelationType = 2 // put friend into blacklist after becoming friend
+)
+
 type UserGroupRelationType uint32
 
 const (
