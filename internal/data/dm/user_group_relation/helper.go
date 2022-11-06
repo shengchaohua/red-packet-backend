@@ -1,4 +1,4 @@
-package usergroupmappingdm
+package usergrouprelationdm
 
 import (
 	"github.com/shengchaohua/red-packet-backend/internal/config"

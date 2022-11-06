@@ -1,11 +1,11 @@
-package usergroupmappingdm
+package usergrouprelationdm
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	usergroupmappingmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_mapping"
+	usergrouprelationmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_relation"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -50,9 +50,9 @@ func Test_getShardingTable(t *testing.T) {
 	for idx, testCase := range testCases {
 		t.Run(fmt.Sprintf("test_%d", idx), func(t *testing.T) {
 			mockDM := &defaultDM{
-				tableName:           usergroupmappingmodel.UserGroupMappingTableName,
+				tableName:           usergrouprelationmodel.UserGroupRelationTableName,
 				shardingNum:         getShardingNumberByEnv(testCase.env),
-				shardingTableFormat: usergroupmappingmodel.UserGroupMappingShardingTableFormat,
+				shardingTableFormat: usergrouprelationmodel.UserGroupRelationShardingTableFormat,
 			}
 
 			result := mockDM.getShardingTable(testCase.userIdOrGroupId)

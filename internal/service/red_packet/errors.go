@@ -24,5 +24,5 @@ func errorMapping(err error) error {
 	if userwalletpkg.ErrWalletBalanceNotEnough.Is(err) {
 		return ErrWalletBalanceNotEnough.WrapWithMsg(err, errmsgWalletBalanceNotEnough)
 	}
-	return ErrServer.Wrap(err)
+	return err
 }

@@ -1,16 +1,16 @@
-package usergroupmappingpkg
+package usergrouprelationpkg
 
 import (
 	"context"
 
-	usergroupmappingdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_group_mapping"
+	usergrouprelationdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_group_relation"
 )
 
 type defaultManager struct {
-	userGroupMappingDM usergroupmappingdm.DM
+	userGroupMappingDM usergrouprelationdm.DM
 }
 
-func NewDefaultManager(userGroupMappingDM usergroupmappingdm.DM) Manager {
+func NewDefaultManager(userGroupMappingDM usergrouprelationdm.DM) Manager {
 	return &defaultManager{
 		userGroupMappingDM: userGroupMappingDM,
 	}

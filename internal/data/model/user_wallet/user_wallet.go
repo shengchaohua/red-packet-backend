@@ -9,13 +9,11 @@ const (
 	UserWalletTableName = "user_wallet_tab"
 )
 
-// User defines the user class
 type UserWallet struct {
 	*UserWalletTab
 	ExtraData *UserWalletExtraData
 }
 
-// UserTab defines the user table in DB
 type UserWalletTab struct {
 	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
 	UserId    uint64 `xorm:"'user_id' bigint unsigned notnull"`
@@ -27,7 +25,6 @@ type UserWalletTab struct {
 
 type UserWalletExtraData struct{}
 
-// ModelToTab converts model to tab
 func (model *UserWallet) ModelToTab() (*UserWalletTab, error) {
 	if model == nil {
 		return nil, fmt.Errorf("user wallet model is nil")
@@ -42,7 +39,6 @@ func (model *UserWallet) ModelToTab() (*UserWalletTab, error) {
 	return model.UserWalletTab, nil
 }
 
-// TabToModel converts tab to model
 func (tab *UserWalletTab) TabToModel() (*UserWallet, error) {
 	if tab == nil {
 		return nil, fmt.Errorf("user wallet tab is nil")

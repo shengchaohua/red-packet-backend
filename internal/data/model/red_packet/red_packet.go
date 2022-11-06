@@ -11,13 +11,11 @@ const (
 	RedPacketTableName = "red_packet_tab"
 )
 
-// RedPacket defines the red packet class
 type RedPacket struct {
 	*RedPacketTab
 	ExtraData *RedPacketExtraData
 }
 
-// RedPacketTab defines the red packet table in DB
 type RedPacketTab struct {
 	Id                  uint64                   `xorm:"'id' bigint unsigned pk autoincr"`
 	RedPacketName       string                   `xorm:"'red_packet_name' varchar(255) notnull"`
@@ -31,7 +29,6 @@ type RedPacketTab struct {
 	ExtraData           []byte                   `xorm:"'extra_data' blob"`
 }
 
-// RedPacketExtraData defines the extra data in red packet
 type RedPacketExtraData struct {
 	ReceiverUserId uint64 `json:"receiver_user_id,omitempty"` // valid for P2P red packet
 	GroupId        uint64 `json:"group_id,omitempty"`         // valid for Group red packet

@@ -84,7 +84,7 @@ func (service *defaultService) CreateRedPacket(
 		redPacket *redpacketmodel.RedPacket
 		err       error
 	)
-	_, err = service.EngineManager.GetMasterEngine().Transaction(func(session *xorm.Session) (interface{}, error) {
+	_, err = service.GetMasterEngine().Transaction(func(session *xorm.Session) (interface{}, error) {
 		// create red packet
 		switch request.RedPacketCategory {
 		case enum.RedPacketCategoryP2P:
@@ -157,7 +157,7 @@ func (service *defaultService) createGroupRedPacket(
 	session *xorm.Session,
 	request *CreateRedPacketRequest,
 ) (*redpacketmodel.RedPacket, error) {
-	userInGroup, err := service.userGroupMappingManager.CheckUserInGroup(
+	userInGroup, err := service.userGroupRelationManager.CheckUserInGroup(
 		ctx,
 		request.UserId,
 		request.GroupId,
@@ -166,7 +166,7 @@ func (service *defaultService) createGroupRedPacket(
 		return nil, ErrServer.WrapWithMsg(err, "check_user_in_group_error")
 	}
 	if !userInGroup {
-		return nil, ErrUserNotInGroup.WithMsg("user is not not in this group")
+		return nil, ErrUserNotInGroup.WithMsg("user is not in this group")
 	}
 
 	return service.redPacketManager.CreateGroupRedPacket(

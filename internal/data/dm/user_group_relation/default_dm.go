@@ -1,11 +1,11 @@
-package usergroupmappingdm
+package usergrouprelationdm
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	usergroupmappingmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_mapping"
+	usergrouprelationmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_relation"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
@@ -19,9 +19,9 @@ type defaultDM struct {
 func NewDefaultDM(engineManager database.EngineManager, env config.Env) DM {
 	return &defaultDM{
 		EngineManager:       engineManager,
-		tableName:           usergroupmappingmodel.UserGroupMappingTableName,
+		tableName:           usergrouprelationmodel.UserGroupRelationTableName,
 		shardingNum:         getShardingNumberByEnv(env),
-		shardingTableFormat: usergroupmappingmodel.UserGroupMappingShardingTableFormat,
+		shardingTableFormat: usergrouprelationmodel.UserGroupRelationShardingTableFormat,
 	}
 }
 
@@ -33,9 +33,12 @@ func (dm *defaultDM) LoadByUserIdAndGroupId(
 	ctx context.Context,
 	userId uint64,
 	groupId uint64,
-) (*usergroupmappingmodel.UserGroupMapping, error) {
-	shardingTable := dm.getShardingTable(userId)
-	userGroupMappingTab := &usergroupmappingmodel.UserGroupMappingTab{}
+) (*usergrouprelationmodel.UserGroupMapping, error) {
+	var (
+		userGroupMappingTab = &usergrouprelationmodel.UserGroupRelationTab{}
+		shardingTable       = dm.getShardingTable(userId)
+	)
+
 	has, err := dm.GetSlaveEngine().Table(shardingTable).Get(userGroupMappingTab)
 	if err != nil {
 		return nil, ErrQuery.WrapWithMsg(err, fmt.Sprintf("query_db_error|user_id=%d,group_id=%d",

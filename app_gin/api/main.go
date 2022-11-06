@@ -6,12 +6,12 @@ import (
 	"github.com/shengchaohua/red-packet-backend/internal/config"
 	redpacketdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/red_packet"
 	userdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user"
-	usergroupmappingdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_group_mapping"
+	usergrouprelationgdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_group_relation"
 	userwalletdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet"
 	userwallettxndm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_wallet_transaction"
 	redpacketpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/red_packet"
 	userpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user"
-	usergroupmappingpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_group_mapping"
+	usergrouprelationgpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_group_relation"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
 	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
@@ -37,14 +37,14 @@ func main() {
 	// data dm
 	redpacketdm.InitDM()
 	userdm.InitDM()
-	usergroupmappingdm.InitDM()
+	usergrouprelationgdm.InitDM()
 	userwalletdm.InitDM()
 	userwallettxndm.InitDM()
 
 	// data pkg
 	redpacketpkg.InitManager()
 	userpkg.InitManager()
-	usergroupmappingpkg.InitManager()
+	usergrouprelationgpkg.InitManager()
 	userwalletpkg.InitManager()
 	userwallettxnpkg.InitManager()
 

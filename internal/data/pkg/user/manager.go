@@ -23,6 +23,9 @@ var (
 
 func InitManager() {
 	userDM := userdm.GetDM()
+	if userDM == nil {
+		panic("userDM has not been inited")
+	}
 	defaultManagerInstance = NewDefaultManager(userDM)
 }
 

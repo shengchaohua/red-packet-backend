@@ -1,10 +1,10 @@
-package usergroupmappingdm
+package usergrouprelationdm
 
 import (
 	"context"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
-	usergroupmappingmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_mapping"
+	usergrouprelationmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_relation"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
@@ -13,7 +13,7 @@ type DM interface {
 		ctx context.Context,
 		userId uint64,
 		groupId uint64,
-	) (*usergroupmappingmodel.UserGroupMapping, error)
+	) (*usergrouprelationmodel.UserGroupMapping, error)
 }
 
 var (

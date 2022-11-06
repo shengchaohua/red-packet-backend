@@ -1,4 +1,4 @@
-package usergroupmappingmodel
+package usergrouprelationmodel
 
 import (
 	"encoding/json"
@@ -6,18 +6,16 @@ import (
 )
 
 const (
-	UserGroupMappingTableName           = "user_group_mapping_tab"
-	UserGroupMappingShardingTableFormat = UserGroupMappingTableName + "_%08d" // sharded by user_id or group_id
+	UserGroupRelationTableName           = "user_group_mapping_tab"
+	UserGroupRelationShardingTableFormat = UserGroupRelationTableName + "_%08d" // sharded by user_id or group_id
 )
 
-// User defines the user class
 type UserGroupMapping struct {
-	*UserGroupMappingTab
-	ExtraData *UserGroupMappingExtraData
+	*UserGroupRelationTab
+	ExtraData *UserGroupRelationExtraData
 }
 
-// UserGroupMappingTab defines the user table in DB
-type UserGroupMappingTab struct {
+type UserGroupRelationTab struct {
 	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
 	UserId    uint64 `xorm:"'user_id' bigint unsigned notnull"`
 	GroupId   uint64 `xorm:"'group_id' bigint unsigned notnull"`
@@ -26,14 +24,14 @@ type UserGroupMappingTab struct {
 	ExtraData []byte `xorm:"'extra_data' blob"`
 }
 
-type UserGroupMappingExtraData struct{}
+type UserGroupRelationExtraData struct{}
 
-func (model *UserGroupMapping) ModelToTab() (*UserGroupMappingTab, error) {
+func (model *UserGroupMapping) ModelToTab() (*UserGroupRelationTab, error) {
 	if model == nil {
 		return nil, fmt.Errorf("user group mapping model is nil")
 	}
 
-	tab := model.UserGroupMappingTab
+	tab := model.UserGroupRelationTab
 
 	extraDataBytes, err := json.Marshal(model.ExtraData)
 	if err != nil {
@@ -44,16 +42,16 @@ func (model *UserGroupMapping) ModelToTab() (*UserGroupMappingTab, error) {
 	return tab, nil
 }
 
-func (tab *UserGroupMappingTab) TabToModel() (*UserGroupMapping, error) {
+func (tab *UserGroupRelationTab) TabToModel() (*UserGroupMapping, error) {
 	if tab == nil {
 		return nil, fmt.Errorf("user group mapping tab is nil")
 	}
 
 	model := &UserGroupMapping{
-		UserGroupMappingTab: tab,
+		UserGroupRelationTab: tab,
 	}
 
-	extraData := &UserGroupMappingExtraData{}
+	extraData := &UserGroupRelationExtraData{}
 	if err := json.Unmarshal(tab.ExtraData, extraData); err != nil {
 		return nil, fmt.Errorf("unmarshal user group mapping extra data error: %w", err)
 	}

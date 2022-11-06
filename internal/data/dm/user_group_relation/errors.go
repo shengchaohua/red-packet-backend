@@ -1,8 +1,8 @@
-package usergroupmappingdm
+package usergrouprelationdm
 
 import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
 
-const pkgName = "usergroupmappingdm"
+const pkgName = "usergrouprelationdm"
 
 // errros
 var (

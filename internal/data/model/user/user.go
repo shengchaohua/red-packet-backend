@@ -9,13 +9,11 @@ const (
 	UserTableName = "user_tab"
 )
 
-// User defines the user class
 type User struct {
 	*UserTab
 	ExtraData *UserExtraData
 }
 
-// UserTab defines the user table in DB
 type UserTab struct {
 	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
 	Username  string `xorm:"'user_name' varchar(255)"`
