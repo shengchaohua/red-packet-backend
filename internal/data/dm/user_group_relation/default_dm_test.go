@@ -11,39 +11,39 @@ import (
 
 func Test_getShardingTable(t *testing.T) {
 	testCases := []struct {
-		env             config.Env
-		userIdOrGroupId uint64
-		expected        string
+		env      config.Env
+		userId   uint64
+		expected string
 	}{
 		{
-			env:             config.EnvTest,
-			userIdOrGroupId: 1,
-			expected:        "user_group_relation_tab_00000001",
+			env:      config.EnvTest,
+			userId:   1,
+			expected: "user_group_relation_tab_00000001",
 		},
 		{
-			env:             config.EnvTest,
-			userIdOrGroupId: 12,
-			expected:        "user_group_relation_tab_00000000",
+			env:      config.EnvTest,
+			userId:   12,
+			expected: "user_group_relation_tab_00000000",
 		},
 		{
-			env:             config.EnvLive,
-			userIdOrGroupId: 1,
-			expected:        "user_group_relation_tab_00000001",
+			env:      config.EnvLive,
+			userId:   1,
+			expected: "user_group_relation_tab_00000001",
 		},
 		{
-			env:             config.EnvLive,
-			userIdOrGroupId: 12,
-			expected:        "user_group_relation_tab_00000012",
+			env:      config.EnvLive,
+			userId:   12,
+			expected: "user_group_relation_tab_00000012",
 		},
 		{
-			env:             config.EnvLive,
-			userIdOrGroupId: 123,
-			expected:        "user_group_relation_tab_00000123",
+			env:      config.EnvLive,
+			userId:   123,
+			expected: "user_group_relation_tab_00000123",
 		},
 		{
-			env:             config.EnvLive,
-			userIdOrGroupId: 1234,
-			expected:        "user_group_relation_tab_00000234",
+			env:      config.EnvLive,
+			userId:   1234,
+			expected: "user_group_relation_tab_00000234",
 		},
 	}
 
@@ -55,7 +55,7 @@ func Test_getShardingTable(t *testing.T) {
 				shardingTableFormat: usergrouprelationmodel.UserGroupRelationShardingTableFormat,
 			}
 
-			result := mockDM.getShardingTable(testCase.userIdOrGroupId)
+			result := mockDM.getShardingTable(testCase.userId)
 			assert.Equal(t, testCase.expected, result)
 		})
 	}
