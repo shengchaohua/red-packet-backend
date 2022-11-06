@@ -3,10 +3,12 @@ package usergrouprelationmodel
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
 )
 
 const (
-	UserGroupRelationTableName           = "user_group_mapping_tab"
+	UserGroupRelationTableName           = "user_group_relation_tab"
 	UserGroupRelationShardingTableFormat = UserGroupRelationTableName + "_%08d" // sharded by user_id or group_id
 )
 
@@ -16,12 +18,13 @@ type UserGroupMapping struct {
 }
 
 type UserGroupRelationTab struct {
-	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
-	UserId    uint64 `xorm:"'user_id' bigint unsigned notnull"`
-	GroupId   uint64 `xorm:"'group_id' bigint unsigned notnull"`
-	Ctime     uint32 `xorm:"'ctime' int unsigned notnull"`
-	Mtime     uint32 `xorm:"'mtime' int unsigned notnull"`
-	ExtraData []byte `xorm:"'extra_data' blob"`
+	Id           uint64                     `xorm:"'id' bigint unsigned pk autoincr"`
+	UserId       uint64                     `xorm:"'user_id' bigint unsigned notnull"`
+	GroupId      uint64                     `xorm:"'group_id' bigint unsigned notnull"`
+	RelationType enum.UserGroupRelationType `xorm:"'relation_type' int unsigned notnull"`
+	Ctime        uint32                     `xorm:"'ctime' int unsigned notnull"`
+	Mtime        uint32                     `xorm:"'mtime' int unsigned notnull"`
+	ExtraData    []byte                     `xorm:"'extra_data' blob"`
 }
 
 type UserGroupRelationExtraData struct{}

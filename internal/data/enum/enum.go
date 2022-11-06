@@ -56,3 +56,10 @@ func (transactionType TransactionType) String() string {
 	}
 	return ""
 }
+
+type UserGroupRelationType uint32
+
+const (
+	UserGroupRelationTypeInGroup       UserGroupRelationType = 1
+	UserGroupRelationTypeWithdrawGroup UserGroupRelationType = 2 // withdraw it after joining a group
+)

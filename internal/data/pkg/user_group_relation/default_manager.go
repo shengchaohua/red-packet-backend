@@ -4,6 +4,7 @@ import (
 	"context"
 
 	usergrouprelationdm "github.com/shengchaohua/red-packet-backend/internal/data/dm/user_group_relation"
+	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
 )
 
 type defaultManager struct {
@@ -21,7 +22,7 @@ func (manager *defaultManager) CheckUserInGroup(
 	userId uint64,
 	groupId uint64,
 ) (bool, error) {
-	userGroupMapping, err := manager.userGroupMappingDM.LoadByUserIdAndGroupId(
+	userGroupRelation, err := manager.userGroupMappingDM.LoadByUserIdAndGroupId(
 		ctx,
 		userId,
 		groupId,
@@ -29,5 +30,11 @@ func (manager *defaultManager) CheckUserInGroup(
 	if err != nil {
 		return false, ErrCheckUserInGroup.WrapWithMsg(err, "load_user_group_mapping_error")
 	}
-	return userGroupMapping != nil, nil
+
+	if userGroupRelation != nil &&
+		userGroupRelation.RelationType == enum.UserGroupRelationTypeInGroup {
+		return true, nil
+	}
+
+	return false, nil
 }

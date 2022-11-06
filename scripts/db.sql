@@ -45,10 +45,11 @@ CREATE TABLE IF NOT EXISTS `user_wallet_transaction_tab` (
     UNIQUE INDEX `idx_ref_id_txn_type` (`reference_id`, `transaction_type`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `user_group_mapping_tab` (
+CREATE TABLE IF NOT EXISTS `user_group_relation_tab` (
     `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `user_id` BIGINT UNSIGNED NOT NULL,
     `group_id` BIGINT UNSIGNED NOT NULL,
+    `relation_type` INT UNSIGNED NOT NULL,
     `ctime` INT UNSIGNED NOT NULL,
     `mtime` INT UNSIGNED NOT NULL,
     `extra_data` blob NOT NULL,
@@ -57,5 +58,5 @@ CREATE TABLE IF NOT EXISTS `user_group_mapping_tab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE IF NOT EXISTS `user_group_mapping_tab_00000000` like `user_group_mapping_tab`;
-CREATE TABLE IF NOT EXISTS `user_group_mapping_tab_00000001` like `user_group_mapping_tab`;
+CREATE TABLE IF NOT EXISTS `user_group_relation_tab_00000000` like `user_group_relation_tab`;
+CREATE TABLE IF NOT EXISTS `user_group_relation_tab_00000001` like `user_group_relation_tab`;
