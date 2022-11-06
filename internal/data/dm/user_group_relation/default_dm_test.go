@@ -18,32 +18,32 @@ func Test_getShardingTable(t *testing.T) {
 		{
 			env:             config.EnvTest,
 			userIdOrGroupId: 1,
-			expected:        "user_group_mapping_tab_00000001",
+			expected:        "user_group_relation_tab_00000001",
 		},
 		{
 			env:             config.EnvTest,
 			userIdOrGroupId: 12,
-			expected:        "user_group_mapping_tab_00000000",
+			expected:        "user_group_relation_tab_00000000",
 		},
 		{
 			env:             config.EnvLive,
 			userIdOrGroupId: 1,
-			expected:        "user_group_mapping_tab_00000001",
+			expected:        "user_group_relation_tab_00000001",
 		},
 		{
 			env:             config.EnvLive,
 			userIdOrGroupId: 12,
-			expected:        "user_group_mapping_tab_00000012",
+			expected:        "user_group_relation_tab_00000012",
 		},
 		{
 			env:             config.EnvLive,
 			userIdOrGroupId: 123,
-			expected:        "user_group_mapping_tab_00000123",
+			expected:        "user_group_relation_tab_00000123",
 		},
 		{
 			env:             config.EnvLive,
 			userIdOrGroupId: 1234,
-			expected:        "user_group_mapping_tab_00000234",
+			expected:        "user_group_relation_tab_00000234",
 		},
 	}
 
