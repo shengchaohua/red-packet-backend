@@ -3,17 +3,11 @@ package usergroupmappingmodel
 import (
 	"encoding/json"
 	"fmt"
-
-	"github.com/shengchaohua/red-packet-backend/internal/config"
-	"github.com/shengchaohua/red-packet-backend/internal/data/enum"
 )
 
 const (
 	UserGroupMappingTableName           = "user_group_mapping_tab"
-	UserGroupMappingShardingTableFormat = UserGroupMappingTableName + "_{%08d}" // sharded by user_id and group_id
-
-	shardingNumberTestEnv = 10
-	shardingNumberLiveEnv = 1000
+	UserGroupMappingShardingTableFormat = UserGroupMappingTableName + "_%08d" // sharded by user_id or group_id
 )
 
 // User defines the user class
@@ -66,25 +60,4 @@ func (tab *UserGroupMappingTab) TabToModel() (*UserGroupMapping, error) {
 	model.ExtraData = extraData
 
 	return model, nil
-}
-
-func GetShardingTableByUserIdAnfGroupId(userId uint64, group_id uint64) (string, error) {
-	var (
-		shardingIndex uint64
-
-	)
-	if userId != 0 && group_id != 0 {
-		if 
-	}
-	if userId != 0 {
-		shardingIndex
-	}
-}
-
-func getShardingTable(userId uint64, group_id uint64, env config.Env) (string, error) {
-		var (
-		shardingIndex uint64
-		shardingNumber uint64
-	)
-
 }

@@ -45,6 +45,6 @@ func InitDM() {
 	defaultDMInstance = NewDefaultDM(defaultDBEngine)
 }
 
-func GetUserWalletDM() DM {
+func GetDM() DM {
 	return defaultDMInstance
 }

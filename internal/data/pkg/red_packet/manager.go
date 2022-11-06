@@ -35,10 +35,10 @@ type Manager interface {
 var defaultManagerInstance Manager
 
 func InitManager() {
-	defaultDM := redpacketdm.GetRedPacketDM()
+	defaultDM := redpacketdm.GetDM()
 	defaultManagerInstance = NewDefaultAgent(defaultDM)
 }
 
-func GetRedPacketManager() Manager {
+func GetManager() Manager {
 	return defaultManagerInstance
 }

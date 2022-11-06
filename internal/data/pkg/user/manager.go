@@ -22,10 +22,10 @@ var (
 )
 
 func InitManager() {
-	userDM := userdm.GetUserDM()
+	userDM := userdm.GetDM()
 	defaultManagerInstance = NewDefaultManager(userDM)
 }
 
-func GetUserManager() Manager {
+func GetManager() Manager {
 	return defaultManagerInstance
 }

@@ -33,7 +33,7 @@ type Manager interface {
 var defaultManagerInstance Manager
 
 func InitManager() {
-	userWalletDM := userwalletdm.GetUserWalletDM()
+	userWalletDM := userwalletdm.GetDM()
 	defaultManagerInstance = NewDefaultManager(userWalletDM)
 }
 

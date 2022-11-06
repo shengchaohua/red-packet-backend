@@ -39,6 +39,6 @@ func InitDM() {
 	defaultDMInstance = NewDefaultDM(mainDBEngineManager)
 }
 
-func GetRedPacketDM() DM {
+func GetDM() DM {
 	return defaultDMInstance
 }

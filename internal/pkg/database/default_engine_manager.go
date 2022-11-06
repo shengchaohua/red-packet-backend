@@ -39,7 +39,7 @@ func NewDefaultEngineManager(databaseConfig *config.DatabaseConfig) *defaultEngi
 			MaxIdleConns:         dbConfig.DBMaxIdleConns,
 			ConnMaxLifeTime:      time.Duration(dbConfig.DBConnMaxLifeTime) * time.Second,
 			ShowSQL:              dbConfig.DBShowSQL,
-			AllowNativePasswords: dbConfig.DBIsMaster,
+			AllowNativePasswords: dbConfig.AllowNativePasswords,
 		}
 
 		if dbConfig.DBIsMaster {

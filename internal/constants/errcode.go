@@ -12,8 +12,8 @@ const (
 	Errcode_Server     Errcode = 1001
 
 	// business
-	Errcode_WalletNotAvtive        = 1100
-	Errcode_WalletBalanceNotEnough = 1101
+	Errcode_WalletBalanceNotEnough = 1100
+	Errcode_UserNotInGroup         = 1101
 )
 
 var errCodeMap = map[Errcode]bool{

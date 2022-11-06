@@ -9,10 +9,11 @@ import (
 const pkgName = "redpacketservice"
 
 var (
-	ErrWrongParam             = errorgrouppkg.New(pkgName, int(constants.Errcode_WrongParam))
-	ErrServer                 = errorgrouppkg.New(pkgName, int(constants.Errcode_Server))
-	ErrWalletNotActive        = errorgrouppkg.New(pkgName, int(constants.Errcode_WalletNotAvtive))
+	ErrWrongParam = errorgrouppkg.New(pkgName, int(constants.Errcode_WrongParam))
+	ErrServer     = errorgrouppkg.New(pkgName, int(constants.Errcode_Server))
+
 	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, int(constants.Errcode_WalletBalanceNotEnough))
+	ErrUserNotInGroup         = errorgrouppkg.New(pkgName, int(constants.Errcode_UserNotInGroup))
 )
 
 const (

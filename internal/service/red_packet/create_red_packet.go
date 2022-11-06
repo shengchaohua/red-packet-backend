@@ -21,7 +21,7 @@ type CreateRedPacketRequest struct {
 	RequestId           string                   `json:"request_id,omitempty"`
 	UserId              uint64                   `json:"user_id,omitempty"`
 	RedPacketCategory   enum.RedPacketCategory   `json:"red_packet_category,omitempty"`
-	RedPacketResultType enum.RedPacketResultType `json:"red_packet_result_type,omitempty"`
+	RedPacketResultType enum.RedPacketResultType `json:"red_packet_type,omitempty"`
 	RedPacketName       string                   `json:"red_packet_name,omitempty"`
 	Quantity            uint32                   `json:"quantity,omitempty"`
 	Amount              uint32                   `json:"amount,omitempty"`
@@ -140,6 +140,7 @@ func (service *defaultService) createP2PRedPacket(
 	session *xorm.Session,
 	request *CreateRedPacketRequest,
 ) (*redpacketmodel.RedPacket, error) {
+	// TODO check user relation
 	return service.redPacketManager.CreateP2PRedPacket(
 		ctx,
 		session,
@@ -156,7 +157,18 @@ func (service *defaultService) createGroupRedPacket(
 	session *xorm.Session,
 	request *CreateRedPacketRequest,
 ) (*redpacketmodel.RedPacket, error) {
-	// TODO check if sender is in the target Group
+	userInGroup, err := service.userGroupMappingManager.CheckUserInGroup(
+		ctx,
+		request.UserId,
+		request.GroupId,
+	)
+	if err != nil {
+		return nil, ErrServer.WrapWithMsg(err, "check_user_in_group_error")
+	}
+	if !userInGroup {
+		return nil, ErrUserNotInGroup.WithMsg("user is not not in this group")
+	}
+
 	return service.redPacketManager.CreateGroupRedPacket(
 		ctx,
 		session,

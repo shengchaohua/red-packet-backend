@@ -25,7 +25,7 @@ func InitService() {
 	if mainDBEngineManager == nil {
 		panic("mainDBEngineManager has not been inited")
 	}
-	userManager := userpkg.GetUserManager()
+	userManager := userpkg.GetManager()
 	if userManager == nil {
 		panic("userManager has not been inited")
 	}

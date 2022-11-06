@@ -1,19 +1,19 @@
-package userdm
+package usergroupmappingdm
 
 import (
 	"context"
 
-	usermodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user"
+	"github.com/shengchaohua/red-packet-backend/internal/config"
+	usergroupmappingmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/user_group_mapping"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
-	"xorm.io/xorm"
 )
 
 type DM interface {
-	InsertWithSession(
+	LoadByUserIdAndGroupId(
 		ctx context.Context,
-		session *xorm.Session,
-		user *usermodel.User,
-	) error
+		userId uint64,
+		groupId uint64,
+	) (*usergroupmappingmodel.UserGroupMapping, error)
 }
 
 var (
@@ -25,8 +25,13 @@ func InitDM() {
 	if mainDBEngineManager == nil {
 		panic("mainDBEngineManager has not been inited")
 	}
+	env := config.GetGlobalAppConfig().ServerConfig.GetEnv()
+	if env == "" {
+		panic("env is empty")
+	}
 	defaultDMInstance = NewDefaultDM(
 		mainDBEngineManager,
+		env,
 	)
 }
 

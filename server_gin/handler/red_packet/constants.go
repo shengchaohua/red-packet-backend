@@ -8,8 +8,8 @@ import (
 var (
 	allowedErrorMap = map[string]map[constants.Errcode]bool{
 		route.RouteCreateRedPacket: {
-			constants.Errcode_WalletNotAvtive:        true,
 			constants.Errcode_WalletBalanceNotEnough: true,
+			constants.Errcode_UserNotInGroup:         true,
 		},
 
 		route.RouteOpenRedPacket: {},

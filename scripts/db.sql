@@ -49,7 +49,13 @@ CREATE TABLE IF NOT EXISTS `user_group_mapping_tab` (
     `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `user_id` BIGINT UNSIGNED NOT NULL,
     `group_id` BIGINT UNSIGNED NOT NULL,
+    `ctime` INT UNSIGNED NOT NULL,
+    `mtime` INT UNSIGNED NOT NULL,
     `extra_data` blob NOT NULL,
     INDEX `idx_user_id` (`user_id`),
     INDEX `idx_group_id` (`group_id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS `user_group_mapping_tab_00000000` like `user_group_mapping_tab`;
+CREATE TABLE IF NOT EXISTS `user_group_mapping_tab_00000001` like `user_group_mapping_tab`;
