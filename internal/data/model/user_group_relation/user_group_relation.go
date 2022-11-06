@@ -12,7 +12,7 @@ const (
 	UserGroupRelationShardingTableFormat = UserGroupRelationTableName + "_%08d" // sharded by user_id or group_id
 )
 
-type UserGroupMapping struct {
+type UserGroupRelation struct {
 	*UserGroupRelationTab
 	ExtraData *UserGroupRelationExtraData
 }
@@ -29,7 +29,7 @@ type UserGroupRelationTab struct {
 
 type UserGroupRelationExtraData struct{}
 
-func (model *UserGroupMapping) ModelToTab() (*UserGroupRelationTab, error) {
+func (model *UserGroupRelation) ModelToTab() (*UserGroupRelationTab, error) {
 	if model == nil {
 		return nil, fmt.Errorf("user group mapping model is nil")
 	}
@@ -45,12 +45,12 @@ func (model *UserGroupMapping) ModelToTab() (*UserGroupRelationTab, error) {
 	return tab, nil
 }
 
-func (tab *UserGroupRelationTab) TabToModel() (*UserGroupMapping, error) {
+func (tab *UserGroupRelationTab) TabToModel() (*UserGroupRelation, error) {
 	if tab == nil {
 		return nil, fmt.Errorf("user group mapping tab is nil")
 	}
 
-	model := &UserGroupMapping{
+	model := &UserGroupRelation{
 		UserGroupRelationTab: tab,
 	}
 

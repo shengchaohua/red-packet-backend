@@ -33,7 +33,7 @@ func (dm *defaultDM) LoadByUserIdAndGroupId(
 	ctx context.Context,
 	userId uint64,
 	groupId uint64,
-) (*usergrouprelationmodel.UserGroupMapping, error) {
+) (*usergrouprelationmodel.UserGroupRelation, error) {
 	var (
 		userGroupMappingTab = &usergrouprelationmodel.UserGroupRelationTab{}
 		shardingTable       = dm.getShardingTable(userId)

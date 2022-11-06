@@ -13,7 +13,7 @@ type DM interface {
 		ctx context.Context,
 		userId uint64,
 		groupId uint64,
-	) (*usergrouprelationmodel.UserGroupMapping, error)
+	) (*usergrouprelationmodel.UserGroupRelation, error)
 }
 
 var (
