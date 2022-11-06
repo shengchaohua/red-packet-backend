@@ -14,8 +14,8 @@ func InitAppConfig(configPath string) {
 		log.Fatalf("fail to decode config file: %s, error: %s", configPath, err.Error())
 	}
 
-	mustParseEnv(appConfig.AdminConfig.Env)
-	mustParseEnv(appConfig.APIConfig.Env)
+	mustParseEnv(appConfig.ServerConfig.Env)
+	mustParseRole(appConfig.ServerConfig.Role)
 }
 
 func GetGlobalAppConfig() *ApplicationConfig {

@@ -17,11 +17,11 @@ type UserWallet struct {
 
 // UserTab defines the user table in DB
 type UserWalletTab struct {
-	Id        uint64 `xorm:"'id' bigint pk autoincr"`
-	UserId    uint64 `xorm:"'user_id' bigint notnull"`
-	Balance   uint64 `xorm:"'balance' bigint notnull"`
-	Ctime     uint32 `xorm:"'ctime' int notnull"`
-	Mtime     uint32 `xorm:"'mtime' int notnull"`
+	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
+	UserId    uint64 `xorm:"'user_id' bigint unsigned notnull"`
+	Balance   uint64 `xorm:"'balance' bigint unsigned notnull"`
+	Ctime     uint32 `xorm:"'ctime' int unsigned notnull"`
+	Mtime     uint32 `xorm:"'mtime' int unsigned notnull"`
 	ExtraData []byte `xorm:"'extra_data' blob"`
 }
 

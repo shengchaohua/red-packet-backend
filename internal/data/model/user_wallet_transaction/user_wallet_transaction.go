@@ -17,13 +17,13 @@ type UserWalletTransaction struct {
 }
 
 type UserWalletTransactionTab struct {
-	Id              uint64               `xorm:"'id' bigint pk autoincr"`
-	UserId          uint64               `xorm:"'user_id' bigint notnull"`
-	TransactionType enum.TransactionType `xorm:"'transaction_type' int notnull"`
+	Id              uint64               `xorm:"'id' bigint unsigned pk autoincr"`
+	UserId          uint64               `xorm:"'user_id' bigint unsigned notnull"`
+	TransactionType enum.TransactionType `xorm:"'transaction_type' int unsigned notnull"`
 	ReferenceId     string               `xorm:"'reference_id' varchar(255) notnull"`
-	Amount          uint32               `xorm:"'amount' int notnull"`
-	Ctime           uint32               `xorm:"'ctime' int notnull"`
-	Mtime           uint32               `xorm:"'mtime' int notnull"`
+	Amount          uint32               `xorm:"'amount' int unsigned notnull"`
+	Ctime           uint32               `xorm:"'ctime' int unsigned notnull"`
+	Mtime           uint32               `xorm:"'mtime' int unsigned notnull"`
 	ExtraData       []byte               `xorm:"'extra_data' blob"`
 }
 

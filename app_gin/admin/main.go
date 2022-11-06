@@ -16,22 +16,19 @@ import (
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
-	adminserver "github.com/shengchaohua/red-packet-backend/server_gin/server/admin"
+	server "github.com/shengchaohua/red-packet-backend/server_gin/server"
 )
 
 var (
-	configFilePath = flag.String("conf", "./conf/test.toml", "admin app config file")
+	configFilePath = flag.String("conf", "./conf/admin/test.toml", "admin config file")
 )
 
-func init() {
-	flag.Parse()
-}
-
 func main() {
+	flag.Parse()
 	config.InitAppConfig(*configFilePath)
 
 	// pkg
-	logger.InitLogger(config.GetGlobalAppConfig().AdminConfig)
+	logger.InitLogger(config.GetGlobalAppConfig().ServerConfig)
 	ctx := logger.NewCtxWithTraceId()
 	database.InitEngineManager(ctx)
 
@@ -52,5 +49,5 @@ func main() {
 	redpacketservice.InitService()
 
 	// server
-	adminserver.NewServer().Run()
+	server.NewAdminServer().Run()
 }

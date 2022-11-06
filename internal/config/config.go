@@ -2,28 +2,39 @@ package config
 
 // ApplicationConfig defines the total config
 type ApplicationConfig struct {
-	// admin
-	AdminConfig *ServerConfig `toml:"admin"`
-
-	// api
-	APIConfig *ServerConfig `toml:"api"`
-
-	// common
 	MainDBConfig *DatabaseConfig `toml:"main_db"`
+	ServerConfig *ServerConfig   `toml:"server"`
 }
 
 type ServerConfig struct {
 	Addr string `toml:"addr"`
 	Env  string `toml:"env"`
 	Log  string `toml:"log"`
+	Role string `toml:"role"`
+}
+
+func (serverConfig *ServerConfig) GetEnv() Env {
+	return mustParseEnv(serverConfig.Env)
 }
 
 func (serverConfig *ServerConfig) IsTestEnv() bool {
-	return mustParseEnv(serverConfig.Env) == EnvTest
+	return serverConfig.GetEnv().IsTest()
 }
 
 func (serverConfig *ServerConfig) IsLiveEnv() bool {
-	return mustParseEnv(serverConfig.Env) == EnvLive
+	return mustParseEnv(serverConfig.Env).IsLive()
+}
+
+func (serverConfig *ServerConfig) GetRole() Role {
+	return mustParseRole(serverConfig.Role)
+}
+
+func (serverConfig *ServerConfig) IsAdmin() bool {
+	return serverConfig.GetRole().IsAdmin()
+}
+
+func (serverConfig *ServerConfig) IsAPI() bool {
+	return serverConfig.GetRole().IsAPI()
 }
 
 type DatabaseConfig struct {

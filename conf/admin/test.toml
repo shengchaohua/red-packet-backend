@@ -28,5 +28,5 @@
     addr = "127.0.0.1:10000"
     env = "test"
     log = "./log/admin_server.log"
-    role = "api"
+    role = "admin"
     

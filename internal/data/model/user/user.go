@@ -17,10 +17,10 @@ type User struct {
 
 // UserTab defines the user table in DB
 type UserTab struct {
-	Id        uint64 `xorm:"'id' bigint pk autoincr"`
+	Id        uint64 `xorm:"'id' bigint unsigned pk autoincr"`
 	Username  string `xorm:"'user_name' varchar(255)"`
-	Ctime     uint32 `xorm:"'ctime' int"`
-	Mtime     uint32 `xorm:"'mtime' int"`
+	Ctime     uint32 `xorm:"'ctime' int unsigned notnull"`
+	Mtime     uint32 `xorm:"'mtime' int unsigned notnull"`
 	ExtraData []byte `xorm:"'extra_data' blob"`
 }
 

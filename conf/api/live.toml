@@ -25,8 +25,7 @@
         db_is_master = false
 
 [server]
-    addr = "127.0.0.1:10000"
-    env = "test"
-    log = "./log/admin_server.log"
+    addr = "127.0.0.1:11000"
+    env = "live"
+    log = "./log/api_server.log"
     role = "api"
-    

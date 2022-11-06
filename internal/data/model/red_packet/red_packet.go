@@ -19,15 +19,15 @@ type RedPacket struct {
 
 // RedPacketTab defines the red packet table in DB
 type RedPacketTab struct {
-	Id                  uint64                   `xorm:"'id' bigint pk autoincr"`
+	Id                  uint64                   `xorm:"'id' bigint unsigned pk autoincr"`
 	RedPacketName       string                   `xorm:"'red_packet_name' varchar(255) notnull"`
-	RedPacketCategory   enum.RedPacketCategory   `xorm:"'red_packet_category' int notnull"`
-	RedPacketResultType enum.RedPacketResultType `xorm:"'red_packet_result_type' int notnull"`
-	Quantity            uint32                   `xorm:"'quantity' int notnull"`
-	Amount              uint32                   `xorm:"'amount' int notnull"`
-	RemainingQuantity   uint32                   `xorm:"'remaining_quantity' int notnull"`
-	Ctime               uint32                   `xorm:"'ctime' int notnull"`
-	Mtime               uint32                   `xorm:"'mtime' int notnull"`
+	RedPacketCategory   enum.RedPacketCategory   `xorm:"'red_packet_category' int unsigned notnull"`
+	RedPacketResultType enum.RedPacketResultType `xorm:"'red_packet_result_type' int unsigned notnull"`
+	Quantity            uint32                   `xorm:"'quantity' int unsigned notnull"`
+	Amount              uint32                   `xorm:"'amount' int unsigned notnull"`
+	RemainingQuantity   uint32                   `xorm:"'remaining_quantity' int unsigned notnull"`
+	Ctime               uint32                   `xorm:"'ctime' int unsigned notnull"`
+	Mtime               uint32                   `xorm:"'mtime' int unsigned notnull"`
 	ExtraData           []byte                   `xorm:"'extra_data' blob"`
 }
 
