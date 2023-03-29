@@ -1,5 +1,10 @@
 # Build a single-node mysql with Docker
-Run this command:
+Pull image:
+```shell
+docker pull mysql:5.7-debian
+```
+
+Run a container:
 ```shell
 docker run -p 6606:3306 -e MYSQL_ROOT_PASSWORD='123456' \
   -v $(pwd)/scripts:/scripts \
