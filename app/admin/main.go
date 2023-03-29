@@ -31,8 +31,7 @@ func main() {
 
 	// pkg
 	logger.InitLogger(config.GetGlobalAppConfig().ServerConfig)
-	ctx := logger.NewCtxWithTraceId()
-	database.InitEngineManager(ctx)
+	database.InitEngineManager()
 
 	// data dm
 	redpacketdm.InitDM()

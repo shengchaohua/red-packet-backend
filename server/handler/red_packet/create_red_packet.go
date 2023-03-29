@@ -1,6 +1,7 @@
 package redpackethandler
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func CreateRedPacketHandler(c *gin.Context) {
 	}
 
 	var (
-		ctx      = logger.NewCtxWithTraceId()
+		ctx      = logger.NewCtxWithTraceId(context.Background(), "CreateRedPacketHandler")
 		response *redpacketservice.CreateRedPacketResponse
 		err      error
 	)
