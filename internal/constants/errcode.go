@@ -15,16 +15,3 @@ const (
 	Errcode_WalletBalanceNotEnough = 1100
 	Errcode_UserNotInGroup         = 1101
 )
-
-var errCodeMap = map[Errcode]bool{
-	Errcode_WrongParam: true,
-	Errcode_Server:     true,
-}
-
-func ParseErrcodeEnum(code int) Errcode {
-	errcode := Errcode(code)
-	if _, ok := errCodeMap[errcode]; ok {
-		return errcode
-	}
-	return Errcode_Server
-}

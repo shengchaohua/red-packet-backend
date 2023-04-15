@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 
 	"github.com/shengchaohua/red-packet-backend/internal/config"
@@ -18,20 +19,24 @@ import (
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 	userservice "github.com/shengchaohua/red-packet-backend/internal/service/user"
-	server "github.com/shengchaohua/red-packet-backend/server_gin/server"
+	"github.com/shengchaohua/red-packet-backend/server/server"
 )
 
 var (
-	configFilePath = flag.String("conf", "./conf/admin/test.toml", "admin config file")
+	configFilePath = flag.String("conf", "./conf/admin/dev.toml", "admin config file for local dev env")
+	addr           = flag.String("addr", "127.0.0.1", "server address")
+	port           = flag.String("port", "10000", "server port")
 )
 
 func main() {
 	flag.Parse()
-	config.InitAppConfig(*configFilePath)
+	config.InitConfig(*configFilePath)
 
 	// pkg
-	logger.InitLogger(config.GetGlobalAppConfig().ServerConfig)
-	database.InitEngineManager()
+	ctx := context.Background()
+	logger.InitLogger(config.GetGlobalConfig().ServerConfig)
+	ctx = logger.NewCtxWithTraceId(ctx, "main")
+	database.InitEngineManager(ctx)
 
 	// data dm
 	redpacketdm.InitDM()
@@ -52,5 +57,5 @@ func main() {
 	userservice.InitService()
 
 	// server
-	server.NewAdminServer().Run()
+	server.NewAdminServer().Run(*addr, *port)
 }

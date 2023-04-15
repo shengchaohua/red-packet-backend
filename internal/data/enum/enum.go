@@ -34,6 +34,12 @@ func (redPacketResultType RedPacketResultType) String() string {
 	return ""
 }
 
+type RedPacketStatus uint32
+
+const (
+	RedPacketStatusActive RedPacketResultType = 1
+)
+
 type TransactionType uint32
 
 const (

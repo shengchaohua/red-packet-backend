@@ -26,25 +26,10 @@ var defaultServiceInstance Service
 
 func InitService() {
 	engineManager := database.GetMainDBEngineManager()
-	if engineManager == nil {
-		panic("engineManager has not been inited")
-	}
 	redPacketManager := redpacketpkg.GetManager()
-	if redPacketManager == nil {
-		panic("redPacketManager has not been inited")
-	}
 	userWalletManager := userwalletpkg.GetUserWalletManager()
-	if userWalletManager == nil {
-		panic("userWalletManager has not been inited")
-	}
 	userWalletTxnManager := userwallettxnpkg.GetUserWalletTxnManager()
-	if userWalletTxnManager == nil {
-		panic("userWalletTxnManager has not been inited")
-	}
 	userGroupRelationManager := usergrouprelationpkg.GetManager()
-	if userGroupRelationManager == nil {
-		panic("userGroupRelationManager has not been inited")
-	}
 	defaultServiceInstance = NewDefaultService(
 		engineManager,
 		redPacketManager,
@@ -55,5 +40,8 @@ func InitService() {
 }
 
 func GetRedPacketService() Service {
+	if defaultServiceInstance == nil {
+		panic("defaultServiceInstance is nil")
+	}
 	return defaultServiceInstance
 }

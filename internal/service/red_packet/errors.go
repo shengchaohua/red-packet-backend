@@ -3,17 +3,17 @@ package redpacketservice
 import (
 	"github.com/shengchaohua/red-packet-backend/internal/constants"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
-	errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+	errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 )
 
 const pkgName = "redpacketservice"
 
 var (
-	ErrWrongParam = errorgrouppkg.New(pkgName, int(constants.Errcode_WrongParam))
-	ErrServer     = errorgrouppkg.New(pkgName, int(constants.Errcode_Server))
+	ErrWrongParam = errorpkg.New(pkgName, int(constants.Errcode_WrongParam))
+	ErrServer     = errorpkg.New(pkgName, int(constants.Errcode_Server))
 
-	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, int(constants.Errcode_WalletBalanceNotEnough))
-	ErrUserNotInGroup         = errorgrouppkg.New(pkgName, int(constants.Errcode_UserNotInGroup))
+	ErrWalletBalanceNotEnough = errorpkg.New(pkgName, int(constants.Errcode_WalletBalanceNotEnough))
+	ErrUserNotInGroup         = errorpkg.New(pkgName, int(constants.Errcode_UserNotInGroup))
 )
 
 const (

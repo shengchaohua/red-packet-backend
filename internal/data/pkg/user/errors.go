@@ -1,9 +1,9 @@
 package userpkg
 
-import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 
 const pkgName = "userpkg"
 
 var (
-	ErrCreateUser = errorgrouppkg.New(pkgName, 1)
+	ErrCreateUser = errorpkg.New(pkgName, 1)
 )

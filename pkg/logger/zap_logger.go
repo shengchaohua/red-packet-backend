@@ -15,8 +15,12 @@ type ZapConfig struct {
 }
 
 func NewZapLogger(config *ZapConfig) *zap.Logger {
+	fw, err := os.Create(config.LogFile)
+	if err != nil {
+		panic(fmt.Errorf("cannot create log file (%s): %w", config.LogFile, err))
+	}
+
 	encoder := getDefaultEncoder()
-	fw := mustCreateFile(config.LogFile)
 	core := zapcore.NewCore(
 		encoder,
 		zapcore.AddSync(fw),
@@ -32,12 +36,4 @@ func getDefaultEncoder() zapcore.Encoder {
 	encoderConfig.ConsoleSeparator = "|"
 	encoder := zapcore.NewConsoleEncoder(encoderConfig)
 	return encoder
-}
-
-func mustCreateFile(logFile string) *os.File {
-	fw, err := os.Create(logFile)
-	if err != nil {
-		panic(fmt.Errorf("cannot create log file (%s): %w", logFile, err))
-	}
-	return fw
 }

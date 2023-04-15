@@ -7,10 +7,11 @@ import (
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/logger"
-	utils "github.com/shengchaohua/red-packet-backend/internal/utils"
+	"github.com/shengchaohua/red-packet-backend/internal/utils"
 	"xorm.io/xorm"
 )
 
+// defaultDM uses only one table to store red packet
 type defaultDM struct {
 	database.EngineManager
 	tableName string
@@ -29,20 +30,7 @@ func (dm *defaultDM) InsertWithSession(
 	redPacket *redpacketmodel.RedPacket,
 ) error {
 	if session == nil {
-		return ErrParam.WithMsg("session cannot be nil")
-	}
-
-	return dm.insert(ctx, session, redPacket)
-}
-
-func (dm *defaultDM) insert(
-	ctx context.Context,
-	session *xorm.Session,
-	redPacket *redpacketmodel.RedPacket,
-) error {
-	if session == nil {
-		logger.Logger(ctx).Info("[defaultDM.insert]session_is_nil,use_default_session")
-		session = dm.GetMasterEngine().Table(dm.tableName)
+		return ErrParam.WithMsg("session is nil")
 	}
 
 	now := utils.GetCurrentTime()
@@ -54,10 +42,12 @@ func (dm *defaultDM) insert(
 		return ErrData.Wrap(err)
 	}
 
-	affected, err := session.Table(dm.tableName).InsertOne(redPacketTab)
+	affected, err := session.Table(dm.tableName).
+		Context(ctx).
+		Insert(redPacketTab)
 	if err != nil {
 		return ErrInsert.WrapWithMsg(err, fmt.Sprintf(
-			"insert_db_error|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
+			"insert_error|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
 			redPacket.RedPacketName,
 			redPacket.RedPacketCategory.String(),
 			redPacket.RedPacketResultType.String(),
@@ -65,7 +55,7 @@ func (dm *defaultDM) insert(
 	}
 	if affected == 0 {
 		return ErrInsert.WithMsg(fmt.Sprintf(
-			"insert_db_failed|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
+			"insert_failed|red_packet_name=%s,red_packet_category=%s,red_packet_type=%s",
 			redPacket.RedPacketName,
 			redPacket.RedPacketCategory.String(),
 			redPacket.RedPacketResultType.String(),
@@ -143,11 +133,12 @@ func (dm *defaultDM) loadById(
 		session = engine.Table(dm.tableName)
 	}
 
-	has, err := engine.Table(dm.tableName).Context(ctx).
+	has, err := engine.Table(dm.tableName).
+		Context(ctx).
 		Where("red_packet_id = ?", redPacketId).
 		Get(redPacketTab)
 	if err != nil {
-		return nil, ErrQuery.WrapWithMsg(err, fmt.Sprintf("query db error|red_packet_id=%d", redPacketId))
+		return nil, ErrQuery.WrapWithMsg(err, fmt.Sprintf("query_error|red_packet_id=%d", redPacketId))
 	}
 	if !has {
 		return nil, nil

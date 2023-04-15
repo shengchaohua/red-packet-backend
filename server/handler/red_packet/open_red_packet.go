@@ -9,7 +9,7 @@ import (
 	redpacketservice "github.com/shengchaohua/red-packet-backend/internal/service/red_packet"
 )
 
-func OpenRedPacketHandler(ctx *gin.Context) {
+func (handler *Handler) OpenRedPacket(ctx *gin.Context) {
 	request := &redpacketservice.OpenRedPacketRequest{}
 	if err := json.NewDecoder(ctx.Request.Body).Decode(request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{

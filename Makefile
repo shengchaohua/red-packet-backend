@@ -5,10 +5,10 @@ setup:
 	go mod tidy
 
 app_gin_admin:
-	go build -o bin/app_gin/red-packet-backend-admin ./app_gin/admin
+	go build -o bin/red-packet-backend-admin ./app/admin
 
 app_gin_api:
-	go build -o bin/app_gin/red-packet-backend-api ./app_gin/api
+	go build -o bin/red-packet-backend-api ./app/api
 
 unittests = $(shell go list ./... | grep -Ev "tests")
 unittest:

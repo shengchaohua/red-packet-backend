@@ -1,9 +1,9 @@
-package userwallettxnpkg
+package redpackettxnpkg
 
-import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 
 const pkgName = "userwallettxnpkg"
 
 var (
-	ErrAddUserWalletTxn = errorgrouppkg.New(pkgName, 1)
+	ErrAddUserWalletTxn = errorpkg.New(pkgName, 1)
 )

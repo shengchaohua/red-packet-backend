@@ -1,9 +1,9 @@
 [main_db]
     [[main_db.db]]
         host = "127.0.0.1"
-        port = "3306"
+        port = "6606"
         user = "root"
-        password = ""
+        password = "123456"
         allow_native_passwords = true
         db_name = "red_packet_main_db"
         db_max_open_conns = 100
@@ -13,9 +13,9 @@
         db_is_master = true
     [[main_db.db]]
         host = "127.0.0.1"
-        port = "3306"
+        port = "6607"
         user = "root"
-        password = ""
+        password = "123456"
         allow_native_passwords = true
         db_name = "red_packet_main_db"
         db_max_open_conns = 100
@@ -25,8 +25,8 @@
         db_is_master = false
 
 [server]
-    addr = "127.0.0.1:10000"
-    env = "live"
-    log = "./log/admin_server.log"
-    role = "admin"
-    
+    env = "dev"
+    addr = "127.0.0.1"
+    port = "11000"
+    log_file = "./log/api_server.log"
+    role = "api"

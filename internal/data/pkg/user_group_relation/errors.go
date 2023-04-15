@@ -1,9 +1,9 @@
 package usergrouprelationpkg
 
-import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 
 const pkgName = "usergrouprelationpkg"
 
 var (
-	ErrCheckUserInGroup = errorgrouppkg.New(pkgName, 1)
+	ErrCheckUserInGroup = errorpkg.New(pkgName, 1)
 )

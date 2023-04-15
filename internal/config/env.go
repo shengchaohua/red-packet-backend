@@ -8,21 +8,21 @@ import (
 type Env string
 
 const (
-	EnvTest Env = "test"
+	EnvDev  Env = "dev"
 	EnvLive Env = "live"
 )
 
 func mustParseEnv(env string) Env {
 	envEnum := Env(strings.ToLower(env))
 	switch envEnum {
-	case EnvTest, EnvLive:
+	case EnvDev, EnvLive:
 		return envEnum
 	}
 	panic(fmt.Errorf("unknown env: %s", env))
 }
 
-func (env Env) IsTest() bool {
-	return env == EnvTest
+func (env Env) IsDev() bool {
+	return env == EnvDev
 }
 
 func (env Env) IsLive() bool {

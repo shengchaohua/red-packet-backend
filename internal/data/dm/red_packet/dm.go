@@ -2,7 +2,6 @@ package redpacketdm
 
 import (
 	"context"
-
 	"xorm.io/xorm"
 
 	redpacketmodel "github.com/shengchaohua/red-packet-backend/internal/data/model/red_packet"
@@ -40,5 +39,8 @@ func InitDM() {
 }
 
 func GetDM() DM {
+	if defaultDMInstance == nil {
+		panic("defaultDMInstance is nil")
+	}
 	return defaultDMInstance
 }

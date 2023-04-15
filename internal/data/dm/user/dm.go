@@ -22,9 +22,6 @@ var (
 
 func InitDM() {
 	mainDBEngineManager := database.GetMainDBEngineManager()
-	if mainDBEngineManager == nil {
-		panic("mainDBEngineManager has not been inited")
-	}
 	defaultDMInstance = NewDefaultDM(
 		mainDBEngineManager,
 	)

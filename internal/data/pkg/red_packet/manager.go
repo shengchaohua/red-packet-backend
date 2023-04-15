@@ -40,5 +40,8 @@ func InitManager() {
 }
 
 func GetManager() Manager {
+	if defaultManagerInstance == nil {
+		panic("defaultManagerInstance has not been inited")
+	}
 	return defaultManagerInstance
 }

@@ -22,17 +22,8 @@ var (
 
 func InitDM() {
 	mainDBEngineManager := database.GetMainDBEngineManager()
-	if mainDBEngineManager == nil {
-		panic("mainDBEngineManager has not been inited")
-	}
-	env := config.GetGlobalAppConfig().ServerConfig.GetEnv()
-	if env == "" {
-		panic("env is empty")
-	}
-	defaultDMInstance = NewDefaultDM(
-		mainDBEngineManager,
-		env,
-	)
+	env := config.GetGlobalConfig().ServerConfig.EnvEnum
+	defaultDMInstance = NewDefaultDM(mainDBEngineManager, env)
 }
 
 func GetDM() DM {

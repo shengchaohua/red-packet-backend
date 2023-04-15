@@ -13,10 +13,10 @@ import (
 
 // CreateRedPacketRequest defines the request
 // - RedPacketName: optional
-// - Quantity: the max quantity of people that can open the red packet
+// - Quantity: the quantity of the red packet
 // - Amount: the money amount
 // - ReceiverUserId: only valid when red packet category is P2P
-// - GroupId: only valid when
+// - GroupId: only valid when red packet category is Group
 type CreateRedPacketRequest struct {
 	RequestId           string                   `json:"request_id,omitempty"`
 	UserId              uint64                   `json:"user_id,omitempty"`
@@ -110,7 +110,7 @@ func (service *defaultService) CreateRedPacket(
 		}
 
 		// save user wallet txn
-		err = service.redPacketTxnManager.AddUserWalletTxn(
+		err = service.redPacketTxnManager.AddRedPacketTxn(
 			ctx,
 			session,
 			request.UserId,

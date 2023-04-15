@@ -6,14 +6,14 @@ import (
 
 const (
 	shardingNumberTestEnv = 2
-	shardingNumberLiveEnv = 1000
+	shardingNumberLiveEnv = 10
 )
 
 func getShardingNumberByEnv(env config.Env) uint64 {
-	switch env {
-	case config.EnvLive:
+	if env.IsLive() {
 		return shardingNumberLiveEnv
-	case config.EnvTest:
+	}
+	if env.IsDev() {
 		return shardingNumberTestEnv
 	}
 	return shardingNumberLiveEnv // use live env as default

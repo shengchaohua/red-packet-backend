@@ -1,14 +1,14 @@
 package userwalletpkg
 
-import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 
 const pkgName = "userwalletpkg"
 
 var (
-	ErrCreateUserWallet        = errorgrouppkg.New(pkgName, 1)
-	ErrDeductUserWalletBalance = errorgrouppkg.New(pkgName, 2)
-	ErrAddUserWalletBalance    = errorgrouppkg.New(pkgName, 3)
+	ErrCreateUserWallet        = errorpkg.New(pkgName, 1)
+	ErrDeductUserWalletBalance = errorpkg.New(pkgName, 2)
+	ErrAddUserWalletBalance    = errorpkg.New(pkgName, 3)
 
 	// business
-	ErrWalletBalanceNotEnough = errorgrouppkg.New(pkgName, 10)
+	ErrWalletBalanceNotEnough = errorpkg.New(pkgName, 10)
 )

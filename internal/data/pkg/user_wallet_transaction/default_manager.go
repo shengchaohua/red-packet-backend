@@ -1,4 +1,4 @@
-package userwallettxnpkg
+package redpackettxnpkg
 
 import (
 	"context"
@@ -19,7 +19,7 @@ func NewDefaultManager(userWalletTxnDM userwallettxndm.DM) Manager {
 	}
 }
 
-func (manager *defaultManager) AddUserWalletTxn(
+func (manager *defaultManager) AddRedPacketTxn(
 	ctx context.Context,
 	session *xorm.Session,
 	userId uint64,

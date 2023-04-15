@@ -16,12 +16,12 @@ func Test_getShardingTable(t *testing.T) {
 		expected string
 	}{
 		{
-			env:      config.EnvTest,
+			env:      config.EnvDev,
 			userId:   1,
 			expected: "user_group_relation_tab_00000001",
 		},
 		{
-			env:      config.EnvTest,
+			env:      config.EnvDev,
 			userId:   12,
 			expected: "user_group_relation_tab_00000000",
 		},

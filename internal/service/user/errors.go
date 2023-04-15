@@ -2,12 +2,12 @@ package userservice
 
 import (
 	"github.com/shengchaohua/red-packet-backend/internal/constants"
-	errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+	errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 )
 
 const pkgName = "userservice"
 
 var (
-	ErrWrongParam = errorgrouppkg.New(pkgName, int(constants.Errcode_WrongParam))
-	ErrServer     = errorgrouppkg.New(pkgName, int(constants.Errcode_Server))
+	ErrWrongParam = errorpkg.New(pkgName, int(constants.Errcode_WrongParam))
+	ErrServer     = errorpkg.New(pkgName, int(constants.Errcode_Server))
 )

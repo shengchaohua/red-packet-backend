@@ -1,20 +1,13 @@
 package userservice
 
 import (
-	"context"
-
 	userpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user"
 	userwalletpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet"
 	userwallettxnpkg "github.com/shengchaohua/red-packet-backend/internal/data/pkg/user_wallet_transaction"
 	"github.com/shengchaohua/red-packet-backend/internal/pkg/database"
 )
 
-type Service interface {
-	CreateRandomUsers(
-		ctx context.Context,
-		request *CreateRandomUsersRequest,
-	) (*CreateRandomUsersResponse, error)
-}
+type Service interface{}
 
 var (
 	defaultServiceInstance Service

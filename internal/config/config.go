@@ -7,34 +7,30 @@ type ApplicationConfig struct {
 }
 
 type ServerConfig struct {
-	Addr string `toml:"addr"`
-	Env  string `toml:"env"`
-	Log  string `toml:"log"`
-	Role string `toml:"role"`
+	Env     string `toml:"env"`
+	Addr    string `toml:"addr"`
+	Port    string `toml:"port"`
+	LogFile string `toml:"log_file"`
+	Role    string `toml:"role"`
+
+	EnvEnum  Env
+	RoleEnum Role
 }
 
-func (serverConfig *ServerConfig) GetEnv() Env {
-	return mustParseEnv(serverConfig.Env)
-}
-
-func (serverConfig *ServerConfig) IsTestEnv() bool {
-	return serverConfig.GetEnv().IsTest()
+func (serverConfig *ServerConfig) IsDevEnv() bool {
+	return serverConfig.EnvEnum.IsDev()
 }
 
 func (serverConfig *ServerConfig) IsLiveEnv() bool {
-	return mustParseEnv(serverConfig.Env).IsLive()
-}
-
-func (serverConfig *ServerConfig) GetRole() Role {
-	return mustParseRole(serverConfig.Role)
+	return serverConfig.EnvEnum.IsLive()
 }
 
 func (serverConfig *ServerConfig) IsAdmin() bool {
-	return serverConfig.GetRole().IsAdmin()
+	return serverConfig.RoleEnum.IsAdmin()
 }
 
-func (serverConfig *ServerConfig) IsAPI() bool {
-	return serverConfig.GetRole().IsAPI()
+func (serverConfig *ServerConfig) IsApi() bool {
+	return serverConfig.RoleEnum.IsApi()
 }
 
 type DatabaseConfig struct {

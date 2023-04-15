@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/shengchaohua/red-packet-backend/internal/config"
@@ -13,7 +14,7 @@ import (
 type ctxKey string
 
 const (
-	ctxKeyTraceId ctxKey = "TraceId"
+	ctxKeyTraceId ctxKey = "InternalTraceId"
 	ctxKeyLogger  ctxKey = "Logger"
 )
 
@@ -25,16 +26,24 @@ func InitLogger(serverConfig *config.ServerConfig) {
 		logLevel = zapcore.InfoLevel
 	}
 	zapConfig := &loggerpkg.ZapConfig{
-		LogFile:  serverConfig.Log,
+		LogFile:  serverConfig.LogFile,
 		LogLevel: logLevel,
 	}
 	zapLogger = loggerpkg.NewZapLogger(zapConfig)
 }
 
-// NewCtxWithTraceId returns a context which knows its request ID
-func NewCtxWithTraceId() context.Context {
-	ctx := context.Background()
+// NewCtxWithTraceId creates a new context with logger
+// Note: this function should be called immediately in the most top layer
+func NewCtxWithTraceId(ctx context.Context, prefix string) context.Context {
 	traceId := uuid.NewString()
+	if prefix != "" {
+		traceId = fmt.Sprintf("%s_%s", prefix, traceId)
+	}
+
+	if _, ok := ctx.Value(ctxKeyLogger).(*zap.Logger); ok { // avoid setting up logger
+		return ctx
+	}
+
 	newLogger := zapLogger.With(zap.String(string(ctxKeyTraceId), traceId))
 	newCtx := context.WithValue(ctx, ctxKeyLogger, newLogger)
 	return newCtx
@@ -42,11 +51,8 @@ func NewCtxWithTraceId() context.Context {
 
 // Logger returns a zap logger in ctx
 func Logger(ctx context.Context) *zap.Logger {
-	if ctx == nil {
-		return zapLogger
-	}
 	if newLogger, ok := ctx.Value(ctxKeyLogger).(*zap.Logger); ok {
 		return newLogger
 	}
-	return zapLogger
+	panic("logger has not been inited")
 }

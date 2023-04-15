@@ -10,10 +10,19 @@ import (
 )
 
 type Manager interface {
-	CreateUser(
+	Register(
+		ctx context.Context,
+		session xorm.Session,
+		username string,
+		password string,
+		email string,
+	)
+
+	Login(
 		ctx context.Context,
 		session *xorm.Session,
 		username string,
+		password string,
 	) (*usermodel.User, error)
 }
 

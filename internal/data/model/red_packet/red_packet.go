@@ -18,9 +18,11 @@ type RedPacket struct {
 
 type RedPacketTab struct {
 	Id                  uint64                   `xorm:"'id' bigint unsigned pk autoincr"`
+	UserId              uint64                   `xorm:"'user_id' bigint unsigned notnull"`
 	RedPacketName       string                   `xorm:"'red_packet_name' varchar(255) notnull"`
 	RedPacketCategory   enum.RedPacketCategory   `xorm:"'red_packet_category' int unsigned notnull"`
 	RedPacketResultType enum.RedPacketResultType `xorm:"'red_packet_result_type' int unsigned notnull"`
+	RedPacketStatus     enum.RedPacketStatus     `xorm:"'red_packet_status' int unsigned notnull"`
 	Quantity            uint32                   `xorm:"'quantity' int unsigned notnull"`
 	Amount              uint32                   `xorm:"'amount' int unsigned notnull"`
 	RemainingQuantity   uint32                   `xorm:"'remaining_quantity' int unsigned notnull"`
@@ -39,15 +41,13 @@ func (model *RedPacket) ModelToTab() (*RedPacketTab, error) {
 		return nil, fmt.Errorf("red packet model is nil")
 	}
 
-	tab := model.RedPacketTab
-
 	extraDataBytes, err := json.Marshal(model.ExtraData)
 	if err != nil {
 		return nil, fmt.Errorf("marshal red packet extra data error: %w", err)
 	}
-	tab.ExtraData = extraDataBytes
+	model.RedPacketTab.ExtraData = extraDataBytes
 
-	return tab, nil
+	return model.RedPacketTab, nil
 }
 
 func (tab *RedPacketTab) TabToModel() (*RedPacket, error) {

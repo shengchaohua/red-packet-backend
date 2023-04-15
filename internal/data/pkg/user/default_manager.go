@@ -19,20 +19,23 @@ func NewDefaultManager(userDM userdm.DM) Manager {
 	}
 }
 
-func (manager *defaultManager) CreateUser(
+func (manager *defaultManager) Register(
+	ctx context.Context,
+	session xorm.Session,
+	username string,
+	password string,
+	email string,
+) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (manager *defaultManager) Login(
 	ctx context.Context,
 	session *xorm.Session,
 	username string,
+	password string,
 ) (*usermodel.User, error) {
-	user := &usermodel.User{
-		UserTab: &usermodel.UserTab{
-			Username: username,
-		},
-	}
-
-	if err := manager.userDM.InsertWithSession(ctx, session, user); err != nil {
-		return nil, ErrCreateUser.WrapWithMsg(err, "[CreateUser]create_new_user_error")
-	}
-
-	return user, nil
+	//TODO implement me
+	panic("implement me")
 }

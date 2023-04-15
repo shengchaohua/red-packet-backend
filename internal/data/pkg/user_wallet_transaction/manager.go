@@ -1,4 +1,4 @@
-package userwallettxnpkg
+package redpackettxnpkg
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 type Manager interface {
-	AddUserWalletTxn(
+	AddRedPacketTxn(
 		ctx context.Context,
 		session *xorm.Session,
 		userId uint64,
@@ -28,5 +28,8 @@ func InitManager() {
 }
 
 func GetUserWalletTxnManager() Manager {
+	if defaultManagerInstance == nil {
+		panic("defaultManagerInstance has not been inited")
+	}
 	return defaultManagerInstance
 }

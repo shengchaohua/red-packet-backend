@@ -1,13 +1,13 @@
 package usergrouprelationdm
 
-import errorgrouppkg "github.com/shengchaohua/red-packet-backend/pkg/error_group"
+import errorpkg "github.com/shengchaohua/red-packet-backend/pkg/error_pkg"
 
 const pkgName = "usergrouprelationdm"
 
 // errros
 var (
-	ErrParam  = errorgrouppkg.New(pkgName, 1)
-	ErrData   = errorgrouppkg.New(pkgName, 2)
-	ErrInsert = errorgrouppkg.New(pkgName, 3)
-	ErrQuery  = errorgrouppkg.New(pkgName, 4)
+	ErrParam  = errorpkg.New(pkgName, 1)
+	ErrData   = errorpkg.New(pkgName, 2)
+	ErrInsert = errorpkg.New(pkgName, 3)
+	ErrQuery  = errorpkg.New(pkgName, 4)
 )
