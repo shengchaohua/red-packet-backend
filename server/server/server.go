@@ -48,6 +48,7 @@ func run(engine *gin.Engine, addr, port string) {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	<-quit // blocking
+	log.Println("Server receives exit signal")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
