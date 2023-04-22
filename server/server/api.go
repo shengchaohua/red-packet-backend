@@ -38,11 +38,11 @@ func NewApiServer() Server {
 	return server
 }
 
-func (server *apiServer) Run(addr, port string) {
+func (server *apiServer) Run(port string) {
 	if port != "" {
-		run(server.engine, addr, port)
+		run(server.engine, port)
 	} else {
-		run(server.engine, server.config.Addr, server.config.Port)
+		run(server.engine, server.config.Port)
 	}
 }
 

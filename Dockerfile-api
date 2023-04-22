@@ -1,0 +1,12 @@
+FROM golang:1.18
+
+LABEL MAINTAINER=shengchaohua1995@gmail.com
+
+COPY .. /src
+WORKDIR /src
+
+RUN make
+
+EXPOSE 8010
+
+ENTRYPOINT ["./bin/red-packet-backend-api", "-port=8010"]
