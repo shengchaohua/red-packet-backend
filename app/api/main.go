@@ -24,8 +24,7 @@ import (
 
 var (
 	configFilePath = flag.String("conf", "./conf/api/dev.toml", "api config file for local dev env")
-	addr           = flag.String("addr", "127.0.0.1", "server address")
-	port           = flag.String("port", "11000", "server port")
+	port           = flag.String("port", "8020", "server port")
 )
 
 func main() {
@@ -57,5 +56,5 @@ func main() {
 	userservice.InitService()
 
 	// server
-	server.NewApiServer().Run(*addr, *port)
+	server.NewApiServer().Run(*port)
 }

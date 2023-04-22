@@ -16,7 +16,7 @@ import (
 )
 
 type Server interface {
-	Run(addr, port string)
+	Run(port string)
 }
 
 func setLogger(engine *gin.Engine, logFile string) {
@@ -29,8 +29,8 @@ func setLogger(engine *gin.Engine, logFile string) {
 	engine.Use(middleware.GetGinLogger())
 }
 
-func run(engine *gin.Engine, addr, port string) {
-	var fullAddr = fmt.Sprintf("%s:%s", addr, port)
+func run(engine *gin.Engine, port string) {
+	var fullAddr = fmt.Sprintf(":%s", port)
 	log.Println("Server is listening to", fullAddr)
 
 	httpServer := http.Server{

@@ -26,7 +26,6 @@
 
 [server]
     env = "dev"
-    addr = "127.0.0.1"
     port = "10000"
-    log_file = "./log/admin_server.log"
+    log_file = "./log/admin.log"
     role = "admin"

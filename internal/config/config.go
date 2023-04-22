@@ -8,7 +8,6 @@ type ApplicationConfig struct {
 
 type ServerConfig struct {
 	Env     string `toml:"env"`
-	Addr    string `toml:"addr"`
 	Port    string `toml:"port"`
 	LogFile string `toml:"log_file"`
 	Role    string `toml:"role"`

@@ -53,7 +53,7 @@ cd /etc/mysql/mysql.conf.d/
 Use Vim to append the following text in the end of the `mysqld.cnf` file:
 ```text
 server-id=100
-log-bin=mysql-bin
+log-bin=mysql-bin-log
 ```
 Note:
 - server-id is to indicate the current mysql server
@@ -68,7 +68,7 @@ apt-get install vim
 Or use the following cmd directly:
 ```shell
 echo "server-id=100" >> mysqld.cnf
-echo "log-bin=mysql-bin" >> mysqld.cnf
+echo "log-bin=mysql-bin-log" >> mysqld.cnf
 ````
 
 ### 3.2 Set up mysql slave node
@@ -131,19 +131,19 @@ show master status;
 
 Assume we get:
 ```text
-+------------------+----------+--------------+------------------+-------------------+
-| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
-+------------------+----------+--------------+------------------+-------------------+
-| mysql-bin.000001 |      154 |              |                  |                   |
-+------------------+----------+--------------+------------------+-------------------+
++----------------------+----------+--------------+------------------+-------------------+
+| File                 | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++----------------------+----------+--------------+------------------+-------------------+
+| mysql-bin-log.000001 |      154 |              |                  |                   |
++----------------------+----------+--------------+------------------+-------------------+
 1 row in set (0.00 sec)
 ```
 
 The first two fields will be used later:
-- File: mysql-bin.000001
+- File: mysql-bin-log.000001
 - Position: 154
 
-#5. Setup mysql slave node again
+#4. Setup mysql slave node again
 
 Enter mysql slave shell:
 ```shell
@@ -160,7 +160,7 @@ CHANGE MASTER TO master_host = '172.17.0.2',
 master_user = 'slave',
 master_password = '123456',
 master_port = 3306,
-master_log_file = 'mysql-bin.000001',
+master_log_file = 'mysql-bin-log.000001',
 master_log_pos = 154,
 master_connect_retry = 30;
 ```

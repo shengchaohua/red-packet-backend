@@ -22,11 +22,11 @@ func NewAdminServer() Server {
 		panic("server config role is not admin")
 	}
 
-	//if serverConfig.IsDevEnv() {
-	//	gin.SetMode(gin.DebugMode)
-	//} else if serverConfig.IsLiveEnv() {
-	//	gin.SetMode(gin.ReleaseMode)
-	//}
+	if serverConfig.IsDevEnv() {
+		gin.SetMode(gin.DebugMode)
+	} else if serverConfig.IsLiveEnv() {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	server := &adminServer{
 		engine: gin.New(),
@@ -38,11 +38,11 @@ func NewAdminServer() Server {
 	return server
 }
 
-func (server *adminServer) Run(addr, port string) {
-	if addr != "" && port != "" {
-		run(server.engine, addr, port)
+func (server *adminServer) Run(port string) {
+	if port != "" {
+		run(server.engine, port)
 	} else {
-		run(server.engine, server.config.Addr, server.config.Port)
+		run(server.engine, server.config.Port)
 	}
 }
 
