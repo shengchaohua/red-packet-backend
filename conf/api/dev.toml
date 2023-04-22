@@ -26,6 +26,6 @@
 
 [server]
     env = "dev"
-    port = "11000"
+    port = "8020"
     log_file = "./log/api.log"
     role = "api"

@@ -26,6 +26,6 @@
 
 [server]
     env = "dev"
-    port = "10000"
+    port = "8010"
     log_file = "./log/admin.log"
     role = "admin"
